@@ -8,7 +8,7 @@ exec('npm install', { cwd: path.resolve('./packages/client/web') }, function(
   if (err) {
     throw err
   }
-  console.log('Dependence installed...')
+  console.log('[web] Dependence installed...')
   exec('npm start', { cwd: path.resolve('./packages/client/web') })
 })
 
@@ -18,7 +18,7 @@ exec('npm install', { cwd: path.resolve('./packages/client/public') }, function(
   if (err) {
     throw err
   }
-  console.log('Dependence installed...')
+  console.log('[public] Dependence installed...')
   exec('npm start', { cwd: path.resolve('./packages/client/public') })
 })
 
@@ -28,7 +28,7 @@ exec('npm install', { cwd: path.resolve('./packages/server/api') }, function(
   if (err) {
     throw err
   }
-  console.log('Dependence installed...')
+  console.log('[api] Dependence installed...')
   exec('npm start', { cwd: path.resolve('./packages/server/api') })
 })
 
