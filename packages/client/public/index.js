@@ -14,10 +14,10 @@ app.get('/', function(req, res) {
 
 // socket.io setup
 const io = require('socket.io').listen(app)
-io.set('transports', ['websocket2'])
+io.set('transports', ['websocket'])
 
 // listen to ngnix socket
-app.listen('/tmp/nginx.socket2', function() {
+app.listen('/tmp/nginx.socket', function() {
   console.info(`[Web] server up`)
 })
 
