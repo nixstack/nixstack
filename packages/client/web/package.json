@@ -23,7 +23,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "node packages/client/web/release.js"
+      "pre-push": "node release.js"
     }
   },
   "eslintConfig": {

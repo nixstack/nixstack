@@ -15,6 +15,7 @@
   },
   "homepage": "https://github.com/nixstack/nixstack#readme",
   "dependencies": {
+    "husky": "^4.2.3",
     "lerna": "^2.11.0"
   }
 }
