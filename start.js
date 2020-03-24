@@ -1,7 +1,16 @@
-var execSync = require('child_process').execSync
+var childCprocess = require('child_process')
+var execSync = childCprocess.execSync
+var exec = childCprocess.exec
 
-execSync('npx lerna bootstrap')
+exec('npx lerna bootstrap', function(err) {
+  if (err) {
+    throw err
+  }
+  console.log('Dependence installed...')
+  exec('npx lerna run start')
+})
+// execSync('npx lerna bootstrap')
 
-execSync('npx lerna run start')
+// execSync('npx lerna run start')
 
 execSync('npx lerna run bind')
