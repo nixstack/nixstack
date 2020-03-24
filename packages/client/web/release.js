@@ -6,7 +6,7 @@ var execSync = require('child_process').execSync
 var webPublic = path.resolve('../public/static/web')
 var webBuild = path.resolve('./build')
 
-var cwd = process.cwd()
+var cwd = __dirname
 console.log(`Build starting in ${cwd}...`)
 execSync('npm run build', { cwd: cwd })
 console.log('Build ended...')
