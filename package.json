@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "run-s lerna:bootstrap lerna:start",
+    "start": "lerna run start",
     "lerna:bootstrap": "lerna bootstrap",
     "lerna:start": "lerna run start"
   },
