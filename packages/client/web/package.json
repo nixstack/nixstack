@@ -21,11 +21,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "husky": {
-    "hooks": {
-      "pre-push": "node release22.js"
-    }
-  },
   "eslintConfig": {
     "extends": "react-app"
   },
