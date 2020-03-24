@@ -36,8 +36,8 @@ http {
         server unix:/tmp/nginx.socket fail_timeout=0;
     }
 
-    upstream websocketWeb {
-        server unix:/tmp/nginx.socket.web fail_timeout=0;
+    upstream websocket2 {
+        server unix:/tmp/nginx.socket2 fail_timeout=0;
     }
 
 	server {
@@ -53,7 +53,7 @@ http {
 
 			proxy_set_header Host $http_host;
 			proxy_redirect off;
-			proxy_pass http://websocketWeb;
+			proxy_pass http://websocket2;
 
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
