@@ -1,7 +1,7 @@
 var childCprocess = require('child_process')
 var exec = childCprocess.exec
 
-exec('npx lerna bootstrap', function(err) {
+exec('npm install', function(err) {
   if (err) {
     throw err
   }
