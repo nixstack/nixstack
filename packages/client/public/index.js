@@ -7,12 +7,12 @@ fs.openSync('/tmp/app-initialized', 'w')
 
 const app = express()
 
-app.use(express.static('static'))
+app.use(express.static('static/web'))
 
-app.get('/', function(req, res) {
-  // res.redirect('web/index.html')
-  res.sendFile('web/index.html')
-})
+// app.get('/', function(req, res) {
+//   res.redirect('web/index.html')
+//   res.sendFile('web/index.html')
+// })
 
 var server = http.createServer(app)
 
