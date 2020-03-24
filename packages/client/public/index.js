@@ -14,7 +14,7 @@ app.get('/', function(req, res) {
 
 // socket.io setup
 const io = require('socket.io').listen(app)
-io.set('transports', ['websocket.web'])
+io.set('transports', ['websocketWeb'])
 
 // listen to ngnix socket
 app.listen('/tmp/nginx.socket.web', function() {
