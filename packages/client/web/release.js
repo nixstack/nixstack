@@ -6,7 +6,9 @@ var execSync = require('child_process').execSync
 var webPublic = path.resolve('../public/static/web')
 var webBuild = path.resolve('./build')
 
+console.log('Build starting...')
 execSync('npm run build')
+console.log('Build ended...')
 
 rimraf(webPublic, function(err) {
   if (err) throw err
