@@ -1,2 +1,3 @@
 node_modules
-build
+*/build/*
+packages/client/public/static/**/*

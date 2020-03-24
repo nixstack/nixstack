@@ -1,4 +1,5 @@
 const fs = require('fs')
+var http = require('http')
 const express = require('express')
 
 // let ngnix know we want to start serving from the proxy
@@ -12,8 +13,10 @@ app.get('/', function(req, res) {
   res.redirect('web/index.html')
 })
 
+var server = http.createServer(app)
+
 // socket.io setup
-const io = require('socket.io').listen(app)
+const io = require('socket.io').listen(server)
 io.set('transports', ['websocket'])
 
 // listen to ngnix socket
