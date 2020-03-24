@@ -1,8 +1,8 @@
-0 silly input [ 'start' ]
+0 silly input [ 'bind' ]
 1 silly flags { _: [ 'run' ],
 1 silly flags   'reject-cycles': false,
 1 silly flags   rejectCycles: false,
-1 silly flags   script: 'start',
+1 silly flags   script: 'bind',
 1 silly flags   args: [] }
 2 verbose rootPath E:\Workspaces\Repository\nixstack
 3 info version 2.11.0
@@ -10,52 +10,57 @@
 5 silly initialize attempt
 6 silly initialize success
 7 silly execute attempt
-8 silly runScriptInDir start [] public
+8 silly runScriptInDir bind [] public
 9 silly getExecOpts { cwd:
 9 silly getExecOpts    'E:\\Workspaces\\Repository\\nixstack\\packages\\client\\public' }
-10 silly runScriptInDir start [] web
+10 silly runScriptInDir bind [] api
 11 silly getExecOpts { cwd:
-11 silly getExecOpts    'E:\\Workspaces\\Repository\\nixstack\\packages\\client\\web' }
-12 silly runScriptInDir start [] api
-13 silly getExecOpts { cwd:
-13 silly getExecOpts    'E:\\Workspaces\\Repository\\nixstack\\packages\\server\\api' }
-14 error start Errored while running script in 'public'
-15 error execute callback with error
-16 error Error: Command failed: npm run start
-16 error events.js:167
-16 error       throw er; // Unhandled 'error' event
-16 error       ^
-16 error
-16 error Error: listen EACCES: permission denied /tmp/nginx.socket
-16 error     at Server.setupListenHandle [as _listen2] (net.js:1273:19)
-16 error     at listenInCluster (net.js:1338:12)
-16 error     at Server.listen (net.js:1436:5)
-16 error     at Function.listen (E:\Workspaces\Repository\nixstack\packages\client\public\node_modules\express\lib\application.js:618:24)
-16 error     at Object.<anonymous> (E:\Workspaces\Repository\nixstack\packages\client\public\index.js:23:5)
-16 error     at Module._compile (internal/modules/cjs/loader.js:689:30)
-16 error     at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)
-16 error     at Module.load (internal/modules/cjs/loader.js:599:32)
-16 error     at tryModuleLoad (internal/modules/cjs/loader.js:538:12)
-16 error     at Function.Module._load (internal/modules/cjs/loader.js:530:3)
-16 error Emitted 'error' event at:
-16 error     at emitErrorNT (net.js:1317:8)
-16 error     at process._tickCallback (internal/process/next_tick.js:63:19)
-16 error     at Function.Module.runMain (internal/modules/cjs/loader.js:745:11)
-16 error     at startup (internal/bootstrap/node.js:283:19)
-16 error     at bootstrapNodeJSCore (internal/bootstrap/node.js:743:3)
-16 error npm ERR! code ELIFECYCLE
-16 error npm ERR! errno 1
-16 error npm ERR! public@1.0.0 start: `node index.js`
-16 error npm ERR! Exit status 1
-16 error npm ERR!
-16 error npm ERR! Failed at the public@1.0.0 start script.
-16 error npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
-16 error
-16 error npm ERR! A complete log of this run can be found in:
-16 error npm ERR!     C:\Users\Ferrymen\AppData\Roaming\npm-cache\_logs\2020-03-24T20_08_31_053Z-debug.log
-16 error
-16 error > public@1.0.0 start E:\Workspaces\Repository\nixstack\packages\client\public
-16 error > node index.js
-16 error
-16 error
-16 error     at Promise.all.then.arr (E:\Workspaces\Repository\nixstack\node_modules\execa\index.js:236:11)
+11 silly getExecOpts    'E:\\Workspaces\\Repository\\nixstack\\packages\\server\\api' }
+12 error bind Errored while running script in 'api'
+13 error execute callback with error
+14 error Error: Command failed: npm run bind
+14 error npm WARN api@1.0.0 No description
+14 error npm WARN api@1.0.0 No repository field.
+14 error
+14 error events.js:167
+14 error       throw er; // Unhandled 'error' event
+14 error       ^
+14 error
+14 error Error: listen EACCES: permission denied /tmp/nginx.socket2
+14 error     at Server.setupListenHandle [as _listen2] (net.js:1273:19)
+14 error     at listenInCluster (net.js:1338:12)
+14 error     at Server.listen (net.js:1436:5)
+14 error     at Object.<anonymous> (E:\Workspaces\Repository\nixstack\packages\server\api\index.js:16:9)
+14 error     at Module._compile (internal/modules/cjs/loader.js:689:30)
+14 error     at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)
+14 error     at Module.load (internal/modules/cjs/loader.js:599:32)
+14 error     at tryModuleLoad (internal/modules/cjs/loader.js:538:12)
+14 error     at Function.Module._load (internal/modules/cjs/loader.js:530:3)
+14 error     at Function.Module.runMain (internal/modules/cjs/loader.js:742:12)
+14 error Emitted 'error' event at:
+14 error     at emitErrorNT (net.js:1317:8)
+14 error     at process._tickCallback (internal/process/next_tick.js:63:19)
+14 error     at Function.Module.runMain (internal/modules/cjs/loader.js:745:11)
+14 error     at startup (internal/bootstrap/node.js:283:19)
+14 error     at bootstrapNodeJSCore (internal/bootstrap/node.js:743:3)
+14 error npm ERR! code ELIFECYCLE
+14 error npm ERR! errno 1
+14 error npm ERR! api@1.0.0 bind: `node index.js`
+14 error npm ERR! Exit status 1
+14 error npm ERR!
+14 error npm ERR! Failed at the api@1.0.0 bind script.
+14 error npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
+14 error
+14 error npm ERR! A complete log of this run can be found in:
+14 error npm ERR!     C:\Users\Ferrymen\AppData\Roaming\npm-cache\_logs\2020-03-24T22_56_18_268Z-debug.log
+14 error
+14 error > api@1.0.0 prebind E:\Workspaces\Repository\nixstack\packages\server\api
+14 error > npm install
+14 error
+14 error added 41 packages from 33 contributors in 1.644s
+14 error
+14 error > api@1.0.0 bind E:\Workspaces\Repository\nixstack\packages\server\api
+14 error > node index.js
+14 error
+14 error
+14 error     at Promise.all.then.arr (E:\Workspaces\Repository\nixstack\node_modules\execa\index.js:236:11)

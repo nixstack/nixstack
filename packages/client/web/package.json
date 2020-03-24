@@ -17,6 +17,7 @@
   },
   "scripts": {
     "dev": "react-scripts start",
+    "prestart": "npm install",
     "start": "node release.js",
     "build": "react-scripts build",
     "test": "react-scripts test",

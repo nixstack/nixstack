@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prebind": "npm install",
     "bind": "node index.js"
   },
   "keywords": [],
