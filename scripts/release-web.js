@@ -3,7 +3,7 @@ var mv = require('mv')
 var path = require('path')
 var execSync = require('child_process').execSync
 
-process.chdir(__dirname)
+process.chdir(path.join(__dirname, '../packages/client/web'))
 
 var webPublic = path.resolve('../public/static/web')
 var webBuild = path.resolve('./build')

@@ -1,0 +1,22 @@
+[
+  {
+    "name": "public",
+    "version": "1.0.0",
+    "private": false
+  },
+  {
+    "name": "web",
+    "version": "1.0.0",
+    "private": true
+  },
+  {
+    "name": "api",
+    "version": "1.0.0",
+    "private": false
+  },
+  {
+    "name": "auth",
+    "version": "1.0.0",
+    "private": false
+  }
+]

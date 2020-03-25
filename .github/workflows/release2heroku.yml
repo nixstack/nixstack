@@ -1,0 +1,65 @@
+name: Push And Release to Heroku
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # auto-generated
+      # cannot use HEROKU_API_KEY, otherwise log in failedError: Cannot log in with HEROKU_API_KEY set
+      HEROKU_KEY: ${{ secrets.HEROKU_API_KEY }}
+      HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+      HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+      GITHUB_EMAIL: ${{ secrets.GITHUB_EMAIL }}
+      GITHUB_NAME: ${{ secrets.GITHUB_NAME }}
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+
+      # - name: Install Node ${{ matrix.node }}
+      #   uses: actions/setup-node@v1
+      #   with:
+      #     node-version: ${{ matrix.node }}
+      # - name: Install dependencies
+      #   run: npx lerna bootstrap
+      # create .netrc file for heroku authentication
+      # https://devcenter.heroku.com/articles/authentication
+      - name: Create .netrc for Heroku login
+        run: |+
+          cat >~/.netrc <<EOF
+          machine api.heroku.com
+              login $HEROKU_EMAIL
+              password $HEROKU_KEY
+          machine git.heroku.com
+              login $HEROKU_EMAIL
+              password $HEROKU_KEY
+          EOF
+
+        # login with .netrc file
+      - run: heroku login
+      - name: Install dependence
+        run: |
+          npm install
+          ./node_modules/.bin/lerna bootstrap
+      - name: Release web
+        run: node ./scripts/release-web.js
+      - name: Merge dependence
+        run: |
+          node ./scripts/merge-dependence.js
+          cat package.json
+      - run: |
+          git config --global user.email $GITHUB_EMAIL
+          git config --global user.name $GITHUB_NAME
+          sed -i '/packages\/client\/public\/static/d' .gitignore
+          git status
+          git add .
+          git commit -m "merge dependence"
+      - run: heroku git:remote -a $HEROKU_APP_NAME
+      # https://discuss.circleci.com/t/git-errors-failing-the-build-when-deploying-to-heroku/776/5
+      - run: '[[ ! -s "$(git rev-parse --git-dir)/shallow" ]] || git fetch --unshallow'
+      - run: git push heroku HEAD:refs/heads/master -f
+      # - run: heroku ps
+      # - run: heroku run 'npm run bootstrap'
