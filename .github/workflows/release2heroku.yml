@@ -66,4 +66,4 @@ jobs:
       # - run: heroku run 'npm run bootstrap'
       - name: Check that website responds
         # working-directory: ${{ env.* }}
-        run: curl https://$SITE_DOMAIN.herokuapp.com --retry 3
+        run: curl https://$HEROKU_APP_NAME.herokuapp.com --retry 3
