@@ -39,6 +39,7 @@ jobs:
         # login with .netrc file
       - run: heroku login
         # deploy code
-      - run: git fetch --all --unshallow
       - run: heroku git:remote -a $HEROKU_APP_NAME
+      # Push rejected, source repository is a shallow clone. Unshallow it with `git fetch --all --unshallow` and try pushing again
+      - run: git fetch --all --unshallow
       - run: git push heroku HEAD:refs/heads/master -f
