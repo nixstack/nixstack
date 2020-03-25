@@ -17,12 +17,12 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v2
 
-      - name: Install Node ${{ matrix.node }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node }}
-      - name: Install dependencies
-        run: npx lerna bootstrap
+      # - name: Install Node ${{ matrix.node }}
+      #   uses: actions/setup-node@v1
+      #   with:
+      #     node-version: ${{ matrix.node }}
+      # - name: Install dependencies
+      #   run: npx lerna bootstrap
       # create .netrc file for heroku authentication
       # https://devcenter.heroku.com/articles/authentication
       - name: Create .netrc for Heroku login
@@ -40,6 +40,4 @@ jobs:
       - run: heroku login
         # deploy code
       - run: heroku git:remote -a $HEROKU_APP_NAME
-      # Push rejected, source repository is a shallow clone. Unshallow it with `git fetch --all --unshallow` and try pushing again
-      - run: git fetch --all --unshallow
-      - run: git push heroku refs/heads/master -f
+      - run: git push heroku HEAD:refs/heads/master -f
