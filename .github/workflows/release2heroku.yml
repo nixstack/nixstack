@@ -39,5 +39,6 @@ jobs:
         # login with .netrc file
       - run: heroku login
         # deploy code
+      - run: git fetch --all --unshallow
       - run: heroku git:remote -a $HEROKU_APP_NAME
       - run: git push heroku HEAD:refs/heads/master -f
