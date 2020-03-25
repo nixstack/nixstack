@@ -40,6 +40,10 @@ http {
         server unix:/tmp/nginx.socket2 fail_timeout=0;
     }
 
+    upstream websocket3 {
+        server unix:/tmp/nginx.socket3 fail_timeout=0;
+    }
+
 	server {
 		listen <%= ENV["PORT"] %>;
 		server_name _;
@@ -69,6 +73,21 @@ http {
 			proxy_set_header Host $http_host;
 			proxy_redirect off;
 			proxy_pass http://websocket2;
+
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection $connection_upgrade;
+        }
+        
+        location /auth/ {
+		    # rate limiting
+		    limit_req zone=mylimit;
+
+			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+			proxy_set_header Host $http_host;
+			proxy_redirect off;
+			proxy_pass http://websocket3;
 
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
