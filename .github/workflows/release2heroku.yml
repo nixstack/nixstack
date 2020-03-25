@@ -38,8 +38,9 @@ jobs:
 
         # login with .netrc file
       - run: heroku login
+      - name: Install dependence
+        run: npm install
       - name: Merge dependence
-      - run: Install dependence
         run: node ./scripts/merge-dependence.js
       - run: cat package.json
       - run: git add .
