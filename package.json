@@ -33,7 +33,6 @@
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
-    "husky": "^4.2.3",
     "lerna": "^2.11.0",
     "mv": "^2.1.1",
     "rimraf": "^3.0.2"

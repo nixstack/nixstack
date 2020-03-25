@@ -1,6 +1,6 @@
 var childCprocess = require('child_process')
 // var path = require('path')
-var exec = childCprocess.exec
+var exec = childCprocess.execSync
 
 // exec('npm install', { cwd: path.resolve('./packages/client/web') }, function(
 //   err
