@@ -1,0 +1,41 @@
+name: Push And Release Container to Heroku
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+
+      - name: Install Node ${{ matrix.node }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install dependencies
+        run: npx lerna bootstrap
+       # create .netrc file for heroku authentication
+    # https://devcenter.heroku.com/articles/authentication
+    - name: Create .netrc for Heroku login
+      run: |+
+        cat >~/.netrc <<EOF
+        machine api.heroku.com
+            login $HEROKU_EMAIL
+            password $HEROKU_API_KEY
+        machine git.heroku.com
+            login $HEROKU_EMAIL
+            password $HEROKU_API_KEY
+        EOF
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+
+      # login with .netrc file
+      - run: heroku login    
+        
+      # deploy code
+      - run: heroku git:remote -a $HEROKU_APP_NAME
+      - run: git push heroku HEAD:refs/heads/master
