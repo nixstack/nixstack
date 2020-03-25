@@ -5,7 +5,7 @@
   "scripts": {},
   "husky": {
     "hooks": {
-      "pre-push": "node packages/client/web/release.js"
+      "pre-commit": "node packages/client/web/release.js"
     }
   },
   "repository": {
