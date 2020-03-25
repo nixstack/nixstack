@@ -39,8 +39,11 @@ jobs:
         # login with .netrc file
       - run: heroku login
       - name: Merge dependence
+      - run: Install dependence
         run: node ./scripts/merge-dependence.js
       - run: cat package.json
+      - run: git add .
+      - run: git commit -m "merge dependence"
       - run: heroku git:remote -a $HEROKU_APP_NAME
       # https://discuss.circleci.com/t/git-errors-failing-the-build-when-deploying-to-heroku/776/5
       - run: '[[ ! -s "$(git rev-parse --git-dir)/shallow" ]] || git fetch --unshallow'
