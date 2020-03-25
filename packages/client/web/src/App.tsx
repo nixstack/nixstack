@@ -1,6 +1,6 @@
 import React from 'react'
 import logo from './logo.svg'
-1 / 0
+
 function App() {
   return (
     <div className="App">
