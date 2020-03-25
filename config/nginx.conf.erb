@@ -45,11 +45,11 @@ http {
     }
 
     upstream APP_DATA_URL {
-        server <%= ENV['APP_DATA_URL'] || websocket %> fail_timeout=0;
+        server <%= ENV['APP_DATA_URL'] %> fail_timeout=0;
     }
 
     upstream APP_MOCK_URL {
-        server <%= ENV['APP_MOCK_URL'] || websocket %> fail_timeout=0;
+        server <%= ENV['APP_MOCK_URL'] %> fail_timeout=0;
     }
 
 	server {
@@ -100,8 +100,8 @@ http {
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection $connection_upgrade;
-		}
-
+        }
+        
         location /data/ {
 		    # rate limiting
 		    limit_req zone=mylimit;
@@ -116,7 +116,6 @@ http {
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection $connection_upgrade;
         }
-        
         
         location /mock/ {
 		    # rate limiting
