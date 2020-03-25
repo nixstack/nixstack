@@ -17,25 +17,24 @@ jobs:
           node-version: ${{ matrix.node }}
       - name: Install dependencies
         run: npx lerna bootstrap
-       # create .netrc file for heroku authentication
-    # https://devcenter.heroku.com/articles/authentication
-    - name: Create .netrc for Heroku login
-      run: |+
-        cat >~/.netrc <<EOF
-        machine api.heroku.com
-            login $HEROKU_EMAIL
-            password $HEROKU_API_KEY
-        machine git.heroku.com
-            login $HEROKU_EMAIL
-            password $HEROKU_API_KEY
-        EOF
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+      # create .netrc file for heroku authentication
+      # https://devcenter.heroku.com/articles/authentication
+      - name: Create .netrc for Heroku login
+        run: |+
+          cat >~/.netrc <<EOF
+          machine api.heroku.com
+              login $HEROKU_EMAIL
+              password $HEROKU_API_KEY
+          machine git.heroku.com
+              login $HEROKU_EMAIL
+              password $HEROKU_API_KEY
+          EOF
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
 
-      # login with .netrc file
-      - run: heroku login    
-        
-      # deploy code
+        # login with .netrc file
+      - run: heroku login
+        # deploy code
       - run: heroku git:remote -a $HEROKU_APP_NAME
       - run: git push heroku HEAD:refs/heads/master
