@@ -3,12 +3,13 @@ var mv = require('mv')
 var path = require('path')
 var execSync = require('child_process').execSync
 
+process.chdir(__dirname)
+
 var webPublic = path.resolve('../public/static/web')
 var webBuild = path.resolve('./build')
 
-var cwd = __dirname
-console.log(`Build starting in ${cwd}...`)
-execSync('npm run build', { cwd: cwd })
+console.log(`Build starting in ${process.cwd()}...`)
+execSync('npm run build')
 console.log('Build ended...')
 
 rimraf(webPublic, function(err) {
