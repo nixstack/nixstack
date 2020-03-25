@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "test": "echo \"hello world!\""
+    "pretest": "lerna bootstrap",
+    "test": "lerna run test"
   },
   "repository": {
     "type": "git",
