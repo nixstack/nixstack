@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # auto-generated
-      HEROKU_KEY: ${{ secrets.HEROKU_API_KEY }}
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
       HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
     steps:
@@ -29,10 +29,10 @@ jobs:
           cat >~/.netrc <<EOF
           machine api.heroku.com
               login $HEROKU_EMAIL
-              password $HEROKU_KEY
+              password $HEROKU_API_KEY
           machine git.heroku.com
               login $HEROKU_EMAIL
-              password $HEROKU_KEY
+              password $HEROKU_API_KEY
           EOF
 
         # login with .netrc file
