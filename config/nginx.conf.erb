@@ -45,11 +45,11 @@ http {
     }
 
     upstream APP_DATA_URL {
-        server <%= ENV['APP_DATA_URL'] || 'websocket' %> fail_timeout=0;
+        server <%= ENV['APP_DATA_URL'] || websocket %> fail_timeout=0;
     }
 
     upstream APP_MOCK_URL {
-        server <%= ENV['APP_MOCK_URL'] || 'websocket' %> fail_timeout=0;
+        server <%= ENV['APP_MOCK_URL'] || websocket %> fail_timeout=0;
     }
 
 	server {

@@ -9,6 +9,14 @@ const app = express()
 
 app.use(express.static('static/web'))
 
+app.all('/data', function(req, res, next) {
+  res.json({ code: 4001, message: 'Not Found!', data: {} })
+})
+
+app.all('/mock', function(req, res, next) {
+  res.json({ code: 4002, message: 'Not Found!', data: {} })
+})
+
 // app.get('/', function(req, res) {
 //   res.redirect('web/index.html')
 //   res.sendFile('web/index.html')
