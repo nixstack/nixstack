@@ -44,8 +44,12 @@ http {
         server unix:/tmp/nginx.socket3 fail_timeout=0;
     }
 
-    upstream <%= ENV['APP_DATA_URL'] || websocket %> {
-        server $APP_DATA_URL fail_timeout=0;
+    upstream APP_DATA_URL {
+        server <%= ENV['APP_DATA_URL'] || websocket %> fail_timeout=0;
+    }
+
+    upstream APP_MOCK_URL {
+        server <%= ENV['APP_MOCK_URL'] || websocket %> fail_timeout=0;
     }
 
 	server {
@@ -106,7 +110,23 @@ http {
 
 			proxy_set_header Host $http_host;
 			proxy_redirect off;
-			proxy_pass http://<%= ENV['APP_DATA_URL'] || websocket %>;
+			proxy_pass http://APP_DATA_URL;
+
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection $connection_upgrade;
+        }
+        
+        
+        location /mock/ {
+		    # rate limiting
+		    limit_req zone=mylimit;
+
+			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+			proxy_set_header Host $http_host;
+			proxy_redirect off;
+			proxy_pass http://APP_MOCK_URL;
 
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
