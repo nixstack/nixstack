@@ -15,6 +15,7 @@ jobs:
       HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
       GITHUB_EMAIL: ${{ secrets.GITHUB_EMAIL }}
       GITHUB_NAME: ${{ secrets.GITHUB_NAME }}
+    # needs: pre-build
     steps:
       - name: Checkout source
         uses: actions/checkout@v2
@@ -63,3 +64,6 @@ jobs:
       - run: git push heroku HEAD:refs/heads/master -f
       # - run: heroku ps
       # - run: heroku run 'npm run bootstrap'
+      - name: Check that website responds
+        # working-directory: ${{ env.* }}
+        run: curl https://$HEROKU_APP_NAME.herokuapp.com --retry 3
