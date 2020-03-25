@@ -17,10 +17,10 @@
   },
   "homepage": "https://github.com/nixstack/nixstack#readme",
   "dependencies": {
-    "glob": "^7.1.6",
     "lerna": "^2.11.0"
   },
   "devDependencies": {
+    "glob": "^7.1.6",
     "mv": "^2.1.1",
     "rimraf": "^3.0.2"
   }

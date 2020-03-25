@@ -25,7 +25,7 @@ var lernaPkgs = Array.from(lernaPkgJsons)
 var pkgDeps = {}
 var lernaPkgJson = {}
 lernaPkgs.forEach(element => {
-  if (element !== 'web') {
+  if (element.name !== 'web') {
     lernaPkgJson = JSON.parse(
       fs.readFileSync(
         glob.sync(`packages/*/${element.name}/${pkgName}`)[0],
@@ -45,7 +45,7 @@ var rootPkgJsons = JSON.parse(
   fs.readFileSync(path.resolve(`${rootPath}/${pkgName}`), 'utf-8')
 )
 
-Object.assign(pkgDeps, rootPkgJsons.dependencies, rootPkgJsons.devDependencies)
+Object.assign(pkgDeps, rootPkgJsons.dependencies)
 Object.assign(rootPkgJsons, { dependencies: pkgDeps })
 
 fs.writeFileSync(
