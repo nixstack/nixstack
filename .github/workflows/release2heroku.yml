@@ -1,8 +1,10 @@
 name: Push And Release to Heroku
 
-on:
-  pull_request:
-    branches: [master]
+# on:
+#   pull_request:
+#     branches: [master]
+
+on: ['push']
 
 jobs:
   build:
