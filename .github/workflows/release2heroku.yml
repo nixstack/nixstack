@@ -9,7 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # auto-generated
-      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      # cannot use HEROKU_API_KEY, otherwise log in failedError: Cannot log in with HEROKU_API_KEY set
+      HEROKU_KEY: ${{ secrets.HEROKU_API_KEY }}
       HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
       HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
     steps:
@@ -29,14 +30,14 @@ jobs:
           cat >~/.netrc <<EOF
           machine api.heroku.com
               login $HEROKU_EMAIL
-              password $HEROKU_API_KEY
+              password $HEROKU_KEY
           machine git.heroku.com
               login $HEROKU_EMAIL
-              password $HEROKU_API_KEY
+              password $HEROKU_KEY
           EOF
 
         # login with .netrc file
       - run: heroku login
         # deploy code
       - run: heroku git:remote -a $HEROKU_APP_NAME
-      - run: git push heroku HEAD:refs/heads/master
+      - run: git push heroku HEAD:refs/heads/master -f
