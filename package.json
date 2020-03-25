@@ -19,5 +19,9 @@
   "dependencies": {
     "glob": "^7.1.6",
     "lerna": "^2.11.0"
+  },
+  "devDependencies": {
+    "mv": "^2.1.1",
+    "rimraf": "^3.0.2"
   }
 }

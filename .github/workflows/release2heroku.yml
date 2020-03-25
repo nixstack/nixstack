@@ -44,11 +44,11 @@ jobs:
         run: |
           npm install
           ./node_modules/.bin/lerna bootstrap
-      - name: Merge dependence
-        run: node ./scripts/merge-dependence.js
       - name: Release web
         run: node ./scripts/release-web.js
       - run: cat package.json
+      - name: Merge dependence
+        run: node ./scripts/merge-dependence.js
       - run: |
           git config --global user.email $GITHUB_EMAIL
           git config --global user.name $GITHUB_NAME
