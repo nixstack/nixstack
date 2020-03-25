@@ -14,7 +14,7 @@ process.chdir(rootPath)
 
 fs.writeFileSync(
   path.resolve(`${rootPath}/${lernaPkgs}`),
-  execSync('lerna ls --json')
+  execSync(`${rootPath}/node_modules/.bin/lerna ls --json`)
 )
 
 var lernaPkgJsons = JSON.parse(
