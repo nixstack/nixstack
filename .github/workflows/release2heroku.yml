@@ -41,9 +41,13 @@ jobs:
         # login with .netrc file
       - run: heroku login
       - name: Install dependence
-        run: npm install
+        run: |
+          npm install
+          ./node_modules/.bin/lerna bootstrap
       - name: Merge dependence
         run: node ./scripts/merge-dependence.js
+      - name: Release web
+        run: node ./scripts/release-web.js
       - run: cat package.json
       - run: |
           git config --global user.email $GITHUB_EMAIL

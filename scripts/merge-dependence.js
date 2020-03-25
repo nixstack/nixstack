@@ -25,12 +25,15 @@ var lernaPkgs = Array.from(lernaPkgJsons)
 var pkgDeps = {}
 var lernaPkgJson = {}
 lernaPkgs.forEach(element => {
-  lernaPkgJson = JSON.parse(
-    fs.readFileSync(
-      glob.sync(`packages/*/${element.name}/${pkgName}`)[0],
-      'utf-8'
+  if (element !== 'web') {
+    lernaPkgJson = JSON.parse(
+      fs.readFileSync(
+        glob.sync(`packages/*/${element.name}/${pkgName}`)[0],
+        'utf-8'
+      )
     )
-  )
+  }
+
   Object.assign(
     pkgDeps,
     lernaPkgJson.dependencies,
