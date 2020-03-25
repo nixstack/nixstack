@@ -1,4 +1,4 @@
-name: Push And Release Container to Heroku
+name: Push And Release to Heroku
 
 on:
   pull_request:
