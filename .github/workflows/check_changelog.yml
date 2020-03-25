@@ -3,10 +3,10 @@ name: Check Changelog
 on: [pull_request]
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
     steps:
-      # - uses: actions/checkout@v1
+      - uses: actions/checkout@v1
       - name: Debug
         run: |
           echo "GITHUB_EVENT_NAME=${GITHUB_EVENT_NAME}"
