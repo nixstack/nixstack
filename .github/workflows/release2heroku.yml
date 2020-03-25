@@ -39,5 +39,6 @@ jobs:
         # login with .netrc file
       - run: heroku login
       - run: heroku git:remote -a $HEROKU_APP_NAME
+      - run: git filter-branch -- --all
       - run: git push heroku HEAD:refs/heads/master -f
       - run: heroku ps:exec 'npx lerna bootstrap'
