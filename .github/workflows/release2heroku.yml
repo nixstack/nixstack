@@ -41,4 +41,4 @@ jobs:
       - run: heroku git:remote -a $HEROKU_APP_NAME
       - run: '[[ ! -s "$(git rev-parse --git-dir)/shallow" ]] || git fetch --unshallow'
       - run: git push heroku HEAD:refs/heads/master -f
-      - run: heroku ps:exec 'npm install'
+      - run: heroku ps:exec 'npm run bootstrap'

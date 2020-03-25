@@ -2,7 +2,9 @@
   "name": "nixstack",
   "version": "1.0.0",
   "description": "",
-  "scripts": {},
+  "scripts": {
+    "bootstrap": "lerna bootstrap"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nixstack/nixstack.git"
@@ -14,8 +16,7 @@
     "url": "https://github.com/nixstack/nixstack/issues"
   },
   "homepage": "https://github.com/nixstack/nixstack#readme",
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "lerna": "^2.11.0"
   }
 }
