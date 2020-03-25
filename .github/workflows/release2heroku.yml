@@ -13,6 +13,8 @@ jobs:
       HEROKU_KEY: ${{ secrets.HEROKU_API_KEY }}
       HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
       HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+      GITHUB_EMAIL: ${{ secrets.GITHUB_EMAIL }}
+      GITHUB_NAME: ${{ secrets.GITHUB_NAME }}
     steps:
       - name: Checkout source
         uses: actions/checkout@v2
@@ -43,8 +45,11 @@ jobs:
       - name: Merge dependence
         run: node ./scripts/merge-dependence.js
       - run: cat package.json
-      - run: git add .
-      - run: git commit -m "merge dependence"
+      - run: |
+          git config --global user.email $GITHUB_EMAIL
+          git config --global user.name $GITHUB_NAME
+          git add .
+          git commit -m "merge dependence"
       - run: heroku git:remote -a $HEROKU_APP_NAME
       # https://discuss.circleci.com/t/git-errors-failing-the-build-when-deploying-to-heroku/776/5
       - run: '[[ ! -s "$(git rev-parse --git-dir)/shallow" ]] || git fetch --unshallow'
