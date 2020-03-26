@@ -58,7 +58,7 @@ jobs:
       - run: |
           git config --global user.email $GITHUB_EMAIL
           git config --global user.name $GITHUB_NAME
-          sed -i '/packages\/client\/public\/static/d' .gitignore
+          npm run release-gitignore
           git status
           git add .
           git commit -m "merge dependence"
