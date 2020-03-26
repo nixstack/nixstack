@@ -46,7 +46,6 @@ jobs:
       - name: Install dependence
         run: |
           npm install
-          npm run bootstrap
       - name: Release web
         run: npm run release
       # alternative heroku buildpacks:add https://github.com/nixstack/heroku-buildpack-lerna.git
