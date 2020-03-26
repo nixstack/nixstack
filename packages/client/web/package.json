@@ -37,5 +37,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "mv": "^2.1.1",
+    "rimraf": "^3.0.2"
   }
 }
