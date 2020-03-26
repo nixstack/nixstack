@@ -48,7 +48,7 @@ jobs:
           npm install
           ./node_modules/.bin/lerna bootstrap
       - name: Release web
-        run: node ./scripts/release-web.js
+        run: npm run release
       # alternative heroku buildpacks:add https://github.com/nixstack/heroku-buildpack-lerna.git
       # - name: Merge dependence
       #   run: |
