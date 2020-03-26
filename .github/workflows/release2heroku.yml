@@ -46,6 +46,7 @@ jobs:
       - name: Install dependence
         run: |
           npm install
+          lerna bootstrap
           ./node_modules/.bin/lerna bootstrap
       - name: Release web
         run: npm run release

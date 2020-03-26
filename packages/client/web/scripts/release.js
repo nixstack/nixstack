@@ -2,7 +2,6 @@ var rimraf = require('rimraf')
 var mv = require('mv')
 var path = require('path')
 var execSync = require('child_process').execSync
-var shelljs = require('shelljs')
 
 process.chdir(path.join(__dirname, '../'))
 
@@ -21,8 +20,3 @@ rimraf(webPublic, function(err) {
     console.log('[Web] release to ' + webBuild + ' success...')
   })
 })
-
-// rimraf(path.resolve('./src'), function() {})
-mv('package.json', 'package.json.bak', {}, function() {})
-shelljs.echo('src').toEnd('.gitignore')
-shelljs.sed('-i', /\/static\//, '', path.resolve('../public/.gitignore'))
