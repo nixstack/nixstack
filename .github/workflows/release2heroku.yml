@@ -49,10 +49,11 @@ jobs:
           ./node_modules/.bin/lerna bootstrap
       - name: Release web
         run: node ./scripts/release-web.js
-      - name: Merge dependence
-        run: |
-          node ./scripts/merge-dependence.js
-          cat package.json
+      # alternative heroku buildpacks:add https://github.com/nixstack/heroku-buildpack-lerna.git
+      # - name: Merge dependence
+      #   run: |
+      #     node ./scripts/merge-dependence.js
+      #     cat package.json
       - run: |
           git config --global user.email $GITHUB_EMAIL
           git config --global user.name $GITHUB_NAME
