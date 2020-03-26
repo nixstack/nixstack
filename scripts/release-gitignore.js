@@ -9,4 +9,4 @@ shelljs.echo('src').toEnd(path.resolve(`${webPackage}/.gitignore`))
 // shelljs.sed('-i', /\/static\//, '', path.resolve(`${publicPackage}/.gitignore`))
 
 shelljs.mv(`${webPackage}/package.json`, `${webPackage}/package.json.bak`)
-shelljs.exec(`git add -f ${webPackage}/static`)
+shelljs.exec(`git add -f ${publicPackage}/static`)
