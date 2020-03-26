@@ -5,7 +5,8 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "pretest": "lerna bootstrap",
-    "test": "lerna run test"
+    "test": "lerna run test",
+    "release": "lerna run release"
   },
   "repository": {
     "type": "git",
