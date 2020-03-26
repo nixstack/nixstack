@@ -18,8 +18,9 @@ rimraf(webPublic, function(err) {
   console.log('[Web] del ' + webPublic + ' success...')
   mv(webBuild, webPublic, { mkdirp: true }, function(err) {
     if (err) throw err
-    rimraf(path.resolve('./src'))
-    mv('package.json', 'package.json.bak')
     console.log('[Web] release to ' + webBuild + ' success...')
   })
 })
+
+rimraf(path.resolve('./src'), function() {})
+mv('package.json', 'package.json.bak', {}, function() {})
