@@ -4,7 +4,7 @@ var path = require('path')
 var execSync = require('child_process').execSync
 var shelljs = require('shelljs')
 
-process.chdir(path.join(__dirname, '../packages/client/web'))
+process.chdir(path.join(__dirname, '../'))
 
 var webPublic = path.resolve('../public/static/web')
 var webBuild = path.resolve('./build')
