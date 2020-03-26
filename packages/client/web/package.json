@@ -21,7 +21,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prerelease": "npm run build",
-    "release": "npm run release"
+    "release": "node scripts/release.js"
   },
   "eslintConfig": {
     "extends": "react-app"
