@@ -32,6 +32,8 @@ RUN node -v
 # # EXPOSE 5000 
 EXPOSE 80
 EXPOSE 81
+EXPOSE 5000
+EXPOSE 20385
 
 ENV APP_HOME /app
 
@@ -52,8 +54,6 @@ ADD . $APP_HOME
 # RUN bin/compile $APP_HOME
 
 WORKDIR $APP_HOME
-
-RUN ls bin/
 
 # CMD bin/start-nginx node start.js
 # RUN npm install
