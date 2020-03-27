@@ -17,7 +17,7 @@ services:
       - -c
       - |
         npm run release
-        # cd buildpack-nginx/ && bin/compile /app && cd ..
+        cd buildpack-nginx/ && bin/compile /app && cd ..
         bin/start-nginx node start.js
     # depends_on:
     #   - server
