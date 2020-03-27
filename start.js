@@ -3,7 +3,7 @@ var childCprocess = require('child_process')
 var exec = childCprocess.exec
 
 // exec('./node_modules/.bin/lerna bootstrap')
-
 // exec('./node_modules/.bin/lerna run start')
-
-exec('./node_modules/.bin/lerna run bind')
+exec('npm run bind', function(err) {
+  if (err) throw err
+})

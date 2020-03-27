@@ -8,7 +8,8 @@
     "pretest": "lerna bootstrap",
     "test": "lerna run test",
     "release": "lerna run release",
-    "release-gitignore": "node scripts/release-gitignore.js"
+    "release-gitignore": "node scripts/release-gitignore.js",
+    "bind": "lerna run bind"
   },
   "repository": {
     "type": "git",

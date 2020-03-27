@@ -1,0 +1,26 @@
+version: "3"
+
+volumes:
+  node_modules:
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "81:81"
+    env_file:
+      - .env
+    command:
+      - sh
+      - -c
+      - |
+        npm run release
+        cd buildpack-nginx/ && bin/compile /app && cd ..
+        bin/start-nginx node start.js
+    # depends_on:
+    #   - server
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules/
