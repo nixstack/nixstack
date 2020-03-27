@@ -53,9 +53,11 @@ ADD . $APP_HOME
 
 WORKDIR $APP_HOME
 
+RUN ls bin/
+
 # CMD bin/start-nginx node start.js
-RUN npm install
-RUN npx lerna bootstrap
+# RUN npm install
+# RUN npx lerna bootstrap
 # ENV PORT 80
 
 # RUN bin/start-nginx node start.js

@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 
 volumes:
   node_modules:
@@ -8,16 +8,16 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "80:80"
-      - "81:81"
+      - '80:80'
+      - '81:81'
     env_file:
       - .env
     command:
-      - sh
+      - bash
       - -c
       - |
         npm run release
-        cd buildpack-nginx/ && bin/compile /app && cd ..
+        # cd buildpack-nginx/ && bin/compile /app && cd ..
         bin/start-nginx node start.js
     # depends_on:
     #   - server
