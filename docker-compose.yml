@@ -24,4 +24,5 @@ services:
     #   - server
     volumes:
       - .:/app
+      # - ./config/sockets:/tmp # Error: listen EIO: i/o error /tmp/nginx.socket
       - node_modules:/app/node_modules/

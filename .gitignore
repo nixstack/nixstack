@@ -2,6 +2,7 @@ node_modules
 */build/*
 package-*.json
 lerna-*.json
+lerna-*.log
 
 # nginx
 bin/*
@@ -13,3 +14,4 @@ logs/*
 proxy_temp/*
 scgi_temp/*
 uwsgi_temp/*
+config/sockets
