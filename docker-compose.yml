@@ -3,7 +3,7 @@ version: '3'
 volumes:
   node_modules:
 services:
-  nginx:
+  buildpack-nginx:
     build:
       context: .
       dockerfile: Dockerfile
