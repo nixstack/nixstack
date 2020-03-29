@@ -11,3 +11,4 @@ README.md
 LICENSE
 .vscode
 *.code-workspace
+**/__public__

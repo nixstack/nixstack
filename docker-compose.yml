@@ -3,7 +3,7 @@ version: "3"
 volumes:
   node_modules:
 services:
-  buildpack-nginx:
+  web:
     build:
       context: .
       dockerfile: Dockerfile
@@ -16,7 +16,7 @@ services:
       - bash
       - -c
       - |
-        # npm run release
+        npm run release
         cd buildpack-nginx/ && bin/compile /app && cd ..
         env
         bin/start-nginx node start.js

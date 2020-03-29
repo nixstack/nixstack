@@ -24,10 +24,10 @@ RUN apt-get update
 
 # # Expose is NOT supported by Heroku
 # # EXPOSE 5000 
-EXPOSE 80
-EXPOSE 81
-EXPOSE 5000
-EXPOSE 20385
+# EXPOSE 80
+# EXPOSE 81
+# EXPOSE 5000
+# EXPOSE 20385
 
 ENV APP_HOME /app
 
