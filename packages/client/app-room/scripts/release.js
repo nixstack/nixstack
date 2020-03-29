@@ -1,12 +1,12 @@
 var rimraf = require('rimraf')
 var mv = require('mv')
 var path = require('path')
-var execSync = require('child_process').execSync
+// var execSync = require('child_process').execSync
 var pkgJson = require('../package.json')
 
 process.chdir(path.join(__dirname, '../'))
 
-var releaseDir = path.join(process.env.APP_HOME, '__public__', pkgJson.name)
+var releaseDir = path.join('/app', '__public__', pkgJson.name)
 var buildBundle = path.resolve('./build')
 
 // console.log(`Build starting in ${cwd}...`)

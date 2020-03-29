@@ -1,3 +1,12 @@
+# Install node
+curl --silent --location https://rpm.nodesource.com/setup_10.x | sudo bash
+yum install -y nodejs
+
+curl -sL https://deb.nodesource.com/setup_10.x | bash -
+apt-get install -y nodejs
+
+
+# Docker
 docker rm -f $(docker ps -a | gawk '{print $1}')
 docker rmi -f $(docker images | grep  "<none>" | gawk '{print $3}')
 
