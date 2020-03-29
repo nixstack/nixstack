@@ -8,6 +8,11 @@ events {
 }
 
 http {
+    # Resource interpreted as Stylesheet but transferred with MIME type
+    include mime.types;
+    default_type application/octet-stream;
+
+
     limit_req_zone $binary_remote_addr zone=mylimit:10m rate=10r/s;
 
     gzip on;
@@ -57,12 +62,12 @@ http {
 		server_name _;
         keepalive_timeout 5;
 
-        root /app/__public__/app-room;
+        root /app/__public__/app-indoor;
         location = / {
           index index.html index.htm;
           # try_files /index.html /index.htm @proxy;
         }
-        
+
         location / {
             try_files $uri @proxy;
           }
