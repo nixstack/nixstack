@@ -59,7 +59,7 @@ jobs:
           npm run release-gitignore
           git status
           git add .
-          git commit -m "merge dependence"
+          git commit -m "[auto deploy]"
       - run: heroku git:remote -a $HEROKU_APP_NAME
       # https://discuss.circleci.com/t/git-errors-failing-the-build-when-deploying-to-heroku/776/5
       - run: '[[ ! -s "$(git rev-parse --git-dir)/shallow" ]] || git fetch --unshallow'

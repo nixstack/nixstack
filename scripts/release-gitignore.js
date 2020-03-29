@@ -2,7 +2,7 @@ var shelljs = require('shelljs')
 var path = require('path')
 
 var webPackage = path.resolve('packages/client/app-room')
-var publicPackage = path.resolve('packages/client/web')
+var publicPackage = path.resolve('../__public__')
 
 shelljs.echo('src').toEnd(path.resolve(`${webPackage}/.gitignore`))
 // shelljs.echo('package.json').toEnd(path.resolve(`${webPackage}/.gitignore`))
