@@ -53,17 +53,21 @@ jobs:
       #   run: |
       #     node ./scripts/merge-dependence.js
       #     cat package.json
-      - run: |
+      - name: Commit...
+        run: |
           git config --global user.email $GITHUB_EMAIL
           git config --global user.name $GITHUB_NAME
           npm run release-gitignore
           git status
           git add .
           git commit -m "[auto deploy]"
-      - run: heroku git:remote -a $HEROKU_APP_NAME
+      - name: Hereo git remote...
+        run: heroku git:remote -a $HEROKU_APP_NAME
       # https://discuss.circleci.com/t/git-errors-failing-the-build-when-deploying-to-heroku/776/5
-      - run: '[[ ! -s "$(git rev-parse --git-dir)/shallow" ]] || git fetch --unshallow'
-      - run: git push heroku HEAD:refs/heads/master -f
+      - name: Unshallow
+        run: '[[ ! -s "$(git rev-parse --git-dir)/shallow" ]] || git fetch --unshallow'
+      - name: Git push...
+        run: git push heroku HEAD:refs/heads/master -f
       # - run: heroku ps
       # - run: heroku run 'npm run bootstrap'
       # - name: Check that website responds
