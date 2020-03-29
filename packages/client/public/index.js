@@ -2,6 +2,9 @@ const fs = require('fs')
 var http = require('http')
 const express = require('express')
 
+const unixSocket = '/tmp/nginx.socket'
+const protocol = unixSocket || process.env.PORT || 80
+
 // let ngnix know we want to start serving from the proxy
 fs.openSync('/tmp/app-initialized', 'w')
 
@@ -28,9 +31,12 @@ var server = http.createServer(app)
 const io = require('socket.io').listen(server)
 io.set('transports', ['websocket'])
 
+if (unixSocket && fs.existsSync(unixSocket)) fs.unlinkSync(unixSocket)
+
 // listen to ngnix socket
-app.listen('/tmp/nginx.socket', function() {
-  console.info(`[Web] server up`)
+app.listen(protocol, function() {
+  if (unixSocket) fs.chmodSync(unixSocket, 755)
+  console.info(`[Web] erver running at ${protocol}`)
 })
 
 io.on('connect_error', function(err) {

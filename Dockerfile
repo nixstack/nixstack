@@ -7,7 +7,7 @@ RUN  apt-get clean
 
 # RUN alias /bin/sh /bin/bash
 RUN apt-get update
-RUN apt-get install iptables sudo -y
+# RUN apt-get install iptables sudo -y
 # # RUN apt-get install -y wget curl gnupg2  libcurl4 build-essential
 # # RUN apt-get install -y zlib1g-dev libssl-dev libreadline-dev libyaml-dev libxml2-dev libxslt-dev
 
@@ -18,12 +18,6 @@ RUN apt-get install iptables sudo -y
 # # RUN cd ruby-2.5.0/ && ./configure --prefix=/usr/local; make; make install
 # # RUN ruby -v
 # # RUN which erb
-
-# Install node
-# RUN apt-get update
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
-RUN apt-get install -y nodejs
-RUN node -v
 
 # RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
@@ -55,7 +49,29 @@ ADD . $APP_HOME
 
 WORKDIR $APP_HOME
 
+# RUN rm -rf /var/lib/apt/lists/* && \
+#     # dpkg --remove-architecture arm64 && \
+#     apt-get update
+
+# RUN curl www.google.com
+
+# Install node
+RUN apt-get update
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN apt-get install -y nodejs
+
+# ADD ./pkgs/node-v12.16.1-linux-x64.tar.xz /opt
+# RUN ls -l /opt
+# RUN cd /opt/node-v12.16.1-linux-x64 && \
+#     ln -s /opt/node-v12.16.1-linux-x64/bin/node /usr/local/bin/node && \
+#     ln -s /opt/node-v12.16.1-linux-x64/bin/npm /usr/local/bin/npm && \
+#     ln -s /opt/node-v12.16.1-linux-x64/bin/npm /usr/local/bin/npx
+
+
+RUN node -v
+
 # CMD bin/start-nginx node start.js
+# RUN npm config set registry http://registry.npm.taobao.org/
 # RUN npm install
 # RUN npx lerna bootstrap
 # ENV PORT 80
