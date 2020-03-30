@@ -80,12 +80,14 @@ const unixSocket = '/tmp/nginx.socket'
 // FIX: address in used
 if (unixSocket && fs.existsSync(unixSocket)) fs.unlinkSync(unixSocket)
 
+const logPath = '/app/logs/socket.io'
+
 // listen to ngnix socket
 server.listen(unixSocket, function () {
   // FIX: Permission denied
   if (unixSocket) fs.chmodSync(unixSocket, 755)
   console.info(`server up`);
-  fs.writeFile('/tmp/access.log', `server up`, { flag: 'a', encoding: 'utf-8', mode: '0666' }, function (err) {
+  fs.writeFile(`${logPath}/access.log`, `server up\n`, { flag: 'a', encoding: 'utf-8', mode: '0666' }, function (err) {
     if (err) {
       console.log("文件写入失败")
     } else {
@@ -97,7 +99,7 @@ server.listen(unixSocket, function () {
 });
 
 io.on('connect_error', function (err) {
-  fs.writeFile('/tmp/access.log', err, { flag: 'a', encoding: 'utf-8', mode: '0666' }, function (err) {
+  fs.writeFile(`${logPath}/access.log`, err + '\n', { flag: 'a', encoding: 'utf-8', mode: '0666' }, function (err) {
     if (err) {
       console.log("文件写入失败")
     } else {
@@ -110,7 +112,7 @@ io.on('connect_error', function (err) {
 });
 
 io.on('connect_timeout', function (err) {
-  fs.writeFile('/tmp/access.log', err, { flag: 'a', encoding: 'utf-8', mode: '0666' }, function (err) {
+  fs.writeFile(`${logPath}/access.log`, err + '\n', { flag: 'a', encoding: 'utf-8', mode: '0666' }, function (err) {
     if (err) {
       console.log("文件写入失败")
     } else {
@@ -125,7 +127,7 @@ io.on('connect_timeout', function (err) {
 io.on('connection', function (socket) {
   console.info(`socket: ${socket.id} connected`);
 
-  fs.writeFile('/tmp/access.log', `socket: ${socket.id} connected`, { flag: 'a', encoding: 'utf-8', mode: '0666' }, function (err) {
+  fs.writeFile(`${logPath}/access.log`, `socket: ${socket.id} connected\n`, { flag: 'a', encoding: 'utf-8', mode: '0666' }, function (err) {
     if (err) {
       console.log("文件写入失败")
     } else {
@@ -134,8 +136,12 @@ io.on('connection', function (socket) {
     }
 
   })
+
+  socket.emit('connection', socket.id)
+
+
   socket.on('disconnect', function () {
-    fs.writeFile('/tmp/access.log', 'disconnected', { flag: 'a', encoding: 'utf-8', mode: '0666' }, function (err) {
+    fs.writeFile(`${logPath}/access.log`, 'disconnected\n', { flag: 'a', encoding: 'utf-8', mode: '0666' }, function (err) {
       if (err) {
         console.log("文件写入失败")
       } else {
@@ -148,7 +154,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('login', message => {
-    fs.writeFile('/tmp/access.log', 'login', { flag: 'a', encoding: 'utf-8', mode: '0666' }, function (err) {
+    fs.writeFile(`${logPath}/access.log`, 'login\n', { flag: 'a', encoding: 'utf-8', mode: '0666' }, function (err) {
       if (err) {
         console.log("文件写入失败")
       } else {

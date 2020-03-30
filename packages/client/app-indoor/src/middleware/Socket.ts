@@ -4,8 +4,9 @@ import socketIo from 'socket.io-client'
 // Transport unknown
 const socketIoInst = socketIo('/', { transports: ['websocket'] })
 
-socketIoInst.on('connection', () => {
+socketIoInst.on('connection', (message: any) => {
   console.log('Client socket connected...')
+  console.log(message)
 })
 
 socketIoInst.on('event', (data: any) => {
@@ -15,3 +16,11 @@ socketIoInst.on('event', (data: any) => {
 socketIoInst.on('disconnect', () => {
   console.log('Client socket disconnected...')
 })
+
+// setInterval(() => {
+//   socketIoInst.emit('login')
+// }, 3000)
+
+// socketIoInst.on('login', (message: any) => {
+//   console.log(message)
+// })
