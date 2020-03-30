@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    // "baseUrl": ".",
+    // "paths": {
+    //   "@/*": [
+    //     "packages/*"
+    //   ]
+    // },
+    "target": "ES6",
+    "module": "commonjs",
+    "allowSyntheticDefaultImports": true
+  }
+}
