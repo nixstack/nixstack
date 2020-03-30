@@ -2,7 +2,7 @@ import socketIo from 'socket.io-client'
 
 // https://github.com/socketio/socket.io-client/issues/883
 // Transport unknown
-const socketIoInst = socketIo('http://192.168.0.50', { transports: ['websocket'] })
+const socketIoInst = socketIo('/', { transports: ['websocket'] })
 
 socketIoInst.on('connection', () => {
   console.log('Client socket connected...')
