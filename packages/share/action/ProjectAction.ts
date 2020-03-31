@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import uuid from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 import { AbstractProject } from "../model";
 import { EProjectActionType } from '../constant';
 
@@ -8,7 +8,7 @@ export const addProject = (userId: string, name: string) =>
     EProjectActionType.ADD_PROJECT,
     {
       project: {
-        id: uuid(),
+        id: uuidv4(),
         userId,
         name,
         status: 1,

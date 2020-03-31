@@ -1,9 +1,8 @@
-import { Store, Middleware, MiddlewareAPI, Dispatch } from 'redux'
-import { store } from "../store";
+import { Store } from 'redux'
 import { Actions } from '@share/action';
 
 export const createLoggerMiddleware = (store: Store) => (next: (action: Actions) => Actions) => (action: Actions) => {
-  if (action.meta && (<any>action.meta).remote) {
+  if (action.meta && (action.meta as any).remote) {
     console.log("sending", action);
     return next(action);
   }

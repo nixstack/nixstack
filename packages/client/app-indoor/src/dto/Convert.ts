@@ -13,7 +13,7 @@ export const convertProjectIO2ProjectDto: (projectIo: IProjectIO) => IProjectDto
 export const convertUserIO2UserDto: (userIo: IUserIO) => IUserDto = data => ({
   userId: data.id,
   userName: data.name,
-  projectList: data.projectList?.map(item => convertProjectIO2ProjectDto(item))
+  projectList: (data.projectList as []).map(item => convertProjectIO2ProjectDto(item))
 })
 
 export const convertFromSocketIO: (socketIo: ISocketIO) => IClientDto = data => ({

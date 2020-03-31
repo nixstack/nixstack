@@ -14,8 +14,8 @@ export abstract class AbstractProject {
   readonly desc: string
   readonly userId: string
   readonly status: number
-  readonly createdTime: Date
-  readonly updatedTime: Date
+  readonly createdTime?: Date
+  readonly updatedTime?: Date
 
   constructor(props: IProject) {
     this.id = props.id

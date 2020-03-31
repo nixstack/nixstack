@@ -1,4 +1,3 @@
-import { Reducer } from "redux";
 import { EActionType } from '@share/constant'
 import { IRootState } from "../store/Store";
 import { Actions } from '@share/action'
@@ -13,7 +12,7 @@ const initState: IRootState = {
   projectList: []
 }
 
-export const rootReducer: Reducer<IRootState> = (state: IRootState = initState, action: Actions) => {
+export const rootReducer = (state: IRootState = initState, action: Actions) => {
   let project: AbstractProject | undefined
   let projectList: AbstractProject[]
 

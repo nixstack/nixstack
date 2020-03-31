@@ -1,4 +1,4 @@
-import { Store, AnyAction, createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import socketIoClient from 'socket.io-client'
 import socketIoWildcard from 'socketio-wildcard'
 import { AbstractUser, AbstractProject } from "@share//model";
@@ -16,7 +16,7 @@ const socket: SocketIOClient.Socket = socketIoClient('/', { transports: ['websoc
 const path = socketIoWildcard(socketIoClient.Manager)
 path(socket)
 
-export const store: Store<IRootState, AnyAction> = createStore(
+export const store = createStore(
   rootReducer,
   applyMiddleware(createLoggerMiddleware as any, createSocketMiddleware(socket) as any)
 )

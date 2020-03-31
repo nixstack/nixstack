@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import uuid from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 import { EUserActionType } from '../constant'
 import { AbstractUser } from '../model'
 
@@ -8,7 +8,7 @@ export const logIn = (name: string) =>
     EUserActionType.LOG_IN,
     {
       user: {
-        id: uuid(),
+        id: uuidv4(),
         name
       } as AbstractUser
     },

@@ -41,7 +41,7 @@ export const createSocketMiddleware = (socket: SocketIOClient.Socket) => (store:
   })
 
   return (next: (action: Actions) => Actions) => (action: Actions) => {
-    if (action.meta && (<any>action.meta).remote) {
+    if (action.meta && (action.meta as any).remote) {
       socket.emit(action.type, action)
       return
     }
