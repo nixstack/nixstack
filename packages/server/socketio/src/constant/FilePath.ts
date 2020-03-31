@@ -1,0 +1,1 @@
+export const USER_FILE_PATH: string = './user.json'

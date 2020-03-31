@@ -1,7 +1,8 @@
 export enum EUserActionType {
   SING_UP = 'SING_UP',
   LOG_IN = 'LOG_IN',
-  LOG_OUT = 'LOG_OUT'
+  LOG_OUT = 'LOG_OUT',
+  LGG_SUCCESS = 'LGG_SUCCES'
 }
 
 export enum EProjectActionType {

@@ -2,15 +2,27 @@
   "name": "socketio",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/bundle.js",
   "scripts": {
-    "bind": "node index.js"
+    "prebind": "webpack",
+    "bind": "node dist/bundle.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "awesome-typescript-loader": "^5.2.1",
     "express": "^4.17.1",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.2.0",
+    "typesafe-actions": "^5.1.0",
+    "typescript": "^3.3.3333",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "devDependencies": {
+    "@types/node": "^13.9.8",
+    "@types/socket.io": "^2.1.2",
+    "log4js": "^6.1.2"
   }
 }

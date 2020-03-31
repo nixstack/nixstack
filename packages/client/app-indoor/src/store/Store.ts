@@ -1,13 +1,13 @@
 import { createStore, applyMiddleware } from 'redux'
 import socketIoClient from 'socket.io-client'
 import socketIoWildcard from 'socketio-wildcard'
-import { AbstractUser, AbstractProject } from "@share//model";
 import { rootReducer } from '../reducer'
 import { createLoggerMiddleware, createSocketMiddleware } from '../middleware';
+import { User, Project } from 'src/model';
 
 export interface IRootState {
-  user: AbstractUser
-  projectList: AbstractProject[]
+  user: User
+  projectList: Project[]
 }
 
 // https://github.com/socketio/socket.io-client/issues/883

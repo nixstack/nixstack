@@ -28,7 +28,9 @@ export const updateProject = (projectId: string, userId: string, name: string) =
         updatedTime: new Date()
       } as AbstractProject
     },
-    {}
+    {
+      remote: false
+    }
   )
 
 export const delProject = (projectId: string, userId: string) => {
@@ -41,7 +43,9 @@ export const delProject = (projectId: string, userId: string) => {
         status: 0
       }
     },
-    {}
+    {
+      remote: false
+    }
   )
 }
 
@@ -54,6 +58,8 @@ export const listProject = (projectId: string, userId: string) => {
         userId
       }
     },
-    {}
+    {
+      remote: false
+    }
   )
 }

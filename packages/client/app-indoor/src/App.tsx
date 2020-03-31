@@ -3,19 +3,29 @@ import logo from './logo.svg';
 import './App.css';
 import { connect } from "react-redux";
 import { IRootState } from './store';
-import { AbstractUser } from '@share/model';
 import { logIn } from '@share/action/UserAction';
 import { ActionType } from 'typesafe-actions';
 import { Dispatch } from 'redux';
 import actions from '@share/action'
+import { addProject } from '@share/action/ProjectAction';
+import { User } from './model';
 
 
 interface IProps {
-  user?: AbstractUser;
+  user?: User
   logIn: typeof logIn
+  addProject: typeof addProject
 }
 
-class App extends React.Component<IProps, {}>  {
+interface IState {
+  username: string;
+}
+
+class App extends React.Component<IProps, IState>  {
+  public readonly state = {
+    username: "",
+  };
+
   public render(): JSX.Element {
     console.log(this)
     return <div className="App">
@@ -33,14 +43,29 @@ class App extends React.Component<IProps, {}>  {
           Learn React
       </a>
         <br />
+        <input type="text" id="username" value={this.state.username} onChange={this.handleChange} />
         <button onClick={this.handleLogIn} >Log In</button>
+        {/* <button onClick={this.handleAddProject}>Add Project</button> */}
       </header>
     </div>
   }
 
+  private handleChange = (event: React.FormEvent<HTMLInputElement>): void => {
+    this.setState({ username: event.currentTarget.value });
+  };
+
+
   private handleLogIn = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-    this.props.logIn('hello workd')
+    this.props.logIn(this.state.username)
   }
+
+  // private handleAddProject = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+  //   this.props.addProject('0196ba67-0e2f-4353-bbb9-688e97b3d9bf', 'test')
+  //   console.log(this.state)
+  //   this.setState(() => {
+  //     console.log(this.state)
+  //   })
+  // }
 }
 
 const mapStateToProps = (state: IRootState) => {
@@ -49,7 +74,8 @@ const mapStateToProps = (state: IRootState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<ActionType<typeof actions>>) => {
   return {
-    logIn: (name: string) => dispatch(logIn(name))
+    logIn: (name: string) => dispatch(logIn(name)),
+    addProject: (userId: string, name: string) => dispatch(addProject(userId, name))
   }
 }
 

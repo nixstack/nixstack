@@ -1,7 +1,7 @@
 import { EActionType } from '@share/constant'
 import { IRootState } from "../store/Store";
 import { Actions } from '@share/action'
-import { AbstractProject } from '@share/model';
+import { Project } from 'src/model';
 
 
 const initState: IRootState = {
@@ -13,8 +13,8 @@ const initState: IRootState = {
 }
 
 export const rootReducer = (state: IRootState = initState, action: Actions) => {
-  let project: AbstractProject | undefined
-  let projectList: AbstractProject[]
+  let project: Project | undefined
+  let projectList: Project[]
 
   switch (action.type) {
     case EActionType.LOG_IN:
