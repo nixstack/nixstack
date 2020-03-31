@@ -25,7 +25,10 @@
   "dependencies": {
     "lerna": "^2.11.0",
     "lodash": "^4.17.15",
-    "shelljs": "^0.8.3"
+    "shelljs": "^0.8.3",
+    "typesafe-actions": "^3.2.1",
+    "typescript": "^3.3.4000",
+    "uuid": "^7.0.2"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.149",
