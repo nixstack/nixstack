@@ -6,6 +6,8 @@ const getPublicUrlOrPath = require('react-dev-utils/getPublicUrlOrPath')
 const findUp = require('find-up')
 const root = path.dirname(findUp.sync('lerna.json'))
 
+require('dotenv').config({ path: path.resolve(root, '.env') })
+
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebook/create-react-app/issues/637
 const appDirectory = fs.realpathSync(process.cwd())
@@ -21,6 +23,9 @@ const publicUrlOrPath = getPublicUrlOrPath(
   process.env.NODE_ENV === 'development',
   require(resolveApp('package.json')).homepage,
   process.env.PUBLIC_URL
+  // `http://localhost:${process.env.APP_INDOOR_PORT}/${
+  //   require(resolveApp('package.json')).name
+  // }`
 )
 
 const moduleFileExtensions = [
