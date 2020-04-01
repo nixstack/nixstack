@@ -1,6 +1,6 @@
-const TYPES = {
-  IUserService: Symbol.for('IUserService'),
-  IProjectService: Symbol.for('IProjectService')
+let TYPES = {
+  UserService: Symbol('UserService'),
+  ProjectService: Symbol('ProjectService')
 }
 
 export { TYPES }
