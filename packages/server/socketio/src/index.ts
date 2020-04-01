@@ -8,11 +8,17 @@ import { addProject } from '@share/action/ProjectAction'
 import { IUserDto } from './dto'
 import { USER_FILE_PATH } from './constant'
 import { logIn } from '@share/action/UserAction'
-
 import { configure, getLogger } from 'log4js'
 configure('./config/log4js.json')
 const logger = getLogger()
 logger.level = process.env.LOGGER_LEVEL || 'off'
+
+import { appContainer } from './inversify.config'
+import { TYPES } from './constant/Types'
+import { IUserService } from './service'
+const userServiceInst = appContainer.get<IUserService>(TYPES.IUserService)
+console.log(userServiceInst)
+console.log(userServiceInst.sayHello())
 
 const userList: IUserDto[] = []
 

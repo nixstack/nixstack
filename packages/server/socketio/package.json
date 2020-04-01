@@ -16,6 +16,8 @@
   "dependencies": {
     "awesome-typescript-loader": "^5.2.1",
     "express": "^4.17.1",
+    "inversify": "^5.0.1",
+    "reflect-metadata": "^0.1.13",
     "socket.io": "^2.3.0",
     "typesafe-actions": "^5.1.0",
     "typescript": "^3.8.3",

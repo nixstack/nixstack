@@ -20,18 +20,20 @@ http
   .createServer((req, res) => {
     // webpacke-dev-server
     if (req.url!.indexOf('/sockjs-node') !== -1) {
-      http.request(
-        {
-          method: req.method,
-          path: req.url,
-          host: '0.0.0.0',
-          protocol: 'http:',
-          port: shareConfig.APP_INDOOR_PORT
-        },
-        r => {
-          r.pipe(res)
-        }
-      )
+      // http.request(
+      //   {
+      //     method: req.method,
+      //     path: req.url,
+      //     host: '0.0.0.0',
+      //     protocol: 'http:',
+      //     port: shareConfig.APP_INDOOR_PORT
+      //   },
+      //   r => {
+      //     r.pipe(res)
+      //   }
+      // )
+
+      // proxy.ws(req, 'ws://localhost:3000', req.headers)
 
       return
     }
