@@ -13,10 +13,11 @@ export class ConfigPreBuildInitializer implements IPreBuildInitializer {
       expressServer.setConfig((app: express.Application) => {
         app.use(bodyParser.urlencoded({ extended: true }))
         app.use(bodyParser.json())
-        app.use(
-          '/',
-          express.static(shareConfig.APP_INDOOR_STATIC_FILE as string)
-        )
+        // Webpack-Dev-Server
+        // app.use(
+        //   '/',
+        //   express.static(shareConfig.APP_INDOOR_STATIC_FILE as string)
+        // )
       })
       resolve()
     })

@@ -1,12 +1,9 @@
 {
   "name": "gateway",
   "version": "1.0.0",
-  "description": "",
+  "description": "{\"predev\": \"webpack\",\"dev\": \"node dist/bundle.js\"}",
   "main": "dist/bundle.js",
-  "scripts": {
-    "predev": "webpack",
-    "dev": "node dist/bundle.js"
-  },
+  "scripts": {},
   "keywords": [],
   "author": "",
   "license": "ISC",
