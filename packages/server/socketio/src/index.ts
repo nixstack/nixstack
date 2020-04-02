@@ -1,3 +1,4 @@
+import { TAGS } from './constant/Tags'
 import { Application } from './core/Application'
 import { TYPES } from './constant'
 import fs from 'fs'
@@ -17,6 +18,8 @@ import { InversifyExpressServer } from 'inversify-express-utils'
 import * as bodyParser from 'body-parser'
 import { IUserService } from './service'
 import * as service from './service/impl'
+import { SocketIOEventManager } from './core/event/manger/provider/SocketIOEventManager'
+import { IEventManagerProvider } from './core/event/manger/IEventManager'
 
 configure('./config/log4js.json')
 const logger = getLogger()

@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { Container, inject, interfaces, multiInject } from 'inversify'
+import { Container, inject, interfaces, multiInject, named } from 'inversify'
 import {
   autoProvide,
   buildProviderModule,
@@ -10,6 +10,7 @@ import {
   makeLoggerMiddleware,
   textSerializer
 } from 'inversify-logger-middleware'
+import getDecorators from 'inversify-inject-decorators'
 
 const container: interfaces.Container = new Container()
 
@@ -43,6 +44,7 @@ const provideNamedSingleton = function(identifier: any, name: string) {
     .whenTargetNamed(name)
     .done()
 }
+
 const provideTaggedSingleton = function(
   identifier: any,
   tag: string,
@@ -54,6 +56,8 @@ const provideTaggedSingleton = function(
     .done()
 }
 
+let { lazyInject, lazyMultiInject } = getDecorators(container)
+
 export {
   container,
   autoProvide,
@@ -62,6 +66,9 @@ export {
   provideNamed,
   inject,
   multiInject,
+  lazyInject,
+  lazyMultiInject,
+  named,
   provideSingleton,
   provideNamedSingleton,
   provideTaggedSingleton,
