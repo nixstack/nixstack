@@ -1,13 +1,9 @@
-import { TAGS } from './../../../../constant/Tags'
+import { TAGS } from '../../../constant/Tags'
 import { IEventListener } from '../IEventListener'
 import { EVENT_TYPES } from '@share/constant'
 import { IEventManagerProvider } from '../IEventManager'
-import { TYPES } from '../../../../constant'
-import {
-  provideNamedSingleton,
-  inject,
-  provideSingleton
-} from '../../../../core/ioc'
+import { TYPES } from '../../../constant'
+import { provideNamedSingleton, inject, provideSingleton } from '../../ioc'
 
 // @provideNamedSingleton(
 //   TYPES.IEventManagerProvider,

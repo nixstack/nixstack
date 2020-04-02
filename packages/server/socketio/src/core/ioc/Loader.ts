@@ -14,7 +14,7 @@ import '../initializer/impl/EvenManagerInitializer'
 
 // event
 import '../../core/initializer/impl/MultipleProvidersEventManager'
-import '../../core/event/manger/provider/SocketIOEventManager'
+import '../event/provider/SocketIOEventManager'
 
 // event listener
-import '../event/listener/socket/OnSocketUserLoginEvent'
+import '../../listener/socket/OnSocketUserLoginEvent'

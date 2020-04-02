@@ -17,8 +17,8 @@ import { InversifyExpressServer } from 'inversify-express-utils'
 import * as bodyParser from 'body-parser'
 import { IUserService } from './service'
 import * as service from './service/impl'
-import { SocketIOEventManager } from './core/event/manger/provider/SocketIOEventManager'
-import { IEventManagerProvider } from './core/event/manger/IEventManager'
+import { SocketIOEventManager } from './core/event/provider/SocketIOEventManager'
+import { IEventManagerProvider } from './core/event/IEventManager'
 
 configure('./config/log4js.json')
 const logger = getLogger()

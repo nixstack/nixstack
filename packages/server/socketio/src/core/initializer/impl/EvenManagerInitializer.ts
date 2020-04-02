@@ -1,11 +1,8 @@
 import { TAGS } from './../../../constant/Tags'
-import { SocketIOEventManager } from './../../event/manger/provider/SocketIOEventManager'
+import { SocketIOEventManager } from '../../event/provider/SocketIOEventManager'
 import { EVENT_TYPES } from '@share/constant'
-import { IEventListener } from './../../event/manger/IEventListener'
-import {
-  IEventManager,
-  IEventManagerProvider
-} from './../../event/manger/IEventManager'
+import { IEventListener } from '../../event/IEventListener'
+import { IEventManager, IEventManagerProvider } from '../../event/IEventManager'
 import { IPostInstantiateInitializer } from '../IPostInstantiateInitializer'
 import { inject } from 'inversify'
 import { TYPES } from '../../../constant'
