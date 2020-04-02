@@ -1,6 +1,6 @@
 export enum EUserActionType {
   SING_UP = 'SING_UP',
-  LOG_IN = 'LOG_IN',
+  LOG_IN = 'socket.event.onSocketUserLogin',
   LOG_OUT = 'LOG_OUT',
   LGG_SUCCESS = 'LGG_SUCCES'
 }
