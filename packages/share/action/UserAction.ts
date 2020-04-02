@@ -1,11 +1,11 @@
 import { action } from 'typesafe-actions'
 import { v4 as uuidv4 } from 'uuid'
-import { EUserActionType } from '../constant'
+import { EUserEvent } from '../constant'
 import { AbstractUser } from '../model'
 
 export const logIn = (name: string) =>
   action(
-    EUserActionType.LOG_IN,
+    EUserEvent.LOG_IN,
     {
       user: {
         id: uuidv4(),

@@ -1,6 +1,6 @@
 import { TAGS } from './../../../constant/Tags'
 import { SocketIOEventManager } from './../../event/manger/provider/SocketIOEventManager'
-import { EVENT_TYPE_MAP } from './../../../constant/Events'
+import { EVENT_TYPES } from '@share/constant'
 import { IEventListener } from './../../event/manger/IEventListener'
 import {
   IEventManager,
@@ -51,7 +51,7 @@ export class EvenManagerInitializer implements IPostInstantiateInitializer {
       this._socketIO.on('connect', (socket: SocketIO.Socket) => {
         console.log('Socket connected...')
         ;(<SocketIOEventManager>(
-          this._eventManager.getRegisteredEventProvider(EVENT_TYPE_MAP.socket)
+          this._eventManager.getRegisteredEventProvider(EVENT_TYPES.socket)
         )).initSocketListener(socket, this._eventListeners)
       })
 

@@ -1,8 +1,7 @@
-import { EActionType } from '@share/constant'
-import { IRootState } from "../store/Store";
+import { EVENTS } from '@share/constant'
+import { IRootState } from '../store/Store'
 import { Actions } from '@share/action'
-import { Project } from 'src/model';
-
+import { Project } from 'src/model'
 
 const initState: IRootState = {
   user: {
@@ -17,23 +16,27 @@ export const rootReducer = (state: IRootState = initState, action: Actions) => {
   let projectList: Project[]
 
   switch (action.type) {
-    case EActionType.LOG_IN:
+    case EVENTS.LOG_IN:
       return Object.assign({}, state, { user: action.payload.user })
-    case EActionType.ADD_PROJECT:
+    case EVENTS.ADD_PROJECT:
       projectList = [...state.projectList]
-      project = state.projectList.find((item) => item.id === action.payload.project.id)
+      project = state.projectList.find(
+        item => item.id === action.payload.project.id
+      )
 
       if (!project) return Object.assign({}, state)
 
       return Object.assign({}, state, { projectList })
-    case EActionType.UPDATE_PROJECT:
+    case EVENTS.UPDATE_PROJECT:
       projectList = [...state.projectList]
-      project = state.projectList.find((item) => item.id === action.payload.project.id)
+      project = state.projectList.find(
+        item => item.id === action.payload.project.id
+      )
 
       if (!project) return Object.assign({}, state)
 
       return Object.assign({}, state, { projectList })
     default:
-      return Object.assign({}, state);
+      return Object.assign({}, state)
   }
 }

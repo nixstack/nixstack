@@ -1,6 +1,6 @@
 import { TAGS } from './../../../../constant/Tags'
 import { IEventListener } from '../IEventListener'
-import { EVENT_TYPE_MAP } from '../../../../constant/Events'
+import { EVENT_TYPES } from '@share/constant'
 import { IEventManagerProvider } from '../IEventManager'
 import { TYPES } from '../../../../constant'
 import {
@@ -26,7 +26,7 @@ export class SocketIOEventManager implements IEventManagerProvider {
     this._socket = socket
   }
   type(): string {
-    return EVENT_TYPE_MAP.socket
+    return EVENT_TYPES.socket
   }
   emit(event: import('../IEvent').IEvent): void {
     this._socketServer.emit(event.name(), event.data())

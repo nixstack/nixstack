@@ -1,11 +1,11 @@
 import { action } from 'typesafe-actions'
 import { v4 as uuidv4 } from 'uuid'
-import { AbstractProject } from "../model";
-import { EProjectActionType } from '../constant';
+import { AbstractProject } from '../model'
+import { EProjectEvent } from '../constant'
 
 export const addProject = (userId: string, name: string) =>
   action(
-    EProjectActionType.ADD_PROJECT,
+    EProjectEvent.ADD_PROJECT,
     {
       project: {
         id: uuidv4(),
@@ -13,13 +13,18 @@ export const addProject = (userId: string, name: string) =>
         name,
         status: 1,
         createdTime: new Date()
-      } as AbstractProject,
+      } as AbstractProject
     },
     { remote: true }
   )
 
-export const updateProject = (projectId: string, userId: string, name: string) =>
-  action(EProjectActionType.UPDATE_PROJECT,
+export const updateProject = (
+  projectId: string,
+  userId: string,
+  name: string
+) =>
+  action(
+    EProjectEvent.UPDATE_PROJECT,
     {
       project: {
         id: projectId,
@@ -35,7 +40,7 @@ export const updateProject = (projectId: string, userId: string, name: string) =
 
 export const delProject = (projectId: string, userId: string) => {
   action(
-    EProjectActionType.DEL_PROJECT,
+    EProjectEvent.DEL_PROJECT,
     {
       project: {
         id: projectId,
@@ -51,7 +56,7 @@ export const delProject = (projectId: string, userId: string) => {
 
 export const listProject = (projectId: string, userId: string) => {
   action(
-    EProjectActionType.LIST_PROJECT,
+    EProjectEvent.LIST_PROJECT,
     {
       project: {
         id: projectId,

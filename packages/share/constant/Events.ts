@@ -1,0 +1,20 @@
+export const EVENT_TYPES = {
+  domain: 'DOMAIN.EVENT',
+  socket: 'SOCKET.EVENT'
+}
+
+export enum EUserEvent {
+  SING_UP = 'SING_UP.SOCKET.EVENT',
+  LOG_IN = 'LOG_IN.SOCKET.EVENT',
+  LOG_OUT = 'LOG_OUT.SOCKET.EVENT',
+  LGG_SUCCESS = 'LGG_SUCCES.SOCKET.EVENT'
+}
+
+export enum EProjectEvent {
+  ADD_PROJECT = 'ADD_PROJECT.SOCKET.EVENT',
+  LIST_PROJECT = 'LIST_PROJECT.SOCKET.EVENT',
+  UPDATE_PROJECT = 'UPDATE_PROJECT.SOCKET.EVENT',
+  DEL_PROJECT = 'DEL_PROJECT.SOCKET.EVENT'
+}
+
+export const EVENTS = { ...EUserEvent, ...EProjectEvent }
