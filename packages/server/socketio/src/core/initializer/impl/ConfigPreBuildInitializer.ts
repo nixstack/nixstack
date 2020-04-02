@@ -5,6 +5,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import { TYPES } from '../../../constant'
 import shareConfig from '@share/config'
+import { DBProvider } from '../../helper/DBHelper'
 
 @provideSingleton(TYPES.PreBuildInitializer)
 export class ConfigPreBuildInitializer implements IPreBuildInitializer {
@@ -18,6 +19,16 @@ export class ConfigPreBuildInitializer implements IPreBuildInitializer {
         //   '/',
         //   express.static(shareConfig.APP_INDOOR_STATIC_FILE as string)
         // )
+
+        // DB
+        DBProvider.configure({
+          type: 'postgres',
+          database: 'app_indoor',
+          username: 'postgres',
+          password: 'root',
+          host: 'localhost',
+          port: 5432
+        })
       })
       resolve()
     })
