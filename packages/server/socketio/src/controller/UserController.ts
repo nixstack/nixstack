@@ -1,5 +1,5 @@
 import { UserServiceImpl } from './../service/impl/UserServiceImpl'
-import { provide, inject, provideNamed } from '../ioc'
+import { provide, inject, provideNamed } from '../core/ioc'
 import { TYPES } from '../constant'
 import { controller, httpGet, interfaces, TYPE } from 'inversify-express-utils'
 import { IUserService } from '../service'

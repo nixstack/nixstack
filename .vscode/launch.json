@@ -1,0 +1,46 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug SocketIO",
+      // "port": 9229,
+      "cwd": "${workspaceRoot}/packages/server/socketio",
+      "runtimeExecutable": "nodemon",
+      // "runtimeExecutable": "npm",
+      // "runtimeArgs": [
+      //   "${workspaceRoot}/packages/server/socketio/dist/bundle.js"
+      // ],
+      "args": ["dist/bundle.js"],
+      // "args": ["run", "nodemon:debug"],
+      "runtimeArgs": [
+        //对应nodemon --inspect之后除了启动文件之外的其他配置
+        "--legacy-watch",
+        "--watch",
+        "./dist",
+        "--nolazy"
+      ],
+      // "runtimeArgs": [
+      //   "run",
+      //   "nodemon:debug",
+      //   "--legacy-watch",
+      //   "--watch",
+      //   "./dist",
+      //   "--nolazy"
+      // ],
+      "restart": true,
+      "protocol": "inspector", //相当于--inspect了
+      "sourceMaps": true,
+      "console": "integratedTerminal",
+      // "internalConsoleOptions": "neverOpen"
+      // "skipFiles": ["<node_internals>/**"]
+      "preLaunchTask": "webpack-watch",
+      // "timeout": 60000,
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+}

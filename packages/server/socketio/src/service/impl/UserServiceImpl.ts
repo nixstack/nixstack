@@ -2,7 +2,7 @@ import { IProjectService } from './../IProjectService'
 import { injectable, inject } from 'inversify'
 import { IUserService } from '../IUserService'
 import { TYPES } from '../../constant'
-import { provideSingleton, provide } from '../../ioc'
+import { provideSingleton, provide } from '../../core/ioc'
 
 // @injectable()
 // @provideSingleton(TYPES.IUserService)

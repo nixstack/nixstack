@@ -1,3 +1,4 @@
+import { Application } from './core/Application'
 import { TYPES } from './constant'
 import fs from 'fs'
 import socketIo from 'socket.io'
@@ -10,8 +11,8 @@ import { IUserDto } from './dto'
 import { USER_FILE_PATH } from './constant'
 import { logIn } from '@share/action/UserAction'
 import { configure, getLogger } from 'log4js'
-import { container, autoProvide, buildProviderModule } from './ioc'
-import './ioc/Loader'
+import { container, autoProvide, buildProviderModule } from './core/ioc'
+import './core/ioc/Loader'
 import { InversifyExpressServer } from 'inversify-express-utils'
 import * as bodyParser from 'body-parser'
 import { IUserService } from './service'
@@ -33,20 +34,31 @@ logger.level = process.env.LOGGER_LEVEL || 'off'
 // autoProvide(container, service)
 
 // 必须放在Loader之后
-container.load(buildProviderModule())
+// container.load(buildProviderModule())
 
-const server = new InversifyExpressServer(container)
-server.setConfig(app => {
-  // add body parser
-  app.use(
-    bodyParser.urlencoded({
-      extended: true
-    })
-  )
-  app.use(bodyParser.json())
-})
-let app = server.build()
-app.listen(3002)
+// const server = new InversifyExpressServer(container)
+// server.setConfig(app => {
+//   // add body parser
+//   app.use(
+//     bodyParser.urlencoded({
+//       extended: true
+//     })
+//   )
+//   app.use(bodyParser.json())
+// })
+// let app = server.build()
+// app.listen(3002)
+
+container.load(buildProviderModule())
+const express = new InversifyExpressServer(container)
+const application: Application = container.get<Application>(TYPES.Application)
+application.setExpress(express)
+application.run(container)
+
+// const socketIO: SocketIO.Server = container.get<SocketIO.Server>(TYPES.SocketIO)
+// socketIO.on('connect', () => {
+//   console.log('SocketIO connected...')
+// })
 
 // const userList: IUserDto[] = []
 
