@@ -1,16 +1,24 @@
 import { action } from 'typesafe-actions'
-import { v4 as uuidv4 } from 'uuid'
+// import { v4 as uuidv4 } from 'uuid'
 import { EUserEvent } from '../constant'
-import { AbstractUser } from '../model'
+// import { AbstractUser } from '../model'
+import { EVENT_TYPES } from '../constant'
 
-export const logIn = (name: string) =>
+export const logIn = (username: string) =>
   action(
     EUserEvent.LOG_IN,
     {
       user: {
-        id: uuidv4(),
-        name
-      } as AbstractUser
+        username,
+        email: 'admin@admin.com'
+      }
     },
-    { remote: true }
+    { channel: EVENT_TYPES.SOCKET, remote: true }
+  )
+
+export const logInSuccess = () =>
+  action(
+    EUserEvent.LOG_SUCCESS,
+    {},
+    { channel: EVENT_TYPES.SOCKET, remote: false }
   )

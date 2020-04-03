@@ -22,7 +22,7 @@ export class SocketIOEventManager implements IEventManagerProvider {
     this._socket = socket
   }
   type(): string {
-    return EVENT_TYPES.socket
+    return EVENT_TYPES.SOCKET
   }
   emit(event: import('../IEvent').IEvent): void {
     this._socketServer.emit(event.name(), event.data())

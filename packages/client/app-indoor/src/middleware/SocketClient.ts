@@ -1,6 +1,7 @@
 // import socketIo from 'socket.io-client'
 import { Store } from 'redux'
 import { Actions } from '@share/action'
+// import { EVENT_TYPES } from '@share/constant'
 
 // https://github.com/socketio/socket.io-client/issues/883
 // Transport unknown
@@ -29,11 +30,13 @@ import { Actions } from '@share/action'
 
 interface ISocktAction {
   type: number
-  nsp: string,
+  nsp: string
   data: [string, Actions]
 }
 
-export const createSocketMiddleware = (socket: SocketIOClient.Socket) => (store: Store) => {
+export const createSocketMiddleware = (socket: SocketIOClient.Socket) => (
+  store: Store
+) => {
   socket.on('*', (socketAction: ISocktAction) => {
     const action: Actions = socketAction.data[1]
     delete action.meta
