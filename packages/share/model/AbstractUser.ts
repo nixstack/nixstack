@@ -4,13 +4,13 @@ interface IUser {
 }
 
 export abstract class AbstractUser {
-  readonly id: string
-  readonly name: string
+  readonly id?: string
+  readonly name?: string
 
   constructor(props: IUser) {
     this.id = props.id
     this.name = props.name
   }
 
-  static create(props: IUser) { }
+  static create(props: IUser) {}
 }

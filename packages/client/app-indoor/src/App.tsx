@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from './logo.svg'
+// import logo from './logo.svg'
 import './App.css'
 import { connect } from 'react-redux'
 import { IRootState } from './store'
@@ -9,6 +9,8 @@ import { Dispatch } from 'redux'
 import actions from '@share/action'
 import { addProject } from '@share/action/ProjectAction'
 import { User } from './model'
+// import { View3D } from './component/view3d/View3D'
+import { View2D } from './component/view2d/View2D'
 
 interface IProps {
   user?: User
@@ -17,19 +19,20 @@ interface IProps {
 }
 
 interface IState {
-  username: string
+  userName: string
 }
 
 class App extends React.Component<IProps, IState> {
   public readonly state = {
-    username: ''
+    userName: ''
   }
 
   public render(): JSX.Element {
     console.log(this)
+
     return (
       <div className="App">
-        <header className="App-header">
+        {/* <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
             Edit <code>src/App.tsx</code> and save to reload2.
@@ -46,25 +49,27 @@ class App extends React.Component<IProps, IState> {
           <input
             type="text"
             id="username"
-            value={this.state.username}
+            value={this.state.userName}
             onChange={this.handleChange}
           />
           <button onClick={this.handleLogIn}>Log In</button>
-          {/* <button onClick={this.handleAddProject}>Add Project</button> */}
-        </header>
+          <button onClick={this.handleAddProject}>Add Project</button>
+        </header> */}
+        <View2D />
+        {/* <View3D />, */}
       </div>
     )
   }
 
-  private handleChange = (event: React.FormEvent<HTMLInputElement>): void => {
-    this.setState({ username: event.currentTarget.value })
-  }
+  // private handleChange = (event: React.FormEvent<HTMLInputElement>): void => {
+  //   this.setState({ userName: event.currentTarget.value })
+  // }
 
-  private handleLogIn = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ): void => {
-    this.props.logIn(this.state.username)
-  }
+  // private handleLogIn = (
+  //   event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  // ): void => {
+  //   this.props.logIn(this.state.userName)
+  // }
 
   // private handleAddProject = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
   //   this.props.addProject('0196ba67-0e2f-4353-bbb9-688e97b3d9bf', 'test')
