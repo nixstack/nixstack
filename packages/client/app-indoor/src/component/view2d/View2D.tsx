@@ -6,7 +6,11 @@ import * as Three from 'three'
 import './style.css'
 import { LineSegments } from 'three'
 
-export class View2D extends React.Component {
+interface IProps {
+  isVisible?: boolean
+}
+
+export class View2D extends React.Component<IProps> {
   private container!: HTMLDivElement | null
   private renderer!: Three.WebGLRenderer
   private scene: Three.Scene
@@ -40,8 +44,8 @@ export class View2D extends React.Component {
   private markerCountL = -1
   private markerCountR = -1
 
-  // private sizeFactorL!: number
-  // private sizeFactorR!: number
+  private sizeFactorL = 1
+  private sizeFactorR = 1
 
   private idxHitL = -1
   private idxHitR = -1
@@ -72,10 +76,10 @@ export class View2D extends React.Component {
 
   render() {
     return (
-      <>
+      <div className={this.props.isVisible ? 'show' : 'hide'}>
         <div className="canvas" ref={this.ref}></div>
         <div className="pointer" ref={this.pointerRef}></div>
-      </>
+      </div>
     )
   }
 
@@ -87,11 +91,11 @@ export class View2D extends React.Component {
     this.width = this.container!.clientWidth
     this.height = this.container!.clientHeight
 
-    if (this.width > 2 * this.height) {
-      this.width = 2 * this.height
-    } else {
-      this.height = this.width / 2
-    }
+    // if (this.width > 2 * this.height) {
+    //   this.width = 2 * this.height
+    // } else {
+    //   this.height = this.width / 2
+    // }
 
     // 设置相机
     this.aspect = this.width / this.height
@@ -425,7 +429,7 @@ export class View2D extends React.Component {
             this.geoLineL.positions[j + 1] = this.geoLineL.positions[j + 4]
           }
 
-          this.geoLineL.remove(this.markersL[this.idx3HitL])
+          this.scene.remove(this.markersL[this.idx3HitL])
           this.markersL[this.idx3HitL].geometry.dispose()
 
           for (let j = this.idx3HitL; j < this.markersL.length - 1; j++) {
@@ -570,7 +574,10 @@ export class View2D extends React.Component {
 
     if (this.markerX < 0) {
       // left
-      // this.pointerRef.current?.innerHTML = Math.round( 10000 *( this.markerX + 1 ) * this.sizeFactorL ) / 10000 + " ▪ " + Math.round( 10000 * this.markerY * this.sizeFactorL ) / 10000
+      this.pointerRef.current!.innerHTML =
+        Math.round(10000 * (this.markerX + 1) * this.sizeFactorL) / 10000 +
+        ' ▪ ' +
+        Math.round(10000 * this.markerY * this.sizeFactorL) / 10000
 
       if (this.hitMarkerL(this.idxMoveL, this.markerX, this.markerY) === -1) {
         this.reticleM.visible = true
@@ -600,7 +607,10 @@ export class View2D extends React.Component {
       }
     } else if (this.markerX > 0) {
       // right
-      // this.pointerRef.current!.innerHTML = Math.round( 10000 *( this.markerX - 1 )  * this.sizeFactorR ) / 10000  + " ▪ " + Math.round( 10000 * this.markerY * this.sizeFactorR ) / 10000;
+      this.pointerRef.current!.innerHTML =
+        Math.round(10000 * (this.markerX - 1) * this.sizeFactorR) / 10000 +
+        ' ▪ ' +
+        Math.round(10000 * this.markerY * this.sizeFactorR) / 10000
 
       if (this.hitMarkerR(this.idxMoveR, this.markerX, this.markerY) === -1) {
         this.reticleM.visible = true

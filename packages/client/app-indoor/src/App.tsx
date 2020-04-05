@@ -11,6 +11,7 @@ import { addProject } from '@share/action/ProjectAction'
 import { User } from './model'
 // import { View3D } from './component/view3d/View3D'
 import { View2D } from './component/view2d/View2D'
+import { View3D } from './component/view3d/View3D'
 
 interface IProps {
   user?: User
@@ -20,11 +21,13 @@ interface IProps {
 
 interface IState {
   userName: string
+  viewType: number
 }
 
 class App extends React.Component<IProps, IState> {
   public readonly state = {
-    userName: ''
+    userName: '',
+    viewType: 2
   }
 
   public render(): JSX.Element {
@@ -55,8 +58,14 @@ class App extends React.Component<IProps, IState> {
           <button onClick={this.handleLogIn}>Log In</button>
           <button onClick={this.handleAddProject}>Add Project</button>
         </header> */}
-        <View2D />
-        {/* <View3D />, */}
+        {/* {this.state.viewType === 2 ? <View2D /> : <View3D />} */}
+        <View2D isVisible={this.state.viewType === 2} />
+        <View3D isVisible={this.state.viewType === 3} />,
+        <div id="view-type">
+          <button onClick={() => this.setState({ viewType: 2 })}>2D</button>
+          &nbsp;
+          <button onClick={() => this.setState({ viewType: 3 })}>3D</button>
+        </div>
       </div>
     )
   }
