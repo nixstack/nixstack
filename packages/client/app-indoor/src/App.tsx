@@ -12,6 +12,10 @@ import { User } from './model'
 // import { View3D } from './component/view3d/View3D'
 import { View2D } from './component/view2d/View2D'
 import { View3D } from './component/view3d/View3D'
+import Button from '@material-ui/core/Button'
+import ThreeDRotationIcon from '@material-ui/icons/ThreeDRotation'
+// import ThreeSixtyIcon from '@material-ui/icons/ThreeSixty'
+import GestureIcon from '@material-ui/icons/Gesture'
 
 interface IProps {
   user?: User
@@ -27,7 +31,7 @@ interface IState {
 class App extends React.Component<IProps, IState> {
   public readonly state = {
     userName: '',
-    viewType: 2
+    viewType: 2,
   }
 
   public render(): JSX.Element {
@@ -60,11 +64,21 @@ class App extends React.Component<IProps, IState> {
         </header> */}
         {/* {this.state.viewType === 2 ? <View2D /> : <View3D />} */}
         <View2D isVisible={this.state.viewType === 2} />
-        <View3D isVisible={this.state.viewType === 3} />,
+        <View3D isVisible={this.state.viewType === 3} />
         <div id="view-type">
-          <button onClick={() => this.setState({ viewType: 2 })}>2D</button>
+          <Button
+            variant="contained"
+            onClick={() => this.setState({ viewType: 2 })}
+          >
+            <GestureIcon />
+          </Button>
           &nbsp;
-          <button onClick={() => this.setState({ viewType: 3 })}>3D</button>
+          <Button
+            variant="contained"
+            onClick={() => this.setState({ viewType: 3 })}
+          >
+            <ThreeDRotationIcon />
+          </Button>
         </div>
       </div>
     )
@@ -97,7 +111,7 @@ const mapDispatchToProps = (dispatch: Dispatch<ActionType<typeof actions>>) => {
   return {
     logIn: (name: string) => dispatch(logIn(name)),
     addProject: (userId: string, name: string) =>
-      dispatch(addProject(userId, name))
+      dispatch(addProject(userId, name)),
   }
 }
 

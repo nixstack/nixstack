@@ -1,3 +1,4 @@
+import { Model } from './../../model/Model'
 import { Connection, createConnection } from 'typeorm'
 
 import { User } from '../../model/User'
@@ -37,7 +38,7 @@ export class DBProvider {
       username,
       password,
       database,
-      ssl
+      ssl,
     } = DBProvider.configuration
 
     DBProvider.connection = await createConnection({
@@ -48,8 +49,8 @@ export class DBProvider {
       password,
       database,
       extra: { ssl },
-      entities: [User, Project],
-      synchronize: true
+      entities: [User, Project, Model],
+      synchronize: true,
     })
 
     return DBProvider.connection

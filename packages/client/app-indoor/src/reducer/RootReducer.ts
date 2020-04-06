@@ -6,9 +6,9 @@ import { Project } from 'src/model'
 const initState: IRootState = {
   user: {
     id: '0',
-    name: 'Anonymity'
+    name: 'Anonymity',
   },
-  projectList: []
+  projectList: [],
 }
 
 export const rootReducer = (state: IRootState = initState, action: Actions) => {
@@ -21,21 +21,14 @@ export const rootReducer = (state: IRootState = initState, action: Actions) => {
     case EVENTS.ADD_PROJECT:
       projectList = [...state.projectList]
       project = state.projectList.find(
-        item => item.id === action.payload.project.id
+        (item) => item.id === action.payload.project.id
       )
 
       if (!project) return Object.assign({}, state)
 
       return Object.assign({}, state, { projectList })
-    case EVENTS.UPDATE_PROJECT:
-      projectList = [...state.projectList]
-      project = state.projectList.find(
-        item => item.id === action.payload.project.id
-      )
-
-      if (!project) return Object.assign({}, state)
-
-      return Object.assign({}, state, { projectList })
+    case EVENTS.SEARCH_MODEL:
+      return Object.assign({}, state)
     default:
       return Object.assign({}, state)
   }

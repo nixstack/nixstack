@@ -10,7 +10,7 @@ import { DBProvider } from '../../helper/DBHelper'
 @provideSingleton(TYPES.PreBuildInitializer)
 export class ConfigPreBuildInitializer implements IPreBuildInitializer {
   applyTo(expressServer: InversifyExpressServer): Promise<void> {
-    return new Promise<void>(resolve => {
+    return new Promise<void>((resolve) => {
       expressServer.setConfig((app: express.Application) => {
         app.use(bodyParser.urlencoded({ extended: true }))
         app.use(bodyParser.json())
@@ -22,12 +22,12 @@ export class ConfigPreBuildInitializer implements IPreBuildInitializer {
 
         // DB
         DBProvider.configure({
-          type: 'postgres',
-          database: 'app_indoor',
-          username: 'postgres',
-          password: 'root',
-          host: 'localhost',
-          port: 5432
+          type: shareConfig.DB_DIALECT as any,
+          database: shareConfig.DB_DATABASE as any,
+          username: shareConfig.DB_USERNAME as any,
+          password: shareConfig.DB_PASSWORD as any,
+          host: shareConfig.DB_HOST as any,
+          port: shareConfig.DB_PORT as any,
         })
       })
       resolve()

@@ -7,7 +7,8 @@ let TYPES = {
   IEventListener: Symbol('IEventListener'),
   IEventManagerProvider: Symbol('IEventManagerProvider'),
   UserService: Symbol('UserService'),
-  ProjectService: Symbol('ProjectService')
+  ProjectService: Symbol('ProjectService'),
+  SearchService: Symbol('SearchService'),
 }
 
 export { TYPES }

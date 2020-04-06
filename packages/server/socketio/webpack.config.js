@@ -15,16 +15,16 @@ module.exports = {
   entry: './src/index.ts',
   output: {
     filename: 'bundle.js',
-    path: __dirname + '/dist'
+    path: __dirname + '/dist',
   },
   resolve: {
     extensions: ['.ts', '.js'],
     alias: {
-      '@share': path.resolve(__dirname, '../../share')
-    }
+      '@share': path.resolve(__dirname, '../../share'),
+    },
   },
   module: {
-    rules: [{ test: /\.tsx?$/, loader: 'awesome-typescript-loader' }]
+    rules: [{ test: /\.tsx?$/, loader: 'awesome-typescript-loader' }],
   },
   externals: [nodeExternals()],
   plugins: [
@@ -35,8 +35,15 @@ module.exports = {
         SOCKETIO_SERVER_PORT: JSON.stringify(process.env.SOCKETIO_SERVER_PORT),
         APP_INDOOR_STATIC_FILE: JSON.stringify(
           path.resolve(root, process.env.APP_INDOOR_STATIC_FILE)
-        )
-      }
-    })
-  ]
+        ),
+        // DB
+        DB_DIALECT: JSON.stringify(process.env.DB_DIALECT),
+        DB_DATABASE: JSON.stringify(process.env.DB_DATABASE),
+        DB_USERNAME: JSON.stringify(process.env.DB_USERNAME),
+        DB_PASSWORD: JSON.stringify(process.env.DB_PASSWORD),
+        DB_HOST: JSON.stringify(process.env.DB_HOST),
+        DB_PORT: JSON.stringify(process.env.DB_PORT),
+      },
+    }),
+  ],
 }
