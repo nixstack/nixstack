@@ -14,7 +14,10 @@ const proxy = httpProxy.createProxy()
 const proxyRules = new HttpProxyRules(config.proxyRules)
 
 // const serve = serveStatic(shareConfig.appIndoorHost)
-const serve = serveStatic(process.env.APP_INDOOR_STATIC_FILE as string)
+let serve: any
+if (shareConfig.APP_INDOOR_STATIC_FILE) {
+  serve = serveStatic(shareConfig.APP_INDOOR_STATIC_FILE as string)
+}
 
 http
   .createServer((req, res) => {
@@ -50,11 +53,11 @@ http
       return proxy.web(req, res, {
         changeOrigin: true,
         followRedirects: true,
-        target
+        target,
       })
     }
 
-    serve(req as any, res as any, finalhandler(req, res))
+    serve && serve(req as any, res as any, finalhandler(req, res))
 
     // res.writeHead(500, {
     //   'Content-Type': 'text/plain; charset=utf-8'
@@ -97,13 +100,13 @@ proxy.on('error', (err: any, req, res) => {
 
   if (!res.headersSent) {
     res.writeHead(500, {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     })
   }
 
   json = {
     error: 'proxy_error',
-    reason: err.message
+    reason: err.message,
   }
 
   console.error(

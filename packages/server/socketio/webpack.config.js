@@ -33,9 +33,11 @@ module.exports = {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
         PORT: JSON.stringify(process.env.PORT || 80),
         SOCKETIO_SERVER_PORT: JSON.stringify(process.env.SOCKETIO_SERVER_PORT),
-        APP_INDOOR_STATIC_FILE: JSON.stringify(
-          path.resolve(root, process.env.APP_INDOOR_STATIC_FILE)
-        ),
+        APP_INDOOR_STATIC_FILE:
+          process.env.APP_INDOOR_STATIC_FILE &&
+          JSON.stringify(
+            path.resolve(root, process.env.APP_INDOOR_STATIC_FILE)
+          ),
         // DB
         DB_DIALECT: JSON.stringify(process.env.DB_DIALECT),
         DB_DATABASE: JSON.stringify(process.env.DB_DATABASE),
