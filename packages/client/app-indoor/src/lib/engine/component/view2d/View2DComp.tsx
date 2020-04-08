@@ -5,10 +5,12 @@ import * as Three from 'three'
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import './style.css'
 import { LineSegments } from 'three'
+import { Floorplan } from '../../model/Floorplan'
 // import ThreeEngine from 'ThreeEngine'
 
 interface IProps {
   isVisible?: boolean
+  floorplan: Floorplan
 }
 
 export const View2DComp = (props: IProps) => {
@@ -61,6 +63,11 @@ export const View2DComp = (props: IProps) => {
   scene = new Three.Scene()
   scene.background = new Three.Color(0xeeeeee)
 
+  const floorplan = props.floorplan
+
+  // console.log(props.floorplan)
+  floorplan.on('UPDATED_EVENT', redraw)
+
   useEffect(() => {
     container = ref.current
     int()
@@ -70,6 +77,10 @@ export const View2DComp = (props: IProps) => {
 
   function threeRender() {
     renderer.render(scene, camera)
+  }
+
+  function redraw() {
+    console.log(floorplan)
   }
 
   function int() {
