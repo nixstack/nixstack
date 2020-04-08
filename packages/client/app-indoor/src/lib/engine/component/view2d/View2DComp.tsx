@@ -1,16 +1,15 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useContext } from 'react'
 // import { Canvas } from 'react-three-fiber'
 // import { Box } from '../box/Box'
 import * as Three from 'three'
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import './style.css'
 import { LineSegments } from 'three'
-import { Floorplan } from '../../model/Floorplan'
+import { Context } from '../../Context'
 // import ThreeEngine from 'ThreeEngine'
 
 interface IProps {
   isVisible?: boolean
-  floorplan: Floorplan
 }
 
 export const View2DComp = (props: IProps) => {
@@ -63,7 +62,8 @@ export const View2DComp = (props: IProps) => {
   scene = new Three.Scene()
   scene.background = new Three.Color(0xeeeeee)
 
-  const floorplan = props.floorplan
+  const context = useContext(Context)
+  let floorplan = context.floorplan
 
   // console.log(props.floorplan)
   floorplan.on('UPDATED_EVENT', redraw)

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 // import { Canvas } from 'react-three-fiber'
 // import { Box } from '../box/Box'
 import * as THREE from 'three'
@@ -21,11 +21,10 @@ import { List, ListItem, Card, CardMedia, CardHeader } from '@material-ui/core'
 import shareConfig from '@share/config'
 import Floor from '../../model/Floor'
 import Edge from '../../model/Edge'
-import { Floorplan } from '../../model/Floorplan'
+import { Context } from '../../Context'
 
 interface IProps {
   isVisible?: boolean
-  floorplan: Floorplan
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -132,7 +131,6 @@ export const View3DComp = (props: IProps) => {
   let lookAtVector = new THREE.Vector3()
   let dragging = false
 
-  let floorplan = props.floorplan
   let floors: Floor[] = []
   let edges: Edge[] = []
 
@@ -141,6 +139,9 @@ export const View3DComp = (props: IProps) => {
   camera.position.z = 15
   camera.position.set(45, 10, 30)
   camera.lookAt(new THREE.Vector3(0, 0, 0))
+
+  const context = useContext(Context)
+  let floorplan = context.floorplan
 
   scene = new THREE.Scene()
 
