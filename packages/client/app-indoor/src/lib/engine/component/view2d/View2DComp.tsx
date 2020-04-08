@@ -9,7 +9,7 @@ import { Context } from '../../Context'
 // import ThreeEngine from 'ThreeEngine'
 
 interface IProps {
-  isVisible?: boolean
+  // isVisible?: boolean
 }
 
 export const View2DComp = (props: IProps) => {
@@ -62,8 +62,11 @@ export const View2DComp = (props: IProps) => {
   scene = new Three.Scene()
   scene.background = new Three.Color(0xeeeeee)
 
-  const context = useContext(Context)
-  let floorplan = context.floorplan
+  // const context = useContext(Context)
+  // let floorplan = context.floorplan
+
+  const { state } = useContext(Context as any)
+  let floorplan = state.floorplan
 
   // console.log(props.floorplan)
   floorplan.on('UPDATED_EVENT', redraw)
@@ -665,7 +668,7 @@ export const View2DComp = (props: IProps) => {
   }
 
   return (
-    <div className={props.isVisible ? 'show' : 'hide'}>
+    <div className={state.viewType === 2 ? 'show' : 'hide'}>
       <div className="canvas" ref={ref}></div>
       <div className="pointer" ref={pointerRef}></div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import { View2DComp } from './component/view2d/View2DComp'
 import { View3DComp } from './component/view3d/View3DComp'
 import Button from '@material-ui/core/Button/Button'
@@ -8,6 +8,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 import createStyles from '@material-ui/core/styles/createStyles'
 import Axios from 'axios'
 import { Context } from './Context'
+import { Floorplan } from './model/Floorplan'
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -23,13 +24,26 @@ const useStyles = makeStyles(() =>
 )
 
 export const DesignEngine = React.memo(() => {
-  const [viewType, setViewType] = useState(2)
+  // const [viewType, setViewType] = useState(2)
 
-  const context = useContext(Context)
+  const initState = {
+    viewType: 2,
+    floorplan: new Floorplan(),
+  }
+
+  const reducer = (state: any, action: any) => {
+    switch (action.type) {
+      case 'setViewType':
+        return Object.assign({}, state, { viewType: action.payload.viewType })
+      default:
+        return state
+    }
+  }
+  const [state, dispatch] = useReducer(reducer, initState)
 
   const classes = useStyles()
 
-  const floorplan = context.floorplan
+  const floorplan = state.floorplan
 
   async function loadSerialized(url: string = '/files/json/floorplan.json') {
     try {
@@ -45,15 +59,25 @@ export const DesignEngine = React.memo(() => {
     loadSerialized()
   }, [])
   return (
-    <Context.Provider value={context}>
-      <View2DComp isVisible={viewType === 2} />
-      <View3DComp isVisible={viewType === 3} />
+    <Context.Provider value={{ state, dispatch } as any}>
+      <View2DComp />
+      <View3DComp />
       <div className={classes.viewTypeBtn}>
-        <Button variant="contained" onClick={() => setViewType(2)}>
+        <Button
+          variant="contained"
+          onClick={() =>
+            dispatch({ type: 'setViewType', payload: { viewType: 2 } })
+          }
+        >
           <GestureIcon />
         </Button>
         &nbsp;
-        <Button variant="contained" onClick={() => setViewType(3)}>
+        <Button
+          variant="contained"
+          onClick={() =>
+            dispatch({ type: 'setViewType', payload: { viewType: 3 } })
+          }
+        >
           <ThreeDRotationIcon />
         </Button>
       </div>

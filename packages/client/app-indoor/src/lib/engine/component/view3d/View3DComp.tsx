@@ -24,14 +24,14 @@ import Edge from '../../model/Edge'
 import { Context } from '../../Context'
 
 interface IProps {
-  isVisible?: boolean
+  // isVisible?: boolean
 }
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: (props: IProps) => {
-        return props.isVisible ? 'block' : 'none'
+      display: (state: any) => {
+        return state.viewType === 3 ? 'block' : 'none'
       },
     },
     canvas: {
@@ -140,8 +140,11 @@ export const View3DComp = (props: IProps) => {
   camera.position.set(45, 10, 30)
   camera.lookAt(new THREE.Vector3(0, 0, 0))
 
-  const context = useContext(Context)
-  let floorplan = context.floorplan
+  // const context = useContext(Context)
+  // let floorplan = context.floorplan
+
+  const { state } = useContext(Context as any)
+  let floorplan = state.floorplan
 
   scene = new THREE.Scene()
 
@@ -160,7 +163,7 @@ export const View3DComp = (props: IProps) => {
     }
   }, [])
 
-  const classes = useStyles(props)
+  const classes = useStyles(state)
 
   return (
     <div className={classes.root} ref={refRoot}>
@@ -425,7 +428,7 @@ export const View3DComp = (props: IProps) => {
     edges = []
 
     // 画地板和天花板
-    floorplan.getRooms().forEach((room) => {
+    floorplan.getRooms().forEach((room: any) => {
       let threeFloor = new Floor(scene, room)
       floors.push(threeFloor)
       threeFloor.addToScene()
