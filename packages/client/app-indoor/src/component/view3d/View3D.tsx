@@ -24,7 +24,6 @@ import InputBase from '@material-ui/core/InputBase'
 // import TreeItem from '@material-ui/lab/TreeItem'
 import { SearchUtil } from 'src/lib/util/SearchUtil'
 import { List, ListItem, Card, CardMedia, CardHeader } from '@material-ui/core'
-import shareConfig from '@share/config'
 // import ThreeEngine from '../../lib/engine/ThreeEngine'
 
 // const useStyles = makeStyles((theme) => ({
@@ -250,7 +249,7 @@ class View3DBasic extends React.Component<
                     <CardHeader title={item.name} />
                     <CardMedia
                       className={this.props.classes.searchResultMedia}
-                      image={`${shareConfig.FILE_SYS_URL}/files/image/${item.uuid}.jpg`}
+                      image={`/files/image/${item.uuid}.jpg`}
                       title={item.name}
                     />
                   </Card>

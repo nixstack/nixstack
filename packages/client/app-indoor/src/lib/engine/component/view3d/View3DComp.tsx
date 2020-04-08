@@ -19,7 +19,6 @@ import InputBase from '@material-ui/core/InputBase'
 // import TreeItem from '@material-ui/lab/TreeItem'
 import { SearchUtil } from 'src/lib/util/SearchUtil'
 import { List, ListItem, Card, CardMedia, CardHeader } from '@material-ui/core'
-import shareConfig from '@share/config'
 import Floor from '../../model/Floor'
 import Edge from '../../model/Edge'
 import { Context } from '../../Context'
@@ -207,7 +206,7 @@ export const View3DComp = (props: IProps) => {
                   <CardHeader title={item.name} />
                   <CardMedia
                     className={classes.searchResultMedia}
-                    image={`${shareConfig.FILE_SYS_URL}/files/image/${item.uuid}.jpg`}
+                    image={`/files/image/${item.uuid}.jpg`}
                     title={item.name}
                   />
                 </Card>
