@@ -36,26 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-#view-type {
-  position: absolute;
-  margin: 0 auto;
-  width: 100%;
-  text-align: center;
-  bottom: 10px;
-  z-index: 100;
-}
-
-#view-type button {
-  /* width: 80px;
-  height: 30px; */
-  font-size: 16px;
-}
-
-.show {
-  display: block;
-}
-
-.hide {
-  display: none;
-}
