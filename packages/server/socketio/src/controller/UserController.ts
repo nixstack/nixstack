@@ -6,7 +6,7 @@ import {
   httpGet,
   interfaces,
   TYPE,
-  httpPost
+  httpPost,
 } from 'inversify-express-utils'
 import { IUserService } from '../service'
 import { Request, Response } from 'express'

@@ -10,12 +10,15 @@ import actions from '@share/action'
 import { addProject } from '@share/action/ProjectAction'
 import { User } from './model'
 // import { View3D } from './component/view3d/View3D'
-import { View2D } from './component/view2d/View2D'
-import { View3D } from './component/view3d/View3D'
+// import { View2D } from './component/view2d/View2D'
+// import { View3D } from './component/view3d/View3D'
 import Button from '@material-ui/core/Button'
 import ThreeDRotationIcon from '@material-ui/icons/ThreeDRotation'
 // import ThreeSixtyIcon from '@material-ui/icons/ThreeSixty'
 import GestureIcon from '@material-ui/icons/Gesture'
+import { View2DComp } from './lib/engine/component/view2d/View2DComp'
+// import ThreeEngine from './lib/engine/ThreeEngine'
+import { View3DComp } from './lib/engine/component/view3d/View3DComp'
 
 interface IProps {
   user?: User
@@ -32,6 +35,12 @@ class App extends React.Component<IProps, IState> {
   public readonly state = {
     userName: '',
     viewType: 2,
+  }
+
+  constructor(props: IProps) {
+    super(props)
+    // ThreeEngine.init()
+    // ThreeEngine.loadSerialized()
   }
 
   public render(): JSX.Element {
@@ -63,8 +72,9 @@ class App extends React.Component<IProps, IState> {
           <button onClick={this.handleAddProject}>Add Project</button>
         </header> */}
         {/* {this.state.viewType === 2 ? <View2D /> : <View3D />} */}
-        <View2D isVisible={this.state.viewType === 2} />
-        <View3D isVisible={this.state.viewType === 3} />
+        {/* <View2D isVisible={this.state.viewType === 2} /> */}
+        <View2DComp isVisible={this.state.viewType === 2} />
+        <View3DComp isVisible={this.state.viewType === 3} />
         <div id="view-type">
           <Button
             variant="contained"

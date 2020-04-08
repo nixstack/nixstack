@@ -5,7 +5,6 @@ import * as Three from 'three'
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import './style.css'
 import { LineSegments } from 'three'
-
 interface IProps {
   isVisible?: boolean
 }
@@ -217,12 +216,12 @@ export class View2D extends React.Component<IProps> {
     this.matMarkerL = new Three.MeshBasicMaterial({
       color: 0x0000aa,
       transparent: true,
-      opacity: 0.5
+      opacity: 0.5,
     })
     this.matMarkerR = new Three.MeshBasicMaterial({
       color: 0x009900,
       transparent: true,
-      opacity: 0.5
+      opacity: 0.5,
     })
 
     this.markerSize = 0.015

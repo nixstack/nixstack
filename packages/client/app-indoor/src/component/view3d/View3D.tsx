@@ -25,6 +25,7 @@ import InputBase from '@material-ui/core/InputBase'
 import { SearchUtil } from 'src/lib/util/SearchUtil'
 import { List, ListItem, Card, CardMedia, CardHeader } from '@material-ui/core'
 import shareConfig from '@share/config'
+// import ThreeEngine from '../../lib/engine/ThreeEngine'
 
 // const useStyles = makeStyles((theme) => ({
 //   leftBtnGrp: {
@@ -145,6 +146,7 @@ class View3DBasic extends React.Component<
 
   constructor(props: any) {
     super(props)
+    // ThreeEngine.init()
     this.renderer = new THREE.WebGLRenderer({ antialias: true })
     this.camera = new THREE.PerspectiveCamera(
       45,
@@ -152,6 +154,8 @@ class View3DBasic extends React.Component<
       0.1,
       1000
     )
+    // this.renderer = ThreeEngine.renderer
+    // this.camera = ThreeEngine.perspectiveCamera
     this.camera.position.set(45, 10, 30)
     // this.camera.rotation.x = (45 * Math.PI) / 180
     // this.camera.rotateOnAxis(new THREE.Vector3(0, 1, 0), (45 * Math.PI) / 180)
@@ -160,9 +164,13 @@ class View3DBasic extends React.Component<
     // this.camera.lookAt(this.scene.position)
     // this.scene.background = new THREE.Color(0x333333)
 
+    // this.scene = ThreeEngine.scene
+
     this.renderer.setSize(window.innerWidth, window.innerHeight)
 
     this.state = { searchResult: [] }
+
+    // ThreeEngine.loadSerialized()
   }
 
   // shouldComponentUpdate() {

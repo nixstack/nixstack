@@ -22,3 +22,4 @@ pkgs
 __public__
 
 core.258
+.env

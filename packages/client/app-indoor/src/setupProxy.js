@@ -1,8 +1,8 @@
 const { createProxyMiddleware } = require('http-proxy-middleware')
 
-module.exports = function(app) {
+module.exports = function (app) {
   app.use(
-    '/api',
+    ['/api'],
     createProxyMiddleware({
       target: 'http://localhost:4000',
       changeOrigin: true,
@@ -11,7 +11,7 @@ module.exports = function(app) {
         // when request.headers.host == 'dev.localhost:3000',
         // override target 'http://www.example.org' to 'http://localhost:8000'
         // 'dev.localhost:3000': 'http://localhost:8000'
-      }
+      },
       // pathRewrite: {
       //   '^/api/user': '/api/user', // rewrite path
       //   '^/api/remove/path': '/path' // remove base path

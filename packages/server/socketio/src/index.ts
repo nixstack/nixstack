@@ -53,7 +53,7 @@ logger.level = process.env.LOGGER_LEVEL || 'off'
 
 container.load(buildProviderModule())
 const express = new InversifyExpressServer(container, null, {
-  rootPath: '/api'
+  rootPath: '/api',
 })
 const application: Application = container.get<Application>(TYPES.Application)
 application.setExpress(express)

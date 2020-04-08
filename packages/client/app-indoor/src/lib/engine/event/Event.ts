@@ -23,8 +23,8 @@ export default class Event implements IEvent {
       return
     }
     const _this = this
-    this.on(type, function() {
-      return function() {
+    this.on(type, function () {
+      return function () {
         fn.apply(_this, arguments)
         _this.off(type, fn)
       }
@@ -52,5 +52,21 @@ export default class Event implements IEvent {
 
     const index = this._listeners[type].indexOf(fn)
     this._listeners[type].splice(index, 1)
+  }
+
+  dispatch(type: string, payload?: any) {
+    if (this._listeners === void 0) {
+      return
+    }
+    const listeners = this._listeners
+    const listenerArr = listeners[type]
+
+    if (listenerArr !== void 0) {
+      const arr = listenerArr.slice(0)
+
+      for (let i = 0; i < arr.length; i++) {
+        arr[i].call(this, payload)
+      }
+    }
   }
 }
