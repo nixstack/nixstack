@@ -32,6 +32,8 @@ export default class Room {
   public areaCenter!: Vector2
   // private _polygonPoints!: any[]
 
+  private _polygonPoints: Vector2[] = []
+
   constructor(floorplane: Floorplan, corners: Corner[]) {
     this.floorplane = floorplane
     this.corners = corners
@@ -178,7 +180,7 @@ export default class Room {
     region = new Utils.Region(points)
     this.area = Math.abs(region.area())
     this.areaCenter = region.centroid()
-    // this._polygonPoints = points
+    this._polygonPoints = points
     // this.dispatchEvent({
     //   type: EVENT_ROOM_ATTRIBUTES_CHANGED,
     //   item: this,
@@ -199,6 +201,10 @@ export default class Room {
     })
     cornerUuids.sort()
     return cornerUuids.join()
+  }
+
+  get roomCornerPoints() {
+    return this._polygonPoints
   }
 }
 

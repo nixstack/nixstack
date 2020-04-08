@@ -299,6 +299,14 @@ export class Floorplan extends Event {
     return this.rooms
   }
 
+  getWalls() {
+    return this.walls
+  }
+
+  getCorners() {
+    return this.corners
+  }
+
   wallEdges() {
     let edges: any = []
     this.walls.forEach((wall) => {

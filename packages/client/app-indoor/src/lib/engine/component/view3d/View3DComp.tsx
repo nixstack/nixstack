@@ -119,17 +119,17 @@ export const View3DComp = (props: IProps) => {
   let refRoot = React.createRef<HTMLDivElement>()
   let ref = React.createRef<HTMLDivElement>()
 
-  let building!: THREE.Mesh
-  let wallMaterial!: THREE.Material
-  let win!: THREE.Mesh
+  // let building!: THREE.Mesh
+  // let wallMaterial!: THREE.Material
+  // let win!: THREE.Mesh
 
-  let raycaster = new THREE.Raycaster()
+  // let raycaster = new THREE.Raycaster()
 
-  let intersects!: any
-  let normalMatrix = new THREE.Matrix3()
-  let worldNormal = new THREE.Vector3()
-  let lookAtVector = new THREE.Vector3()
-  let dragging = false
+  // let intersects!: any
+  // let normalMatrix = new THREE.Matrix3()
+  // let worldNormal = new THREE.Vector3()
+  // let lookAtVector = new THREE.Vector3()
+  // let dragging = false
 
   let floors: Floor[] = []
   let edges: Edge[] = []
@@ -150,6 +150,7 @@ export const View3DComp = (props: IProps) => {
 
   renderer.setSize(window.innerWidth, window.innerHeight)
 
+  const [isSearchVisible, setIsSearchVisible] = useState(false)
   const [searchResult, setSearchResult] = useState([])
 
   floorplan.on('UPDATED_EVENT', redraw)
@@ -169,12 +170,16 @@ export const View3DComp = (props: IProps) => {
     <div className={classes.root} ref={refRoot}>
       <div className={classes.leftBtnGrp}>
         <ButtonGroup orientation="vertical" color="primary" variant="text">
-          <Button>
+          <Button onClick={() => setIsSearchVisible(!isSearchVisible)}>
             <SearchIcon />
           </Button>
         </ButtonGroup>
       </div>
-      <Paper className={classes.searchPanel} elevation={3}>
+      <Paper
+        className={classes.searchPanel}
+        elevation={3}
+        style={{ display: isSearchVisible ? 'block' : 'none' }}
+      >
         <div className={classes.search}>
           <div className={classes.searchIcon}>
             <Button color="primary" variant="text" onClick={search}>
@@ -217,7 +222,7 @@ export const View3DComp = (props: IProps) => {
     initLight()
     initHelper()
     initControls()
-    initMesh()
+    // initMesh()
     initEvent()
     // 动画循环渲染
     renderer.setAnimationLoop(() => {
@@ -290,125 +295,130 @@ export const View3DComp = (props: IProps) => {
     scene.add(new THREE.AmbientLight(0x404040))
   }
 
-  function initMesh() {
-    wallMaterial = new THREE.MeshLambertMaterial({
-      color: 'gray',
-      // color: '0x606060',
-      wireframe: false,
-    })
-    building = new THREE.Mesh(new THREE.BoxGeometry(5, 2, 0.25), wallMaterial)
-    building.position.set(0, 1, 0)
-    building.userData.size = {
-      width: (building.geometry as any).parameters.width,
-      height: (building.geometry as any).parameters.height,
-      depth: (building.geometry as any).parameters.depth,
-    }
-    scene.add(building)
+  // function initMesh() {
+  //   wallMaterial = new THREE.MeshLambertMaterial({
+  //     color: 'gray',
+  //     // color: '0x606060',
+  //     wireframe: false,
+  //   })
+  //   building = new THREE.Mesh(new THREE.BoxGeometry(5, 2, 0.25), wallMaterial)
+  //   building.position.set(0, 1, 0)
+  //   building.userData.size = {
+  //     width: (building.geometry as any).parameters.width,
+  //     height: (building.geometry as any).parameters.height,
+  //     depth: (building.geometry as any).parameters.depth,
+  //   }
+  //   scene.add(building)
 
-    win = new THREE.Mesh(
-      new THREE.BoxGeometry(1, 1, 0.25),
-      new THREE.MeshLambertMaterial({
-        color: 'brown',
-      })
-    )
-    win.geometry.translate(0, 0, 0.125)
-    win.position.set(3, 0.5, 1.5)
-    scene.add(win)
-  }
+  //   win = new THREE.Mesh(
+  //     new THREE.BoxGeometry(1, 1, 0.25),
+  //     new THREE.MeshLambertMaterial({
+  //       color: 'brown',
+  //     })
+  //   )
+  //   win.geometry.translate(0, 0, 0.125)
+  //   win.position.set(3, 0.5, 1.5)
+  //   scene.add(win)
+  // }
 
   function initEvent() {
     ref.current!.addEventListener('mousemove', onMouseMove, false)
-    ref.current!.addEventListener('mousedown', onMouseDown, false)
-    ref.current!.addEventListener('mouseup', onMouseUp, false)
+    // ref.current!.addEventListener('mousedown', onMouseDown, false)
+    // ref.current!.addEventListener('mouseup', onMouseUp, false)
   }
 
   function onMouseMove(event: MouseEvent) {
     event.preventDefault()
-
-    // Edge会侦听 'EVENT_CAMERA_MOVED'事件
     controls.dispatchEvent({ type: 'EVENT_CAMERA_MOVED', target: event })
-    // mouse.set(
-    //   (event.clientX / window.innerWidth) * 2 - 1,
-    //   -((event.clientY / window.innerHeight) * 2 + 1)
-    // )
-    const mouseX = (event.clientX / window.innerWidth) * 2 - 1
-    const mouseY = -(event.clientY / window.innerHeight) * 2 + 1
-    const vector = new THREE.Vector3(mouseX, mouseY, 1)
-    // const vector = new THREE.Vector3(mouse.x, mouse.y, 1)
-    vector.unproject(camera) // .unproject: Ray from camera from 2D screen (mouse coordinates) into 3D object space.
-    // console.log(mouse)
-    // raycaster.setFromCamera(mouse, camera)
-    raycaster.set(camera.position, vector.sub(camera.position).normalize()) //Raycaster position
-    intersects = raycaster.intersectObjects([building])
-
-    if (intersects.length == 0 || !dragging) {
-      return
-    }
-
-    normalMatrix.getNormalMatrix(intersects[0].object.matrixWorld)
-    worldNormal
-      .copy(intersects[0].face.normal)
-      .applyMatrix3(normalMatrix)
-      .normalize()
-    win.position.copy(intersects[0].point.setY(0.5)) // 半墙位置
-    win.lookAt(lookAtVector.copy(intersects[0].point).add(worldNormal))
-
-    makeHole()
   }
 
-  function onMouseDown() {
-    if (intersects.length > 0) {
-      controls.enableRotate = false
-      dragging = true
-    }
-  }
+  // function onMouseMove(event: MouseEvent) {
+  //   event.preventDefault()
 
-  function onMouseUp() {
-    controls.enableRotate = true
-    dragging = false
-  }
+  //   // Edge会侦听 'EVENT_CAMERA_MOVED'事件
+  //   controls.dispatchEvent({ type: 'EVENT_CAMERA_MOVED', target: event })
+  //   // mouse.set(
+  //   //   (event.clientX / window.innerWidth) * 2 - 1,
+  //   //   -((event.clientY / window.innerHeight) * 2 + 1)
+  //   // )
+  //   const mouseX = (event.clientX / window.innerWidth) * 2 - 1
+  //   const mouseY = -(event.clientY / window.innerHeight) * 2 + 1
+  //   const vector = new THREE.Vector3(mouseX, mouseY, 1)
+  //   // const vector = new THREE.Vector3(mouse.x, mouse.y, 1)
+  //   vector.unproject(camera) // .unproject: Ray from camera from 2D screen (mouse coordinates) into 3D object space.
+  //   // console.log(mouse)
+  //   // raycaster.setFromCamera(mouse, camera)
+  //   raycaster.set(camera.position, vector.sub(camera.position).normalize()) //Raycaster position
+  //   intersects = raycaster.intersectObjects([building])
 
-  /**
-   * 打洞
-   */
-  function makeHole() {
-    const width = building.userData.size.width * 0.5
-    const height = building.userData.size.height * 0.5
-    const depth = building.userData.size.depth * 0.5
+  //   if (intersects.length == 0 || !dragging) {
+  //     return
+  //   }
 
-    const shape = new THREE.Shape()
-    shape.moveTo(-width, height)
-    shape.lineTo(-width, -height)
-    shape.lineTo(width, -height)
-    shape.lineTo(width, height)
-    shape.lineTo(-width, height)
+  //   normalMatrix.getNormalMatrix(intersects[0].object.matrixWorld)
+  //   worldNormal
+  //     .copy(intersects[0].face.normal)
+  //     .applyMatrix3(normalMatrix)
+  //     .normalize()
+  //   win.position.copy(intersects[0].point.setY(0.5)) // 半墙位置
+  //   win.lookAt(lookAtVector.copy(intersects[0].point).add(worldNormal))
 
-    const pointAtWall = win.position.clone()
-    building.worldToLocal(pointAtWall)
-    const wWidth = (win.geometry as any).parameters.width * 0.5
-    const wHeight = (win.geometry as any).parameters.height * 0.5
+  //   makeHole()
+  // }
 
-    const hole = new THREE.Path()
-    hole.moveTo(pointAtWall.x - wWidth, pointAtWall.y + wHeight)
-    hole.lineTo(pointAtWall.x - wWidth, pointAtWall.y - wHeight)
-    hole.lineTo(pointAtWall.x + wWidth, pointAtWall.y - wHeight)
-    hole.lineTo(pointAtWall.x + wWidth, pointAtWall.y + wHeight)
-    hole.lineTo(pointAtWall.x - wWidth, pointAtWall.y + wHeight)
+  // function onMouseDown() {
+  //   if (intersects.length > 0) {
+  //     controls.enableRotate = false
+  //     dragging = true
+  //   }
+  // }
 
-    shape.holes.push(hole)
+  // function onMouseUp() {
+  //   controls.enableRotate = true
+  //   dragging = false
+  // }
 
-    const extrudeSettings = {
-      amount: depth * 2,
-      bevelEnabled: false,
-    }
-    const extrudeGeometry = new THREE.ExtrudeBufferGeometry(
-      shape,
-      extrudeSettings
-    )
-    extrudeGeometry.translate(0, 0, -depth)
-    building.geometry.dispose()
-    building.geometry = extrudeGeometry
-  }
+  // /**
+  //  * 打洞
+  //  */
+  // function makeHole() {
+  //   const width = building.userData.size.width * 0.5
+  //   const height = building.userData.size.height * 0.5
+  //   const depth = building.userData.size.depth * 0.5
+
+  //   const shape = new THREE.Shape()
+  //   shape.moveTo(-width, height)
+  //   shape.lineTo(-width, -height)
+  //   shape.lineTo(width, -height)
+  //   shape.lineTo(width, height)
+  //   shape.lineTo(-width, height)
+
+  //   const pointAtWall = win.position.clone()
+  //   building.worldToLocal(pointAtWall)
+  //   const wWidth = (win.geometry as any).parameters.width * 0.5
+  //   const wHeight = (win.geometry as any).parameters.height * 0.5
+
+  //   const hole = new THREE.Path()
+  //   hole.moveTo(pointAtWall.x - wWidth, pointAtWall.y + wHeight)
+  //   hole.lineTo(pointAtWall.x - wWidth, pointAtWall.y - wHeight)
+  //   hole.lineTo(pointAtWall.x + wWidth, pointAtWall.y - wHeight)
+  //   hole.lineTo(pointAtWall.x + wWidth, pointAtWall.y + wHeight)
+  //   hole.lineTo(pointAtWall.x - wWidth, pointAtWall.y + wHeight)
+
+  //   shape.holes.push(hole)
+
+  //   const extrudeSettings = {
+  //     amount: depth * 2,
+  //     bevelEnabled: false,
+  //   }
+  //   const extrudeGeometry = new THREE.ExtrudeBufferGeometry(
+  //     shape,
+  //     extrudeSettings
+  //   )
+  //   extrudeGeometry.translate(0, 0, -depth)
+  //   building.geometry.dispose()
+  //   building.geometry = extrudeGeometry
+  // }
 
   async function search() {
     const result = await SearchUtil.search('*:*')

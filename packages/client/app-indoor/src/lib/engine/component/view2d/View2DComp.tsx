@@ -6,6 +6,10 @@ import * as Three from 'three'
 import './style.css'
 import { LineSegments } from 'three'
 import { Context } from '../../Context'
+import { Floorplan } from '../../model/Floorplan'
+import Room from '../../model/Room'
+import Wall from '../../model/Wall'
+import Corner from '../../model/Corner'
 // import ThreeEngine from 'ThreeEngine'
 
 interface IProps {
@@ -66,7 +70,7 @@ export const View2DComp = (props: IProps) => {
   // let floorplan = context.floorplan
 
   const { state } = useContext(Context as any)
-  let floorplan = state.floorplan
+  let floorplan: Floorplan = state.floorplan
 
   // console.log(props.floorplan)
   floorplan.on('UPDATED_EVENT', redraw)
@@ -83,8 +87,24 @@ export const View2DComp = (props: IProps) => {
   }
 
   function redraw() {
-    console.log(floorplan)
+    floorplan.getRooms().forEach((room) => {
+      drawRoom(room)
+    })
+
+    floorplan.getWalls().forEach((wall) => {
+      drawWall(wall)
+    })
+
+    floorplan.getCorners().forEach((corner: Corner) => {
+      drawCorner(corner)
+    })
   }
+
+  function drawRoom(room: Room) {}
+
+  function drawWall(wall: Wall) {}
+
+  function drawCorner(corner: Corner) {}
 
   function int() {
     width = container!.clientWidth

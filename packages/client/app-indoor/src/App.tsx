@@ -45,8 +45,6 @@ class App extends React.Component<IProps, IState> {
   }
 
   public render(): JSX.Element {
-    console.log(this)
-
     return (
       <div className="App">
         {/* <header className="App-header">
