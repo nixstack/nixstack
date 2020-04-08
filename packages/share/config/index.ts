@@ -1,5 +1,6 @@
 const localohst = 'http://localhost'
 export default {
+  NODE_ENV: process.env.NODE_ENV,
   PORT: process.env.PORT,
   SOCKETIO_SERVER_PORT: process.env.SOCKETIO_SERVER_PORT,
   host: `${localohst}:${process.env.PORT}`,

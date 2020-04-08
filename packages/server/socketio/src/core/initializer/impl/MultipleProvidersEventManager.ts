@@ -1,6 +1,6 @@
 import { IEventListener } from '../../event/IEventListener'
 // import { EventHandler } from '../../../core/event/manger/IEventListener'
-import forEach from 'lodash/foreach'
+import forEach from 'lodash/forEach'
 import { IEventManager, IEventManagerProvider } from '../../event/IEventManager'
 import { provideSingleton } from '../../../core/ioc'
 import { TYPES } from '../../../constant'

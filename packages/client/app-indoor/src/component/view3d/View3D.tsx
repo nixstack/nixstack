@@ -250,7 +250,7 @@ class View3DBasic extends React.Component<
                     <CardHeader title={item.name} />
                     <CardMedia
                       className={this.props.classes.searchResultMedia}
-                      image={`${shareConfig.FILE_SYS_URL}/image/${item.uuid}.jpg`}
+                      image={`${shareConfig.FILE_SYS_URL}/files/image/${item.uuid}.jpg`}
                       title={item.name}
                     />
                   </Card>

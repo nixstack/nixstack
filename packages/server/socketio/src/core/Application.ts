@@ -9,6 +9,7 @@ import shareConfig from '@share/config'
 import express from 'express'
 import io from 'socket.io'
 import { provideSingleton } from './ioc'
+import fs from 'fs'
 
 @provideSingleton(TYPES.Application)
 export class Application {
@@ -50,15 +51,30 @@ export class Application {
   protected instantiate(
     container: inversifyInterfaces.Container
   ): Promise<void> {
-    return new Promise<void>(resolve => {
+    return new Promise<void>((resolve) => {
       this._app = this._express.build()
       const port = shareConfig.SOCKETIO_SERVER_PORT
 
-      this._httpServer = this._app.listen(port, () =>
-        console.log(`Server started at port: ${port}`)
-      )
+      let comunication: any
+      if (shareConfig.NODE_ENV === 'development') {
+        comunication = port
+      } else {
+        fs.openSync('/tmp/app-initialized', 'w')
+        comunication = '/tmp/nginx.socket'
+        // FIX: address in used
+        if (comunication && fs.existsSync(comunication))
+          fs.unlinkSync(comunication)
+      }
 
-      const socketIO: SocketIO.Server = io(this.getHttpServer())
+      this._httpServer = this._app.listen(comunication, () => {
+        // FIX: Permission denied
+        if (comunication && fs.existsSync(comunication))
+          fs.chmodSync(comunication, 755)
+        console.log(`Server started at ${comunication}`)
+      })
+
+      const socketIO: any = io(this.getHttpServer())
+      socketIO.set('transports', ['websocket'])
       container.bind<SocketIO.Server>(TYPES.SocketIO).toConstantValue(socketIO)
       resolve()
     })

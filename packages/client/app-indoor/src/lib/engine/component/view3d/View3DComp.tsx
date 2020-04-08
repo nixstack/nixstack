@@ -10,6 +10,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup'
 // import { makeStyles } from '@material-ui/core/styles'
 import { createStyles, Theme, fade, makeStyles } from '@material-ui/core/styles'
 import SearchIcon from '@material-ui/icons/Search'
+import CloudUpload from '@material-ui/icons/CloudUpload'
 import Paper from '@material-ui/core/Paper'
 import InputBase from '@material-ui/core/InputBase'
 // import TreeView from '@material-ui/lab/TreeView'
@@ -51,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
       position: 'absolute',
       top: '50%',
       transform: `translate(${theme.spacing(6)}px, -50%)`,
-      margin: theme.spacing(1),
+      margin: theme.spacing(4),
       width: theme.spacing(30),
       height: theme.spacing(66),
     },
@@ -173,6 +174,9 @@ export const View3DComp = (props: IProps) => {
           <Button onClick={() => setIsSearchVisible(!isSearchVisible)}>
             <SearchIcon />
           </Button>
+          <Button>
+            <CloudUpload />
+          </Button>
         </ButtonGroup>
       </div>
       <Paper
@@ -203,7 +207,7 @@ export const View3DComp = (props: IProps) => {
                   <CardHeader title={item.name} />
                   <CardMedia
                     className={classes.searchResultMedia}
-                    image={`${shareConfig.FILE_SYS_URL}/image/${item.uuid}.jpg`}
+                    image={`${shareConfig.FILE_SYS_URL}/files/image/${item.uuid}.jpg`}
                     title={item.name}
                   />
                 </Card>
@@ -421,8 +425,12 @@ export const View3DComp = (props: IProps) => {
   // }
 
   async function search() {
-    const result = await SearchUtil.search('*:*')
-    setSearchResult(result.data)
+    try {
+      const result = await SearchUtil.search('*:*')
+      result && setSearchResult(result.data)
+    } catch (error) {
+      throw error
+    }
   }
 
   function redraw() {
