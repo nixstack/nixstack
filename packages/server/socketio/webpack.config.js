@@ -43,6 +43,7 @@ module.exports = {
         DB_PASSWORD: JSON.stringify(process.env.DB_PASSWORD),
         DB_HOST: JSON.stringify(process.env.DB_HOST),
         DB_PORT: JSON.stringify(process.env.DB_PORT),
+        DATABASE_URL: JSON.stringify(process.env.DATABASE_URL),
       },
     }),
   ],

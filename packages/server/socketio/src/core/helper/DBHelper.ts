@@ -6,12 +6,13 @@ import { Project } from '../../model/Project'
 
 export interface DBConfiguration {
   type: 'postgres' | 'mysql' | 'mongodb'
-  host: string
-  port: number
-  username: string
-  password: string
-  database: string
+  host?: string
+  port?: number
+  username?: string
+  password?: string
+  database?: string
   ssl?: boolean
+  url?: string
 }
 
 export class DBProvider {
@@ -32,26 +33,37 @@ export class DBProvider {
     }
 
     const {
-      type,
-      host,
-      port,
-      username,
-      password,
-      database,
-      ssl,
+      type = 'postgres',
+      // host,
+      // port,
+      // username,
+      // password,
+      // database,
+      url,
     } = DBProvider.configuration
 
-    DBProvider.connection = await createConnection({
-      type,
-      host,
-      port,
-      username,
-      password,
-      database,
-      extra: { ssl },
-      entities: [User, Project, Model],
-      synchronize: true,
-    })
+    try {
+      DBProvider.connection = await createConnection({
+        type,
+        // host,
+        // port,
+        // username,
+        // password,
+        // database,
+        extra: {
+          ssl: {
+            // https://github.com/brianc/node-postgres/issues/2009
+            rejectUnauthorized: url?.includes('localhost') ? false : false,
+          },
+        },
+        url,
+        entities: [User, Project, Model],
+        subscribers: [],
+        synchronize: true,
+      })
+    } catch (error) {
+      throw error
+    }
 
     return DBProvider.connection
   }

@@ -23,11 +23,12 @@ export class ConfigPreBuildInitializer implements IPreBuildInitializer {
         // DB
         DBProvider.configure({
           type: shareConfig.DB_DIALECT as any,
-          database: shareConfig.DB_DATABASE as any,
-          username: shareConfig.DB_USERNAME as any,
-          password: shareConfig.DB_PASSWORD as any,
-          host: shareConfig.DB_HOST as any,
-          port: shareConfig.DB_PORT as any,
+          // database: shareConfig.DB_DATABASE as any,
+          // username: shareConfig.DB_USERNAME as any,
+          // password: shareConfig.DB_PASSWORD as any,
+          // host: shareConfig.DB_HOST as any,
+          // port: shareConfig.DB_PORT as any,
+          url: shareConfig.DATABASE_URL,
         })
       })
       resolve()
