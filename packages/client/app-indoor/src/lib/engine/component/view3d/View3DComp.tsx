@@ -37,6 +37,10 @@ const useStyles = makeStyles((theme: Theme) =>
         return props.isVisible ? 'block' : 'none'
       },
     },
+    canvas: {
+      // position: 'fixed',
+      display: 'flex',
+    },
     leftBtnGrp: {
       position: 'absolute',
       top: '50%',
@@ -115,6 +119,7 @@ export const View3DComp = (props: IProps) => {
   let scene!: THREE.Scene
   let sky!: Sky
   let controls!: OrbitControls
+  let refRoot = React.createRef<HTMLDivElement>()
   let ref = React.createRef<HTMLDivElement>()
 
   let building!: THREE.Mesh
@@ -152,12 +157,15 @@ export const View3DComp = (props: IProps) => {
     // init3D()
 
     loadSerialized()
+    return () => {
+      // console.log(refRoot)
+    }
   }, [])
 
   const classes = useStyles(props)
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} ref={refRoot}>
       <div className={classes.leftBtnGrp}>
         <ButtonGroup orientation="vertical" color="primary" variant="text">
           <Button>
@@ -198,7 +206,7 @@ export const View3DComp = (props: IProps) => {
           })}
         </List>
       </Paper>
-      <div ref={ref}></div>
+      <div className={classes.canvas} ref={ref}></div>
     </div>
   )
   function init() {
