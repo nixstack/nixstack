@@ -2,12 +2,18 @@ import { Floorplan } from './../../model/Floorplan'
 import { Dimensioning } from '../../core/Dimensioning'
 
 export default class ViewModel {
+  public mode = 0
   public activeRoom = null
   // 坐标系原点
   public originX = 0
   public originY = 0
 
   private _clickedRoom = null
+  private _clickedWall = null
+  public activeWall = null
+
+  public activeCorner = null
+  private _clickedCorner = null
 
   public canvasElement: HTMLCanvasElement
   public floorplan: Floorplan
@@ -19,6 +25,13 @@ export default class ViewModel {
 
   get selectedRoom() {
     return this._clickedRoom
+  }
+
+  get selectedWall() {
+    return this._clickedWall
+  }
+  get selectedCorner() {
+    return this._clickedCorner
   }
 
   /** 从THREE坐标转换到 CANVAS坐标 */

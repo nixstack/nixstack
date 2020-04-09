@@ -20,6 +20,11 @@ export default class Corner extends Event {
 
   public attachedRooms: Room[] = []
 
+  private _angles!: []
+  private _angleDirections = []
+  private _startAngles = []
+  private _endAngles = []
+
   constructor(floorplan: Floorplan, x: number, y: number, id = uuid.v4()) {
     super()
     this.floorplan = floorplan
@@ -72,6 +77,14 @@ export default class Corner extends Event {
     }
   }
 
+  getX() {
+    return this.x
+  }
+
+  getY() {
+    return this.y
+  }
+
   get location() {
     return this._co
   }
@@ -81,6 +94,22 @@ export default class Corner extends Event {
     this._co.y = xy.y
     this.x = xy.x
     this.y = xy.y
+  }
+
+  get angles() {
+    return this._angles
+  }
+
+  get angleDirections() {
+    return this._angleDirections
+  }
+
+  get startAngles() {
+    return this._startAngles
+  }
+
+  get endAngles() {
+    return this._endAngles
   }
 
   public attachStart(wall: Wall) {

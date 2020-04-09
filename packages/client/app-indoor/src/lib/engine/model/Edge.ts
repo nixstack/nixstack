@@ -17,6 +17,7 @@ import {
   Texture,
   Geometry,
   Face3,
+  BackSide,
   // BackSide,
 } from 'three'
 import HalfEdge from './HalfEdge'
@@ -39,7 +40,7 @@ export default class Edge extends Event {
 
   private fillerColor = 0xdddddd
   private sideColor = 0xcccccc
-  // private baseColor = 0xdddddd
+  private baseColor = 0xdddddd
 
   private visible = false
 
@@ -180,9 +181,9 @@ export default class Edge extends Event {
     )
 
     // bottom
-    // this.basePlanes.push(
-    //   this.buildFillerUniformHeight(this.edge, 0, BackSide, this.baseColor)
-    // )
+    this.basePlanes.push(
+      this.buildFillerUniformHeight(this.edge, 0, BackSide, this.baseColor)
+    )
     // if (
     //   this.edge.wall.start.getAttachedRooms().length < 2 ||
     //   this.edge.wall.end.getAttachedRooms().length < 2

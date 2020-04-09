@@ -51,10 +51,12 @@ export class DBProvider {
         // password,
         // database,
         extra: {
-          ssl: {
-            // https://github.com/brianc/node-postgres/issues/2009
-            rejectUnauthorized: url?.includes('localhost') ? false : false,
-          },
+          ssl: url?.includes('localhost')
+            ? false
+            : {
+                // https://github.com/brianc/node-postgres/issues/2009
+                rejectUnauthorized: false,
+              },
         },
         url,
         entities: [User, Project, Model],

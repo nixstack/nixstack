@@ -12,6 +12,9 @@ import Wall from '../../model/Wall'
 import Corner from '../../model/Corner'
 import ViewModel from './ViewModel'
 import { Dimensioning } from '../../core/Dimensioning'
+import { WallTypes } from '../../core/Constant'
+import HalfEdge from '../../model/HalfEdge'
+import * as Utils from '../../../util/Utils'
 // import ThreeEngine from 'ThreeEngine'
 
 interface IProps {
@@ -21,6 +24,28 @@ interface IProps {
 export const roomColor = '#fedaff66'
 export const roomColorHover = '#008cba66'
 export const roomColorSelected = '#00ba8c66'
+
+export let wallWidth = 5
+export let wallWidthHover = 7
+export let wallWidthSelected = 9
+export const wallColor = '#dddddd'
+export const wallColorHover = '#008cba'
+export const wallColorSelected = '#00ba8c'
+
+export const deleteColor = '#ff0000'
+
+export const edgeColor = '#888888'
+export const edgeColorHover = '#008cba'
+export const edgeWidth = 1
+
+export const cornerRadius = 3
+export const cornerRadiusHover = 6
+export const cornerRadiusSelected = 9
+export const cornerColor = '#cccccc'
+export const cornerColorHover = '#008cba'
+export const cornerColorSelected = '#00ba8c'
+
+export const operationModes = { MOVE: 0, DRAW: 1, DELETE: 2 }
 
 export const View2DComp = (props: IProps) => {
   // let container!: HTMLDivElement | null
@@ -121,14 +146,23 @@ export const View2DComp = (props: IProps) => {
      */
     drawOriginCross()
 
+    /**
+     * 房间
+     */
     floorplan.getRooms().forEach((room) => {
       drawRoom(room)
     })
 
+    /**
+     * 墙
+     */
     floorplan.getWalls().forEach((wall) => {
       drawWall(wall)
     })
 
+    /**
+     * 拐角
+     */
     floorplan.getCorners().forEach((corner: Corner) => {
       drawCorner(corner)
     })
@@ -220,9 +254,167 @@ export const View2DComp = (props: IProps) => {
     )
   }
 
-  function drawWall(wall: Wall) {}
+  function drawWall(wall: Wall) {
+    let selected = wall === viewmodel.selectedWall
+    let hover = wall === viewmodel.activeWall && wall != viewmodel.selectedWall
+    let color = wallColor
 
-  function drawCorner(corner: Corner) {}
+    if (hover && viewmodel.mode == operationModes.DELETE) {
+      color = deleteColor
+    } else if (hover) {
+      color = wallColorHover
+    } else if (selected) {
+      color = wallColorSelected
+    }
+    let isCurved = wall.wallType == WallTypes.CURVED
+    if (wall.wallType == WallTypes.CURVED && selected) {
+      drawLine(
+        viewmodel.convertX(wall.getStartX()),
+        viewmodel.convertY(wall.getStartY()),
+        viewmodel.convertX(wall.a.x),
+        viewmodel.convertY(wall.a.y),
+        5,
+        '#006600'
+      )
+      drawLine(
+        viewmodel.convertX(wall.a.x),
+        viewmodel.convertY(wall.a.y),
+        viewmodel.convertX(wall.b.x),
+        viewmodel.convertY(wall.b.y),
+        5,
+        '#006600'
+      )
+      drawLine(
+        viewmodel.convertX(wall.b.x),
+        viewmodel.convertY(wall.b.y),
+        viewmodel.convertX(wall.getEndX()),
+        viewmodel.convertY(wall.getEndY()),
+        5,
+        '#06600'
+      )
+
+      drawLine(
+        viewmodel.convertX(wall.getStartX()),
+        viewmodel.convertY(wall.getStartY()),
+        viewmodel.convertX(wall.a.x),
+        viewmodel.convertY(wall.a.y),
+        1,
+        '#00FF00'
+      )
+      drawLine(
+        viewmodel.convertX(wall.a.x),
+        viewmodel.convertY(wall.a.y),
+        viewmodel.convertX(wall.b.x),
+        viewmodel.convertY(wall.b.y),
+        1,
+        '#00FF00'
+      )
+      drawLine(
+        viewmodel.convertX(wall.b.x),
+        viewmodel.convertY(wall.b.y),
+        viewmodel.convertX(wall.getEndX()),
+        viewmodel.convertY(wall.getEndY()),
+        1,
+        '#00FF00'
+      )
+
+      drawCircle(
+        viewmodel.convertX(wall.a.x),
+        viewmodel.convertY(wall.a.y),
+        10,
+        '#D7D7D7'
+      )
+      drawCircle(
+        viewmodel.convertX(wall.b.x),
+        viewmodel.convertY(wall.b.y),
+        10,
+        '#D7D7D7'
+      )
+    }
+
+    if (wall.wallType == WallTypes.STRAIGHT) {
+      drawLine(
+        viewmodel.convertX(wall.getStartX()),
+        viewmodel.convertY(wall.getStartY()),
+        viewmodel.convertX(wall.getEndX()),
+        viewmodel.convertY(wall.getEndY()),
+        hover ? wallWidthHover : selected ? wallWidthSelected : wallWidth,
+        color
+      )
+    } else {
+      drawCurvedLine(
+        viewmodel.convertX(wall.getStartX()),
+        viewmodel.convertY(wall.getStartY()),
+
+        viewmodel.convertX(wall.a.x),
+        viewmodel.convertY(wall.a.y),
+
+        viewmodel.convertX(wall.b.x),
+        viewmodel.convertY(wall.b.y),
+
+        viewmodel.convertX(wall.getEndX()),
+        viewmodel.convertY(wall.getEndY()),
+        hover ? wallWidthHover : selected ? wallWidthSelected : wallWidth,
+        color
+      )
+
+      //			drawLine(viewmodel.convertX(project.x),viewmodel.convertY(project.y),viewmodel.convertX(p.x),viewmodel.convertY(p.y), 1, '#ff0000');
+    }
+
+    if (!hover && !selected && wall.frontEdge) {
+      drawEdge(wall.frontEdge, hover, isCurved)
+    }
+    if (!hover && !selected && wall.backEdge) {
+      drawEdge(wall.backEdge, hover, isCurved)
+    }
+
+    if (selected) {
+      if (wall.wallType != WallTypes.CURVED) {
+        drawCornerAngles(wall.start)
+        drawCornerAngles(wall.end)
+      }
+    }
+    drawCircle(
+      viewmodel.canvasElement.width / 2.0,
+      viewmodel.canvasElement.height / 2.0,
+      3,
+      '#FF0000'
+    )
+  }
+
+  function drawCorner(corner: Corner) {
+    let cornerX = viewmodel.convertX(corner.x)
+    let cornerY = viewmodel.convertY(corner.y)
+    let hover =
+      corner === viewmodel.activeCorner && corner != viewmodel.selectedCorner
+    let selected = corner === viewmodel.selectedCorner
+    let color = cornerColor
+    if (hover && viewmodel.mode == operationModes.DELETE) {
+      color = deleteColor
+    } else if (hover) {
+      color = cornerColorHover
+    } else if (selected) {
+      color = cornerColorSelected
+    }
+
+    if (selected) {
+      drawCornerAngles(corner)
+      corner.adjacentCorners().forEach((neighbour) => {
+        drawCornerAngles(neighbour)
+      })
+    }
+
+    drawCircle(
+      cornerX,
+      cornerY,
+      hover
+        ? cornerRadiusHover
+        : selected
+        ? cornerRadiusSelected
+        : cornerRadius,
+      color
+    )
+  }
 
   function int() {
     canvas = refCanvas.current as HTMLCanvasElement
@@ -891,6 +1083,153 @@ export const View2DComp = (props: IProps) => {
     ctx.lineWidth = 4
     ctx.strokeText(label, x, y)
     ctx.fillText(label, x, y)
+  }
+
+  function drawLine(
+    startX: number,
+    startY: number,
+    endX: number,
+    endY: number,
+    width: number,
+    color: string
+  ) {
+    ctx.beginPath()
+    ctx.moveTo(startX, startY)
+    ctx.lineTo(endX, endY)
+    ctx.closePath()
+    ctx.lineWidth = width
+    ctx.strokeStyle = color
+    ctx.stroke()
+  }
+
+  function drawCurvedLine(
+    startX: number,
+    startY: number,
+    aX: number,
+    aY: number,
+    bX: number,
+    bY: number,
+    endX: number,
+    endY: number,
+    width: number,
+    color: string
+  ) {
+    ctx.beginPath()
+    ctx.moveTo(startX, startY)
+    ctx.bezierCurveTo(aX, aY, bX, bY, endX, endY)
+
+    ctx.lineWidth = width + 3
+    ctx.strokeStyle = '#999999'
+    ctx.stroke()
+
+    ctx.beginPath()
+    ctx.moveTo(startX, startY)
+    ctx.bezierCurveTo(aX, aY, bX, bY, endX, endY)
+    ctx.lineWidth = width
+    ctx.strokeStyle = color
+    ctx.stroke()
+  }
+
+  function drawEdge(edge: HalfEdge, hover: boolean, curved = false) {
+    let color = edgeColor
+    if (hover && viewmodel.mode == operationModes.DELETE) {
+      color = deleteColor
+    } else if (hover) {
+      color = edgeColorHover
+    }
+    let corners = edge.corners()
+    if (!curved) {
+      drawPolygon(
+        Utils.map(corners, function (corner: Corner) {
+          return viewmodel.convertX(corner.x)
+        }),
+        Utils.map(corners, function (corner: Corner) {
+          return viewmodel.convertY(corner.y)
+        }),
+        false,
+        null,
+        true,
+        color,
+        edgeWidth
+      )
+    }
+  }
+
+  function drawPolygon(
+    xArr: any[],
+    yArr: any[],
+    fill: boolean,
+    fillColor: string | null,
+    stroke: boolean,
+    strokeColor: string,
+    strokeWidth: number
+  ) {
+    // fillColor is a hex string, i.e. #ff0000
+    fill = fill || false
+    stroke = stroke || false
+    ctx.beginPath()
+    ctx.moveTo(xArr[0], yArr[0])
+    for (let i = 1; i < xArr.length; i++) {
+      ctx.lineTo(xArr[i], yArr[i])
+    }
+    ctx.closePath()
+    if (fill) {
+      ctx.fillStyle = fillColor as string
+      ctx.fill()
+    }
+    if (stroke) {
+      ctx.lineWidth = strokeWidth
+      ctx.strokeStyle = strokeColor
+      ctx.stroke()
+    }
+  }
+
+  function drawCornerAngles(corner: Corner) {
+    let ox = viewmodel.convertX(corner.location.x)
+    let oy = viewmodel.convertY(corner.location.y)
+    let offsetRatio = 2.0
+    for (let i = 0; i < corner.angles.length; i++) {
+      let direction = corner.angleDirections[i] as any
+      let location = direction.clone().add(corner.location)
+      let sAngle = (corner.startAngles[i] * Math.PI) / 180
+      let eAngle = (corner.endAngles[i] * Math.PI) / 180
+      let angle = corner.angles[i]
+      let lx = viewmodel.convertX(location.x)
+      let ly = viewmodel.convertY(location.y)
+      let radius = direction.length() * offsetRatio * 0.5
+      if (angle > 130 || angle == 0) {
+        continue
+      }
+      let ccwise = Math.abs(corner.startAngles[i] - corner.endAngles[i]) > 180
+      ctx.strokeStyle = '#000000'
+      ctx.lineWidth = 4
+      ctx.beginPath()
+      if (angle == 90) {
+        let location2 = direction
+          .clone()
+          .multiplyScalar(offsetRatio)
+          .add(corner.location)
+        let lxx = viewmodel.convertX(location2.x)
+        let lyy = viewmodel.convertY(location2.y)
+        let b = { x: lxx, y: oy }
+        let c = { x: lxx, y: lyy }
+        let d = { x: ox, y: lyy }
+        drawLine(b.x, b.y, c.x, c.y, ctx.lineWidth, ctx.strokeStyle)
+        drawLine(c.x, c.y, d.x, d.y, ctx.lineWidth, ctx.strokeStyle)
+      } else {
+        ctx.arc(
+          ox,
+          oy,
+          radius,
+          Math.min(sAngle, eAngle),
+          Math.max(sAngle, eAngle),
+          ccwise
+        )
+      }
+
+      ctx.stroke()
+      drawTextLabel(`${angle}°`, lx, ly)
+    }
   }
 
   return (

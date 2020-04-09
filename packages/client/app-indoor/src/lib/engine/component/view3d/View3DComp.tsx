@@ -11,6 +11,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup'
 import { createStyles, Theme, fade, makeStyles } from '@material-ui/core/styles'
 import SearchIcon from '@material-ui/icons/Search'
 import CloudUpload from '@material-ui/icons/CloudUpload'
+import HelpIcon from '@material-ui/icons/Help'
 import Paper from '@material-ui/core/Paper'
 import InputBase from '@material-ui/core/InputBase'
 // import TreeView from '@material-ui/lab/TreeView'
@@ -22,6 +23,8 @@ import { List, ListItem, Card, CardMedia, CardHeader } from '@material-ui/core'
 import Floor from '../../model/Floor'
 import Edge from '../../model/Edge'
 import { Context } from '../../Context'
+import Room from '../../model/Room'
+import HalfEdge from '../../model/HalfEdge'
 
 interface IProps {
   // isVisible?: boolean
@@ -52,8 +55,8 @@ const useStyles = makeStyles((theme: Theme) =>
       top: '50%',
       transform: `translate(${theme.spacing(6)}px, -50%)`,
       margin: theme.spacing(4),
-      width: theme.spacing(30),
-      height: theme.spacing(66),
+      width: theme.spacing(50),
+      height: theme.spacing(80),
     },
     search: {
       position: 'relative',
@@ -181,6 +184,9 @@ export const View3DComp = (props: IProps) => {
           </Button>
           <Button>
             <CloudUpload />
+          </Button>
+          <Button>
+            <HelpIcon />
           </Button>
         </ButtonGroup>
       </div>
@@ -451,7 +457,7 @@ export const View3DComp = (props: IProps) => {
     edges = []
 
     // 画地板和天花板
-    floorplan.getRooms().forEach((room: any) => {
+    floorplan.getRooms().forEach((room: Room) => {
       let threeFloor = new Floor(scene, room)
       floors.push(threeFloor)
       threeFloor.addToScene()
@@ -459,7 +465,7 @@ export const View3DComp = (props: IProps) => {
 
     let eindex = 0
     // draw edges
-    floorplan.wallEdges().forEach((edge: any) => {
+    floorplan.wallEdges().forEach((edge: HalfEdge) => {
       let threeEdge = new Edge(scene, edge, controls)
       threeEdge.name = 'edge_' + eindex
       edges.push(threeEdge)

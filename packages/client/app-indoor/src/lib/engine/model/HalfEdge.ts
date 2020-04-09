@@ -43,6 +43,9 @@ export default class HalfEdge {
     } else {
       this.wall.backEdge = this
     }
+
+    // 根据墙的厚度（配置参数）计算偏移量
+    this.offset = wall.thickness / 2.0
   }
 
   interiorStart(): Vector2 {
@@ -221,5 +224,14 @@ export default class HalfEdge {
     } else {
       return this.wall.backTexture
     }
+  }
+
+  corners() {
+    return [
+      this.interiorStart(),
+      this.interiorEnd(),
+      this.exteriorEnd(),
+      this.exteriorStart(),
+    ]
   }
 }
