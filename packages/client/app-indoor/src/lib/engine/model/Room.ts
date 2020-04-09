@@ -1,3 +1,4 @@
+import { WallTypes } from './../core/Constant'
 import { Floorplan } from './Floorplan'
 import {
   Vector2,
@@ -14,9 +15,10 @@ import {
 import Corner from './Corner'
 import HalfEdge from './HalfEdge'
 import * as Utils from 'src/lib/util/Utils'
+import Event from '../event/Event'
 
-export default class Room {
-  public name = ''
+export default class Room extends Event {
+  private _name = 'New Room'
   public floorplane!: Floorplan
   public roofplane: any
   public corners: Corner[] = []
@@ -35,6 +37,7 @@ export default class Room {
   private _polygonPoints: Vector2[] = []
 
   constructor(floorplane: Floorplan, corners: Corner[]) {
+    super()
     this.floorplane = floorplane
     this.corners = corners
     this.updateWalls()
@@ -50,6 +53,18 @@ export default class Room {
     }
 
     this.roomByCornersId = cornerids.join(',')
+  }
+
+  set name(value) {
+    var oldname = this._name
+    this._name = value
+    this.dispatch('EVENT_ROOM_ATTRIBUTES_CHANGED', {
+      target: this,
+      info: { from: oldname, to: this._name },
+    })
+  }
+  get name() {
+    return this._name
   }
 
   public updateWalls() {
@@ -163,17 +178,25 @@ export default class Room {
     // this._polygonPoints = []
 
     let corner, region
-    // let wall
-    // let firstCorner
-    // let secondCorner
+    let wall
+    let firstCorner
+    let secondCorner
 
     for (let i = 0; i < this.corners.length; i++) {
       corner = this.corners[i]
-      // firstCorner = this.corners[i]
-      // secondCorner = this.corners[(i + 1) % this.corners.length]
-      // wall = firstCorner.wallToOrFrom(secondCorner)
+      firstCorner = this.corners[i]
+      secondCorner = this.corners[(i + 1) % this.corners.length]
+      wall = firstCorner.wallToOrFrom(secondCorner)
 
-      allpoints.push(corner.location.clone())
+      if (wall !== null) {
+        if (wall.wallType === WallTypes.CURVED) {
+          //
+        } else {
+          allpoints.push(corner.location.clone())
+        }
+      } else {
+        allpoints.push(corner.location.clone())
+      }
     }
 
     points = allpoints

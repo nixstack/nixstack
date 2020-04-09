@@ -1,5 +1,7 @@
+import { WallTypes } from './../core/Constant'
 import Corner from './Corner'
 import HalfEdge from './HalfEdge'
+import { Vector2 } from 'three'
 
 export const defaultWallTexture = {
   url: 'files/texture/wallmap.png',
@@ -21,9 +23,17 @@ export default class Wall {
 
   public items = []
 
-  constructor(start: Corner, end: Corner) {
+  private _walltype: string
+
+  constructor(start: Corner, end: Corner, aa?: Vector2, bb?: Vector2) {
     this.start = start
     this.end = end
+
+    if (!aa && !bb) {
+      this._walltype = WallTypes.STRAIGHT // 直墙
+    } else {
+      this._walltype = WallTypes.CURVED // 曲墙
+    }
 
     this.start.attachStart(this)
     this.end.attachEnd(this)
@@ -35,5 +45,9 @@ export default class Wall {
 
   public getEnd() {
     return this.end
+  }
+
+  get wallType() {
+    return this._walltype
   }
 }

@@ -10,17 +10,25 @@ import { Floorplan } from '../../model/Floorplan'
 import Room from '../../model/Room'
 import Wall from '../../model/Wall'
 import Corner from '../../model/Corner'
+import ViewModel from './ViewModel'
+import { Dimensioning } from '../../core/Dimensioning'
 // import ThreeEngine from 'ThreeEngine'
 
 interface IProps {
   // isVisible?: boolean
 }
 
+export const roomColor = '#fedaff66'
+export const roomColorHover = '#008cba66'
+export const roomColorSelected = '#00ba8c66'
+
 export const View2DComp = (props: IProps) => {
-  let container!: HTMLDivElement | null
+  // let container!: HTMLDivElement | null
   let renderer!: Three.WebGLRenderer
   let scene: Three.Scene
   let camera!: Three.Camera
+  let canvas: HTMLCanvasElement
+  let ctx: CanvasRenderingContext2D
   let width!: number
   let height!: number
   let pos: number[] = []
@@ -61,7 +69,9 @@ export const View2DComp = (props: IProps) => {
 
   let key = ''
   let ref = useRef<HTMLDivElement>(null)
+  let refCanvas = useRef<HTMLCanvasElement>(null)
   let pointerRef = useRef<HTMLDivElement>(null)
+  let viewmodel: ViewModel
 
   scene = new Three.Scene()
   scene.background = new Three.Color(0xeeeeee)
@@ -74,19 +84,43 @@ export const View2DComp = (props: IProps) => {
 
   // console.log(props.floorplan)
   floorplan.on('UPDATED_EVENT', redraw)
+  floorplan.on('EVENT_LOADED', reset)
 
   useEffect(() => {
-    container = ref.current
+    // 实例化
+    viewmodel = new ViewModel(refCanvas.current as HTMLCanvasElement, floorplan)
+
+    // container = ref.current
     int()
+
     // 动画循环渲染
     renderer.setAnimationLoop(() => threeRender())
   }, [])
 
   function threeRender() {
     renderer.render(scene, camera)
+
+    // 把renderer.domElement渲染到ctx中
+    // ctx?.drawImage(renderer.domElement, 0, 0)
+    // canvas.style.width = width + ''
+    // canvas.style.height = height + ''
   }
 
   function redraw() {
+    // 清空画布
+    ctx.clearRect(0, 0, width, height)
+
+    // 画网格
+    drawGrid()
+
+    // 画中心点
+    drawCircle(window.innerWidth / 2, window.innerHeight / 2, 3, '#FFFF00')
+
+    /**
+     * 坐标系原点
+     */
+    drawOriginCross()
+
     floorplan.getRooms().forEach((room) => {
       drawRoom(room)
     })
@@ -100,15 +134,108 @@ export const View2DComp = (props: IProps) => {
     })
   }
 
-  function drawRoom(room: Room) {}
+  function reset() {
+    viewmodel.resetOrigin()
+    redraw()
+  }
+
+  /**
+   * 画圆点
+   * @param centerX
+   * @param centerY
+   * @param radius
+   * @param fillColor
+   */
+  function drawCircle(
+    centerX: number,
+    centerY: number,
+    radius: number,
+    fillColor: string
+  ) {
+    ctx.beginPath()
+    ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false)
+    ctx.closePath()
+    ctx.fillStyle = fillColor
+    ctx.fill()
+  }
+
+  /**
+   * 画坐标系原点交叉轴
+   */
+  function drawOriginCross() {
+    const _x = viewmodel.convertX(0)
+    const _y = viewmodel.convertY(0)
+
+    ctx.fillStyle = '#00FFFF'
+    ctx.fillRect(_x - 2, _y - 7.5, 4, 15)
+    ctx.fillRect(_x - 7.5, _y - 2, 15, 4)
+    ctx.strokeStyle = '#FF0000'
+    ctx.fillRect(_x - 1.25, _y - 5, 2.5, 10)
+    ctx.fillRect(_x - 5, _y - 1.25, 10, 2.5)
+  }
+
+  function drawGrid() {
+    createDesignArea()
+    createReticles()
+    createLinesLR()
+
+    ctx?.drawImage(renderer.domElement, 0, 0)
+    canvas.style.width = width + ''
+    canvas.style.height = height + ''
+  }
+
+  function drawRoom(room: Room) {
+    let selected = room === viewmodel.selectedRoom
+    let hover = room === viewmodel.activeRoom && room != viewmodel.selectedRoom
+    let color = roomColor
+    if (hover) {
+      color = roomColorHover
+    } else if (selected) {
+      color = roomColorSelected
+    }
+
+    let polygonPoints = []
+
+    for (let i = 0; i < room.roomCornerPoints.length; i++) {
+      polygonPoints.push([room.roomCornerPoints[i]])
+    }
+
+    drawPolygonCurved(polygonPoints, true, color)
+
+    drawTextLabel(
+      Dimensioning.cmToMeasure(room.area, 2) + String.fromCharCode(178),
+      viewmodel.convertX(room.areaCenter.x),
+      viewmodel.convertY(room.areaCenter.y),
+      '#0000FF',
+      '#00FF0000',
+      'bold'
+    )
+    drawTextLabel(
+      room.name,
+      viewmodel.convertX(room.areaCenter.x),
+      viewmodel.convertY(room.areaCenter.y + 30),
+      '#363636',
+      '#00FF0000',
+      'bold italic'
+    )
+  }
 
   function drawWall(wall: Wall) {}
 
   function drawCorner(corner: Corner) {}
 
   function int() {
-    width = container!.clientWidth
-    height = container!.clientHeight
+    canvas = refCanvas.current as HTMLCanvasElement
+    ctx = canvas.getContext('2d') as CanvasRenderingContext2D
+    // width = container!.clientWidth
+    // height = container!.clientHeight
+    width = window.innerWidth
+    height = window.innerHeight
+    let devicePixelRatio = window.devicePixelRatio
+    canvas.style.width = width * devicePixelRatio + ''
+    canvas.style.height = height * devicePixelRatio + ''
+    canvas.width = width * devicePixelRatio
+    canvas.height = height * devicePixelRatio
 
     // if (width > 2 * height) {
     //   width = 2 * height
@@ -123,12 +250,19 @@ export const View2DComp = (props: IProps) => {
 
     // render
     renderer = new Three.WebGLRenderer()
+    // renderer.setPixelRatio(devicePixelRatio)
     renderer.setSize(width, height)
-    container?.appendChild(renderer.domElement)
+    // container?.appendChild(renderer.domElement)
+    // setTimeout(() => {
+    //   ctx?.drawImage(renderer.domElement, 0, 0)
+    //   canvas.style.width = width + ''
+    //   canvas.style.height = height + ''
+    // }, 0)
 
-    createDesignArea()
-    createReticles()
-    createLinesLR()
+    drawGrid()
+    // createDesignArea()
+    // createReticles()
+    // createLinesLR()
 
     initEvent()
   }
@@ -687,9 +821,85 @@ export const View2DComp = (props: IProps) => {
     return markerX > x0 && markerX < x1 && markerY > y0 && markerY < y1
   }
 
+  function drawPolygonCurved(
+    pointsets: any,
+    fill = true,
+    fillColor = '#FF00FF',
+    stroke = false,
+    strokeColor = '#000000',
+    strokeWidth = 5
+  ) {
+    // fillColor is a hex string, i.e. #ff0000
+    fill = fill || false
+    stroke = stroke || false
+    ctx.beginPath()
+
+    for (let i = 0; i < pointsets.length; i++) {
+      let pointset = pointsets[i]
+      //			The pointset represents a straight line if there are only 1 point in the pointset
+      if (pointset.length == 1) {
+        if (i == 0) {
+          ctx.moveTo(
+            viewmodel.convertX(pointset[0].x),
+            viewmodel.convertY(pointset[0].y)
+          )
+        } else {
+          ctx.lineTo(
+            viewmodel.convertX(pointset[0].x),
+            viewmodel.convertY(pointset[0].y)
+          )
+        }
+      }
+      //			If the pointset contains 3 points then it represents a bezier curve, ap1, ap2, cp2
+      else if (pointset.length == 3) {
+        ctx.bezierCurveTo(
+          viewmodel.convertX(pointset[0].x),
+          viewmodel.convertY(pointset[0].y),
+          viewmodel.convertX(pointset[1].x),
+          viewmodel.convertY(pointset[1].y),
+          viewmodel.convertX(pointset[2].x),
+          viewmodel.convertY(pointset[2].y)
+        )
+      }
+    }
+
+    ctx.closePath()
+    if (fill) {
+      ctx.fillStyle = fillColor
+      ctx.fill()
+    }
+    if (stroke) {
+      ctx.lineWidth = strokeWidth
+      ctx.strokeStyle = strokeColor
+      ctx.stroke()
+    }
+  }
+
+  function drawTextLabel(
+    label: string,
+    x: number,
+    y: number,
+    textcolor = '#000000',
+    strokecolor = '#ffffff',
+    style = 'normal'
+  ) {
+    ctx.font = `${style} 12px Arial`
+    ctx.fillStyle = textcolor
+    ctx.textBaseline = 'middle'
+    ctx.textAlign = 'center'
+    ctx.strokeStyle = strokecolor
+    ctx.lineWidth = 4
+    ctx.strokeText(label, x, y)
+    ctx.fillText(label, x, y)
+  }
+
   return (
-    <div className={state.viewType === 2 ? 'show' : 'hide'}>
-      <div className="canvas" ref={ref}></div>
+    <div
+      className={state.viewType === 2 ? 'show' : 'hide'}
+      style={{ position: 'fixed' }}
+    >
+      {/* <div className="canvas" ref={ref}></div> */}
+      <canvas ref={refCanvas}></canvas>
       <div className="pointer" ref={pointerRef}></div>
     </div>
   )

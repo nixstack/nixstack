@@ -1,6 +1,6 @@
 import Corner from './Corner'
 import Room from './Room'
-import { Vector2 } from 'three'
+import { Vector2, Vector3 } from 'three'
 import { Dimensioning } from '../core/Dimensioning'
 import Wall from './Wall'
 import * as Utils from '../../util/Utils'
@@ -55,7 +55,8 @@ export class Floorplan extends Event {
     this.metaroomsdata = floorplan.rooms
     this.update()
 
-    // this.dispatchEvent({ type: EVENT_LOADED, item: this })
+    // 场景已加载
+    this.dispatch('EVENT_LOADED', { target: this })
     // this.roomLoadedCallbacks.fire();
   }
 
@@ -325,5 +326,45 @@ export class Floorplan extends Event {
       return (this.floorTextures as any)[uuid]
     }
     return null
+  }
+
+  /**
+   * 获取中心点
+   */
+  getCenter() {
+    return this.getDimensions(true)
+  }
+
+  getDimensions(center: Vector2 | boolean) {
+    center = center || false
+
+    var xMin = Infinity
+    var xMax = -Infinity
+    var zMin = Infinity
+    var zMax = -Infinity
+    this.corners.forEach((corner) => {
+      if (corner.x < xMin) xMin = corner.x
+      if (corner.x > xMax) xMax = corner.x
+      if (corner.y < zMin) zMin = corner.y
+      if (corner.y > zMax) zMax = corner.y
+    })
+    var ret
+    if (
+      xMin == Infinity ||
+      xMax == -Infinity ||
+      zMin == Infinity ||
+      zMax == -Infinity
+    ) {
+      ret = new Vector3()
+    } else {
+      if (center) {
+        // center
+        ret = new Vector3((xMin + xMax) * 0.5, 0, (zMin + zMax) * 0.5)
+      } else {
+        // size
+        ret = new Vector3(xMax - xMin, 0, zMax - zMin)
+      }
+    }
+    return ret
   }
 }

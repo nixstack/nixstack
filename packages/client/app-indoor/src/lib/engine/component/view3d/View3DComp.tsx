@@ -135,9 +135,15 @@ export const View3DComp = (props: IProps) => {
   let edges: Edge[] = []
 
   renderer = new THREE.WebGLRenderer()
-  camera = new THREE.PerspectiveCamera()
-  camera.position.z = 15
-  camera.position.set(45, 10, 30)
+  // camera = new THREE.PerspectiveCamera()
+  camera = new THREE.PerspectiveCamera(
+    45,
+    window.innerWidth / window.innerHeight,
+    1,
+    10000
+  )
+  // camera.position.z = 15
+  camera.position.set(-500, 1000, 2000)
   camera.lookAt(new THREE.Vector3(0, 0, 0))
 
   // const context = useContext(Context)
@@ -287,8 +293,8 @@ export const View3DComp = (props: IProps) => {
   }
 
   function initHelper() {
-    const helper = new THREE.GridHelper(30, 30)
-    scene.add(helper)
+    // const helper = new THREE.GridHelper(1000, 25)
+    // scene.add(helper)
   }
 
   function initLight() {
