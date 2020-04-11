@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 // import { Canvas } from 'react-three-fiber'
 // import { Box } from '../box/Box'
 import * as THREE from 'three'
@@ -19,12 +19,15 @@ import InputBase from '@material-ui/core/InputBase'
 // import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 // import TreeItem from '@material-ui/lab/TreeItem'
 import { SearchUtil } from 'src/lib/util/SearchUtil'
-import { List, ListItem, Card, CardMedia, CardHeader } from '@material-ui/core'
+// import { List, ListItem, Card, CardMedia, CardHeader } from '@material-ui/core'
 import Floor from '../../model/Floor'
 import Edge from '../../model/Edge'
 import { Context } from '../../Context'
 import Room from '../../model/Room'
 import HalfEdge from '../../model/HalfEdge'
+import { SearchResult } from './SearchResult'
+import Model from '../../core/Model'
+// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 interface IProps {
   // isVisible?: boolean
@@ -56,7 +59,7 @@ const useStyles = makeStyles((theme: Theme) =>
       transform: `translate(${theme.spacing(6)}px, -50%)`,
       margin: theme.spacing(4),
       width: theme.spacing(50),
-      height: theme.spacing(80),
+      // height: theme.spacing(80),
     },
     search: {
       position: 'relative',
@@ -80,6 +83,10 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
+    },
+    searchResult: {
+      height: theme.spacing(80),
+      overflow: 'auto',
     },
     inputRoot: {
       color: 'inherit',
@@ -156,6 +163,7 @@ export const View3DComp = (props: IProps) => {
   let floorplan = state.floorplan
 
   scene = new THREE.Scene()
+  // const [scene] = useState(new THREE.Scene())
 
   renderer.setSize(window.innerWidth, window.innerHeight)
 
@@ -174,6 +182,25 @@ export const View3DComp = (props: IProps) => {
   }, [])
 
   const classes = useStyles(state)
+
+  // function addModel(model: Model) {
+  //   console.log(scene)
+  //   scene.add(model.gltf.scene)
+  //   console.log(scene)
+  //   console.log(model)
+  //   setTimeout(() => {
+  //     console.log(scene)
+  //   }, 0)
+  // }
+
+  const addModel = useCallback((model: Model) => {
+    scene.add(model.gltf.scene)
+  }, [])
+
+  // 目前只有两个门能正常加载，其他的从blender中导出模型数据有问题
+  // new GLTFLoader().load(`/files/geometry/door_01.glb`, (gltf) => {
+  //   scene.add(gltf.scene)
+  // })
 
   return (
     <div className={classes.root} ref={refRoot}>
@@ -210,7 +237,7 @@ export const View3DComp = (props: IProps) => {
             inputProps={{ 'aria-label': 'search' }}
           />
         </div>
-        <List>
+        {/* <List className={classes.searchResult}>
           {searchResult.map((item: any) => {
             return (
               <ListItem id={item.id} key={item.id}>
@@ -218,14 +245,15 @@ export const View3DComp = (props: IProps) => {
                   <CardHeader title={item.name} />
                   <CardMedia
                     className={classes.searchResultMedia}
-                    image={`/files/image/${item.uuid}.jpg`}
+                    image={`/files/image/${item.uuid}.png`}
                     title={item.name}
                   />
                 </Card>
               </ListItem>
             )
           })}
-        </List>
+        </List> */}
+        <SearchResult items={searchResult} onUpdate={addModel} />
       </Paper>
       <div className={classes.canvas} ref={ref}></div>
     </div>

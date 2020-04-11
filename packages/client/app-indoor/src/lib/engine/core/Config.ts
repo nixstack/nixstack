@@ -25,6 +25,8 @@ export const config = {
   snapToGrid: false,
   snapTolerance: 25,
   gridSpacing: 25,
+
+  modelCacheMaxSize: 20,
 }
 
 export class Config {
