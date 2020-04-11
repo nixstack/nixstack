@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react'
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+  useRef,
+} from 'react'
 // import { Canvas } from 'react-three-fiber'
 // import { Box } from '../box/Box'
 import * as THREE from 'three'
@@ -14,6 +20,7 @@ import { createStyles, Theme, fade, makeStyles } from '@material-ui/core/styles'
 import SearchIcon from '@material-ui/icons/Search'
 import CloudUpload from '@material-ui/icons/CloudUpload'
 import HelpIcon from '@material-ui/icons/Help'
+import CodeIcon from '@material-ui/icons/Code'
 import Paper from '@material-ui/core/Paper'
 import InputBase from '@material-ui/core/InputBase'
 // import TreeView from '@material-ui/lab/TreeView'
@@ -29,6 +36,9 @@ import Room from '../../model/Room'
 import HalfEdge from '../../model/HalfEdge'
 import { SearchResult } from './SearchResult'
 import Model from '../../core/Model'
+import { GUIControls } from '../../gui'
+import { useGUIControls } from '../../gui/hook/useGUIControls'
+import { Console } from './Console'
 // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 interface IProps {
@@ -207,6 +217,12 @@ export const View3DComp = (props: IProps) => {
   //   scene.add(gltf.scene)
   // })
 
+  // const isVisible = useGUIControls('is visible', { type: 'boolean' })
+  // console.log(isVisible)
+  useGUIControls(`显示/隐藏`, { type: 'boolean' })
+
+  const consoleRef = useRef()
+
   return (
     <div className={classes.root} ref={refRoot}>
       <div className={classes.leftBtnGrp}>
@@ -216,6 +232,9 @@ export const View3DComp = (props: IProps) => {
           </Button>
           <Button>
             <CloudUpload />
+          </Button>
+          <Button onClick={() => (consoleRef.current as any).onToggleClick()}>
+            <CodeIcon />
           </Button>
           <Button>
             <HelpIcon />
@@ -260,6 +279,8 @@ export const View3DComp = (props: IProps) => {
         </List> */}
         <SearchResult items={searchResult} onUpdate={addModel} />
       </Paper>
+      <Console ref={consoleRef} />
+      <GUIControls />
       <div className={classes.canvas} ref={ref}></div>
     </div>
   )
