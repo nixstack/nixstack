@@ -3,6 +3,8 @@ import React, { useState, useEffect, useContext, useCallback } from 'react'
 // import { Box } from '../box/Box'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { DragControls } from 'three/examples/jsm/controls/DragControls'
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls'
 import { Sky } from 'three/examples/jsm/objects/Sky'
 
 import Button from '@material-ui/core/Button'
@@ -125,7 +127,8 @@ export const View3DComp = (props: IProps) => {
   let camera!: THREE.PerspectiveCamera
   let scene!: THREE.Scene
   let sky!: Sky
-  let controls!: OrbitControls
+  let orbitControls!: OrbitControls
+  let transformControl!: TransformControls
   let refRoot = React.createRef<HTMLDivElement>()
   let ref = React.createRef<HTMLDivElement>()
 
@@ -143,6 +146,7 @@ export const View3DComp = (props: IProps) => {
 
   let floors: Floor[] = []
   let edges: Edge[] = []
+  let objects: any[] = []
 
   renderer = new THREE.WebGLRenderer()
   // camera = new THREE.PerspectiveCamera()
@@ -195,6 +199,7 @@ export const View3DComp = (props: IProps) => {
 
   const addModel = useCallback((model: Model) => {
     scene.add(model.gltf.scene)
+    objects.push(model.gltf.scene)
   }, [])
 
   // 目前只有两个门能正常加载，其他的从blender中导出模型数据有问题
@@ -269,7 +274,7 @@ export const View3DComp = (props: IProps) => {
     initEvent()
     // 动画循环渲染
     renderer.setAnimationLoop(() => {
-      controls.update()
+      orbitControls.update()
       threeRender()
     })
   }
@@ -280,16 +285,84 @@ export const View3DComp = (props: IProps) => {
 
   function initControls() {
     // controls
-    controls = new OrbitControls(camera, ref.current as any)
-    controls.enableDamping = true
-    controls.dampingFactor = 0.05
+    orbitControls = new OrbitControls(camera, ref.current as any)
+    orbitControls.enableDamping = true
+    orbitControls.dampingFactor = 0.05
 
-    controls.screenSpacePanning = false
+    orbitControls.screenSpacePanning = false
 
-    // controls.minDistance = 100
-    // controls.maxDistance = 500
+    // orbitControls.minDistance = 100
+    // orbitControls.maxDistance = 500
 
-    controls.maxPolarAngle = Math.PI / 2
+    orbitControls.maxPolarAngle = Math.PI / 2
+
+    orbitControls.addEventListener('change', threeRender)
+
+    orbitControls.addEventListener('start', function () {
+      cancelHideTransform()
+    })
+
+    orbitControls.addEventListener('end', function () {
+      delayHideTransform()
+    })
+
+    const dragControls = new DragControls(objects, camera, renderer.domElement)
+    dragControls.enabled = false
+    dragControls.addEventListener('dragstart', function (event) {
+      event.object.material.opacity = 0.33
+      orbitControls.enabled = false
+    })
+    dragControls.addEventListener('dragend', function (event) {
+      event.object.material.opacity = 1
+      orbitControls.enabled = true
+    })
+    dragControls.addEventListener('hoveron', function (event) {
+      transformControl.attach(event.object)
+      cancelHideTransform()
+    })
+
+    dragControls.addEventListener('hoveroff', function () {
+      delayHideTransform()
+    })
+
+    let hiding: any
+
+    function delayHideTransform() {
+      cancelHideTransform()
+      hideTransform()
+    }
+
+    function hideTransform() {
+      hiding = setTimeout(function () {
+        transformControl.detach()
+      }, 2500)
+    }
+
+    function cancelHideTransform() {
+      if (hiding) clearTimeout(hiding)
+    }
+
+    transformControl = new TransformControls(camera, renderer.domElement)
+    transformControl.addEventListener('change', threeRender)
+    transformControl.addEventListener('dragging-changed', function (event) {
+      orbitControls.enabled = !event.value
+    })
+
+    window.addEventListener('keydown', function (event) {
+      switch (event.keyCode) {
+        case 71: // g
+          transformControl.setMode('translate')
+          break
+        case 82: // r
+          transformControl.setMode('rotate')
+          break
+        case 83: // s
+          transformControl.setMode('scale')
+          break
+      }
+    })
+
+    scene.add(transformControl)
   }
 
   function initSky() {
@@ -368,18 +441,26 @@ export const View3DComp = (props: IProps) => {
     ref.current!.addEventListener('mousemove', onMouseMove, false)
     // ref.current!.addEventListener('mousedown', onMouseDown, false)
     // ref.current!.addEventListener('mouseup', onMouseUp, false)
+
+    window.addEventListener('resize', onWindowResize, false)
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight
+      camera.updateProjectionMatrix()
+      renderer.setSize(window.innerWidth, window.innerHeight)
+      threeRender()
+    }
   }
 
   function onMouseMove(event: MouseEvent) {
     event.preventDefault()
-    controls.dispatchEvent({ type: 'EVENT_CAMERA_MOVED', target: event })
+    orbitControls.dispatchEvent({ type: 'EVENT_CAMERA_MOVED', target: event })
   }
 
   // function onMouseMove(event: MouseEvent) {
   //   event.preventDefault()
 
   //   // Edge会侦听 'EVENT_CAMERA_MOVED'事件
-  //   controls.dispatchEvent({ type: 'EVENT_CAMERA_MOVED', target: event })
+  //   orbitControls.dispatchEvent({ type: 'EVENT_CAMERA_MOVED', target: event })
   //   // mouse.set(
   //   //   (event.clientX / window.innerWidth) * 2 - 1,
   //   //   -((event.clientY / window.innerHeight) * 2 + 1)
@@ -411,13 +492,13 @@ export const View3DComp = (props: IProps) => {
 
   // function onMouseDown() {
   //   if (intersects.length > 0) {
-  //     controls.enableRotate = false
+  //     orbitControls.enableRotate = false
   //     dragging = true
   //   }
   // }
 
   // function onMouseUp() {
-  //   controls.enableRotate = true
+  //   orbitControls.enableRotate = true
   //   dragging = false
   // }
 
@@ -494,7 +575,7 @@ export const View3DComp = (props: IProps) => {
     let eindex = 0
     // draw edges
     floorplan.wallEdges().forEach((edge: HalfEdge) => {
-      let threeEdge = new Edge(scene, edge, controls)
+      let threeEdge = new Edge(scene, edge, orbitControls)
       threeEdge.name = 'edge_' + eindex
       edges.push(threeEdge)
       eindex += 1
