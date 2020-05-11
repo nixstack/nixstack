@@ -30,3 +30,8 @@ firewall-cmd --reload
 netstat -ntulp | grep 3000
 ps -ef | grep mysqld
 kill -9 18844
+
+# Migrate DB
+
+pg_dump -U username -f filename databasename
+psql -U postgres -d desintationdb -f dumpfilename.sql
