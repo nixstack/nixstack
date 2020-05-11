@@ -4,7 +4,7 @@ import {
   Engine,
   Scene,
   useBabylonScene,
-  useBabylonEngine,
+  // useBabylonEngine,
   useBabylonCanvas,
   Skybox,
 } from 'react-babylonjs'
@@ -12,20 +12,15 @@ import {
   Vector3,
   Color3,
   SceneLoader,
-  Engine as BabylonEngine,
+  // Engine as BabylonEngine,
   Scene as BabylonScene,
   Camera,
-  Mesh,
-  AbstractMesh,
   Matrix,
-  Tools,
   VideoTexture,
   StandardMaterial,
   ExecuteCodeAction,
   ActionManager,
   MeshBuilder,
-  Axis,
-  Space,
 } from '@babylonjs/core'
 import '@babylonjs/core/Debug/debugLayer'
 import '@babylonjs/inspector'
@@ -33,22 +28,23 @@ import Hls from 'hls.js'
 
 interface IProps {
   children?: ReactNode
+  estimatedFileSize?: number
   // any other props that come into the component
 }
 
 // https://github.com/brianzinn/react-babylonjs/issues/60
-const ThemedBox = () => {
-  const ctx = React.useContext(ThemeContext)
-  return (
-    <box name={ctx.name} position={ctx.position}>
-      <standardMaterial
-        name="M_Box"
-        diffuseColor={ctx.color}
-        specularColor={Color3.Black()}
-      />
-    </box>
-  )
-}
+// const ThemedBox = () => {
+//   const ctx = React.useContext(ThemeContext)
+//   return (
+//     <box name={ctx.name} position={ctx.position}>
+//       <standardMaterial
+//         name="M_Box"
+//         diffuseColor={ctx.color}
+//         specularColor={Color3.Black()}
+//       />
+//     </box>
+//   )
+// }
 
 // const onSceneMount = ({
 //   scene,
@@ -79,10 +75,10 @@ const ThemedBox = () => {
 //       })
 //     }
 //   )
-let engine: BabylonEngine
+// let engine: BabylonEngine
 let canvas: HTMLCanvasElement
 const EngineChild = () => {
-  engine = useBabylonEngine() as BabylonEngine
+  // engine = useBabylonEngine() as BabylonEngine
   canvas = useBabylonCanvas() as HTMLCanvasElement
 
   return null
@@ -95,8 +91,8 @@ const MyScene = (props: any) => {
   const ctx = React.useContext(ThemeContext)
   const [loadProgress, setLoadProgress] = useState(0)
 
-  const TVRef = React.useRef()
-  const videoMatRef = React.useRef()
+  // const TVRef = React.useRef()
+  // const videoMatRef = React.useRef()
 
   // scene.debugLayer.show({
   //   overlay: true,
@@ -137,7 +133,7 @@ const MyScene = (props: any) => {
         setLoadProgress(modelLoadProgress)
       }
     )
-  }, [])
+  }, [props.estimatedFileSize, scene])
 
   useEffect(() => {
     // if (TVRef.current) {
@@ -193,7 +189,7 @@ const MyScene = (props: any) => {
       })
     }
     // }
-  }, [])
+  }, [scene]) // React Hook useEffect has a missing dependency: 'scene'. Either include it or remove the dependency array
 
   return (
     <>
