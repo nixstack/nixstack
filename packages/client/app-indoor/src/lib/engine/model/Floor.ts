@@ -102,6 +102,6 @@ export default class Floor extends Event {
    */
   addToScene() {
     this.scene.add(this.floorplane as any)
-    this.scene.add(this.roofplane)
+    // this.scene.add(this.roofplane)
   }
 }

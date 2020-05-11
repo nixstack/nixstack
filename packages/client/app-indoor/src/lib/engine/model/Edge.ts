@@ -123,7 +123,7 @@ export default class Edge extends Event {
     const textureData = this.edge.getTexture()
     this.texture = new TextureLoader().load(textureData.url, cb)
 
-    this.aoMap = new TextureLoader().load('files/texture/walllightmap.png')
+    this.aoMap = new TextureLoader().load('/files/texture/walllightmap.png')
   }
 
   updatePlanes() {
@@ -193,7 +193,7 @@ export default class Edge extends Event {
     //   )
     // }
 
-    // sides
+    // 外部墙与内部墙的对角面
     this.planes.push(
       this.buildSideFillter(
         this.edge.interiorStart(),

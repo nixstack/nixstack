@@ -18,7 +18,8 @@ import * as Utils from 'src/lib/util/Utils'
 import Event from '../event/Event'
 
 export default class Room extends Event {
-  private _name = 'New Room'
+  // private _name = 'New Room'
+  private _name = ''
   public floorplane!: Floorplan
   public roofplane: any
   public corners: Corner[] = []
@@ -232,6 +233,6 @@ export default class Room extends Event {
 }
 
 export const defaultRoomTexture = {
-  url: 'files/texture/hardwood.png',
+  url: '/files/texture/T_M_Floor.png',
   scale: 400,
 }

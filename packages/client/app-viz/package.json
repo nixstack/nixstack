@@ -1,0 +1,58 @@
+{
+  "name": "app-viz",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@babylonjs/core": "^4.1.0",
+    "@babylonjs/gui": "^4.1.0",
+    "@babylonjs/loaders": "^4.1.0",
+    "@react-spring/animated": "^9.0.0-beta.33",
+    "@react-spring/core": "^9.0.0-beta.33",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
+    "hls.js": "^0.13.2",
+    "react": "^16.13.1",
+    "react-babylonjs": "^2.2.0",
+    "react-dom": "^16.13.1",
+    "react-reconciler": "^0.25.1",
+    "react-scripts": "3.4.1",
+    "typescript": "~3.7.2"
+  },
+  "scripts": {
+    "dev": "cross-env PORT=3002 node -r dotenv/config node_modules/react-scripts/bin/react-scripts.js start dotenv_config_path=../../../.env",
+    "build": "node node_modules/react-scripts/bin/react-scripts.js build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "prerelease": "npm run build",
+    "release": "node -r dotenv/config scripts/release.js dotenv_config_path=../../../.env"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babylonjs/inspector": "^4.1.0",
+    "@types/hls.js": "^0.12.6",
+    "cross-env": "^7.0.2",
+    "find-up": "^4.1.0",
+    "http-proxy-middleware": "^1.0.3",
+    "mv": "^2.1.1",
+    "rimraf": "^3.0.2"
+  }
+}

@@ -30,8 +30,12 @@ export class Floorplan extends Event {
         Dimensioning.cmFromMeasureRaw(corner.y),
         id
       )
+
+      // 墙的海拨高度
       if (corner.elevation) {
         corners[id].elevation = Dimensioning.cmFromMeasureRaw(corner.elevation)
+      } else {
+        corners[id].elevation = Dimensioning.cmFromMeasureRaw(270)
       }
     }
     let scope = this

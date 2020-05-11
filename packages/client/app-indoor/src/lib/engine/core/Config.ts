@@ -17,7 +17,8 @@ export const snapToGrid = 'snapToGrid'
 export const snapTolerance = 'snapTolerance' //In CMS
 
 export const config = {
-  dimUnit: dimCentiMeter,
+  // dimUnit: dimCentiMeter,
+  dimUnit: dimCentiMeter || 'cm',
   wallHeight: 250,
   wallThickness: 10,
   systemUI: false,

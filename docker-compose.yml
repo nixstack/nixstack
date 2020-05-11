@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 
 volumes:
   node_modules:
@@ -9,9 +9,11 @@ services:
       dockerfile: Dockerfile
     ports:
       # - '80:80'
-      - "$PORT:$PORT" # /80/81/5000/20385
+      - '$PORT:$PORT' # /80/81/5000/20385
     env_file:
       - .env
+    environment:
+      - NODE_ENV=production
     command:
       - bash
       - -c

@@ -212,11 +212,24 @@ http {
 		listen <%= ENV["PORT"] %>;
 		server_name _;
         keepalive_timeout 5;
+
+        location ^~ /app-indoor {
+            # root /app/__public__/app-indoor;
+            # index index.html;
+            # try_files $uri /index.html;
+            alias /app/__public__/app-indoor;
+            index index.html index.htm;
+        }
+
+        location ^~ /app-viz {
+            alias /app/__public__/app-viz;
+            index index.html index.htm;
+        }
         
-        root /app/__public__/app-indoor;
         location = / {
-          index index.html index.htm;
-          # try_files /index.html /index.htm @proxy;
+            root /app/__public__;
+            index index.html index.htm;
+            # try_files /index.html /index.htm @proxy;
         }
 
         location ^~ /files/ {

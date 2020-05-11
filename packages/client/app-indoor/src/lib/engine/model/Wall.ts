@@ -5,7 +5,7 @@ import { Vector2 } from 'three'
 import { Config, configWallThickness } from '../core/Config'
 
 export const defaultWallTexture = {
-  url: 'files/texture/wallmap.png',
+  url: '/files/texture/wallmap.png',
   stretch: true,
   scale: 0,
 }

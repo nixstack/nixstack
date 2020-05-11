@@ -43,7 +43,7 @@ export const DesignEngine = React.memo(() => {
 
   const classes = useStyles()
 
-  const floorplan = state.floorplan
+  const floorplan = state.floorplan as Floorplan
 
   async function loadSerialized(url: string = '/files/json/floorplan.json') {
     try {
