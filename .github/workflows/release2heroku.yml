@@ -17,6 +17,7 @@ jobs:
       HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
       GITHUB_EMAIL: ${{ secrets.GITHUB_EMAIL }}
       GITHUB_NAME: ${{ secrets.GITHUB_NAME }}
+      PUBLIC_URL: ./
     # needs: pre-build
     steps:
       - name: Checkout source
