@@ -22,6 +22,9 @@ firewall-cmd --reload
 - ERROR: (iptables failed: iptables --wait -t nat -A DOCKER -p tcp -d 0/0 --dport 80 -j DNAT --to-destination 172.26.0.2:80 ! -i br-7860d076d796: iptables: No chain/target/match by that name.
   (exit status 1))
 
+- ERROR: Execution of PostgreSQL by a user with administrative permissions is not permitted
+- runas /user:postgres cmd.exe(https://stackoverflow.com/questions/24341767/execution-of-postgresql-by-a-user-with-administrative-permissions-is-not-permitt)
+
 # Linux shell
 
 netstat -ntulp | grep 3000
